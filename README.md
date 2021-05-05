@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-# curso <a href='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="139" /></a>
+# dplyr <a href='https://github.com/spiousas/Inferencia_con_R_UNQ2021'><img src='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="139" /></a>
 
 ## Bienvenidxs
 

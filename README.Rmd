@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# curso <a href='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="139" /></a>
+# Análisis estadístico utilizando R <a href='https://github.com/spiousas/Inferencia_con_R_UNQ2021'><img src='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="139" /></a>
 
 ## Bienvenidxs
 
