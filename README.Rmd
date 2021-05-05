@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
+# curso <a href='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="139" /></a>
+
 ## Bienvenidxs
 
 Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis estadístico utilizando R** de la Unversidad Nacional de Quilmes. Acá vas a encontrar las presentaciones, Tutoriales, ejemplos y ejercisios del curso.
@@ -32,8 +34,7 @@ These all combine naturally with `group_by()` which allows you to perform any op
 
 If you are new to dplyr, the best place to start is the [data transformation chapter](https://r4ds.had.co.nz/transform.html) in R for data science.
 
-## Backends
-
+## Temario detallado
 In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
 
 - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory datasets. 
@@ -46,58 +47,8 @@ In addition to data frames/tibbles, dplyr makes working with other computational
 - [sparklyr](https://spark.rstudio.com): for very large datasets stored in 
   [Apache Spark](https://spark.apache.org).
 
-## Installation
+## Qué hacer antes de la primera clase
 
-```{r, eval = FALSE}
-# The easiest way to get dplyr is to install the whole tidyverse:
-install.packages("tidyverse")
-# Alternatively, install just dplyr:
-install.packages("dplyr")
-```
+## Donde ver las clases
 
-### Development version
-
-To get a bug fix or to use a feature from the development version, you can install 
-the development version of dplyr from GitHub.
-
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
-```
-
-## Cheat Sheet
-
-<a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>  
-
-## Usage
-
-```{r, message = FALSE}
-library(dplyr)
-starwars %>% 
-  filter(species == "Droid")
-starwars %>% 
-  select(name, ends_with("color"))
-starwars %>% 
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
-  select(name:mass, bmi)
-starwars %>% 
-  arrange(desc(mass))
-starwars %>%
-  group_by(species) %>%
-  summarise(
-    n = n(),
-    mass = mean(mass, na.rm = TRUE)
-  ) %>%
-  filter(
-    n > 1,
-    mass > 50
-  )
-```
-
-## Getting help
-
-If you encounter a clear bug, please file an issue with a minimal reproducible example on [GitHub](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/) or the [manipulatr mailing list](https://groups.google.com/d/forum/manipulatr).
-
----
-Please note that this project is released with a [Contributor Code of Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT).
-By participating in this project you agree to abide by its terms.
+## Bibliografía
