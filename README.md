@@ -55,9 +55,23 @@ Los temas que vamos a tratar en el curso son:
 
 ## Qué hacer antes de la primera clase
 
-### Instalación de R y RStudio
+Antes de comenzar el curso es necesario que acondicionen su computadora para sacarle el máximo jugo a las clases. A continuación les contamos qué y cómo hacerlo y también van a poder encontrar un vídeo explicativo paso a paso en la página de [You Tube](https://youtube.com/) del curso.
+
+### Instalación de R
+
+Lo primeor que hay que hacer para poder correr scripts de R es, como resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema operativo en este [link](operathttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y siguiendo los pasos de la instalación.
+
+### Instalación de RStudio
+
+Pueden bajar la versión gratuita de RStudio del siguiente [link](https://www.rstudio.com/products/rstudio/download/#download). En caso de que el link no haya detectado correctamente el sistema operativo, en la sección *All Installers* pueden seleccionarlo manualmente. Un vez descargado el instalador sólo hay que seguir los pasos de la intalación.
 
 ### Clonado del repositorio
+
+GitHub es una plataforma de desarrollo colaborativo que permite alojar proyectos utilizando el control de versiones Git. Para ustedes es simplemente el lugar donde van a encontrar todos los materiales del curso Para bajar todos los pateriales de una sola vez, lo que deben hacer es abrir el RStudio e ir a la solapa *File*/*New Project*. Una vez ahí deben seleccionar *Version Control* y luego *Git*. Seleccionen la carpeta donde quieran descargar el material del curso y (acá viene lo nuevo) en *Repository URL* copien esta URL `https://github.com/spiousas/Inferencia_con_R_UNQ2021.git`.
+
+Una de las ventajas de estar conectado al repositorio es que cualquier cambio que hagamos en el repositorio de GitHub ustedes lo pueden actualizar en su carpeta local yendo a *Tools*/*Version Control*/*Pull Branches*.
+
+Git y los repositorios online (como GitHub o GitLab) son una herramienta poderosísima para el trabajo colaborativo y la ciencia reproducible. Quedensé tranquilxs que a lo largo del curso van a aprender cómo incorporarlo a sus hábitos de trabajo.
 
 ## Modo de evaluación:
 
@@ -67,7 +81,7 @@ El trabajo final consistirá en aplicar los contenidos de la materia al análisi
 
 ## Donde ver las clases
 
-Las clases van a estar colgadas de manera pública en el canal de [You Tube](https://youtube.com/) de la materia.
+Las clases van a estar colgadas de manera pública en el canal de [You Tube](https://youtube.com/) del curso
 
 ## Bibliografía
 
