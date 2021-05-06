@@ -1,8 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-# Análisis estadístico utilizando R <a href='https://github.com/spiousas/Inferencia_con_R_UNQ2021'><img src='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="100" /></a>
+# Análisis estadístico utilizando R <a href='https://github.com/spiousas/Inferencia_con_R_UNQ2021'><img src='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="120" /></a>
 
-Docentes:
+Docentes 💻
 
 -   Dr. Pablo Etchemendy (UNTreF/Conicet)
 -   Dr. Ignacio Spiousas (UNQ/Conicet)
@@ -15,7 +15,7 @@ En este curso vamos a aprender a organizar, visualizar y modelar tus datos utili
 
 Los temas que vamos a tratar en el curso son:
 
--   `Introducción a R` Aprenderemos por qué R es uan opción ideal para el análisis estadístico y sus rudimentos básicos.
+-   `Introducción a R` Aprenderemos por qué R es una opción ideal para el análisis estadístico y sus rudimentos básicos.
 -   `Repaso de probabilidad y estadística` Nos vamos a poner a tiro con conceptos básicos de variables aleatorias y distribuciones de probabilidad.
 -   `Inferencia estadística` Pruebas de hipótesis y modelos, qué son, cuándos y cómo utilizarlos para entender nuestros datos.
 -   `Ciencia abierta` Por qué, para qué y cómo la ciencia abierta es la llave hacia una ciencia mejor.
@@ -25,33 +25,33 @@ Los temas que vamos a tratar en el curso son:
 
 ### Unidad 1
 
--   **Clase 1: Introducción a R: Bienvenido al Tidyverse!** <br /> Introducción a R como herramienta de análisis de datos centrado en las librerías del Tidyverse (principalmente tidyR, dplyr y Purrr). Cómo leer, organizar, resumir y manipular datos experimentales para construir un insumo confiable y reproducible.
+-   **Clase 1: Introducción a R: Bienvenido al Tidyverse! 👶** <br /> Introducción a R como herramienta de análisis de datos centrado en las librerías del Tidyverse (principalmente tidyR, dplyr y Purrr). Cómo leer, organizar, resumir y manipular datos experimentales para construir un insumo confiable y reproducible.
 
--   **Clase 2: Visualización de datos con R:** <br /> Como hacer gráficos que sean la envidia de tus colegas. Nociones básicas sobre el funcionamiento de ggplot2 (otra librería del tidyverse).
+-   **Clase 2: Visualización de datos con R 👨‍🎨** <br /> Como hacer gráficos que sean la envidia de tus colegas. Nociones básicas sobre el funcionamiento de ggplot2 (otra librería del tidyverse).
 
 ### Unidad 2
 
--   **Clase 3: Revisando conceptos de probabilidad y estadística: Aleatoriedad y otros temas aleatorios.** <br /> ¿Qué es una variable aleatoria? ¿De dónde surgen los comportamientos aleatorios en la naturaleza? ¿Cómo podemos medir y describir ese tipo de variables? Variables aleatorias categóricas, discretas y continuas.
+-   **Clase 3: Revisando conceptos de probabilidad y estadística: Aleatoriedad y otros temas aleatorios 🎲** <br /> ¿Qué es una variable aleatoria? ¿De dónde surgen los comportamientos aleatorios en la naturaleza? ¿Cómo podemos medir y describir ese tipo de variables? Variables aleatorias categóricas, discretas y continuas.
 
--   **Clase 4: Revisando conceptos de probabilidad y estadística: Distribuciones estadísticas.** <br /> ¿Qué es una distribución estadística? ¿Para qué se usa? ¿Cuál es la relación entre una variable aleatoria y una distribución estadística? Conceptos de densidad de probabilidad y probabilidad acumulada.
+-   **Clase 4: Revisando conceptos de probabilidad y estadística: Distribuciones estadísticas 📊** <br /> ¿Qué es una distribución estadística? ¿Para qué se usa? ¿Cuál es la relación entre una variable aleatoria y una distribución estadística? Conceptos de densidad de probabilidad y probabilidad acumulada.
 
 ### Unidad 3
 
--   **Clase 5: Análisis exploratorio de datos.** <br /> Caracterización de un conjunto de datos guiada mediante una hipótesis o no. Media, desvío estándar, varianza y error estándar muestrales. Coeficientes de correlación.
+-   **Clase 5: Análisis exploratorio de datos 🤔** <br /> Caracterización de un conjunto de datos guiada mediante una hipótesis o no. Media, desvío estándar, varianza y error estándar muestrales. Coeficientes de correlación.
 
--   **Clase 6: Prueba de hipótesis y control de errores: Potencia estadística, qué es y qué NO ES un p-value, y por qué es saludable reportar effect sizes.** <br /> Una de las prácticas estadísticas más extendidas son las pruebas de hipótesis (aún cuando no corresponden). En esta clase vamos a diseccionar su anatomía y explorar sus componentes básicos, como los tipos de errores, la potencia estadística, el p-value y los effect size. Intentaremos resumir las discusiones actuales alrededor del tan amado y, a la vez, odiado p-value.
+-   **Clase 6: Prueba de hipótesis y control de errores: Potencia estadística, qué es y qué NO ES un p-value, y por qué es saludable reportar effect sizes 💻** <br /> Una de las prácticas estadísticas más extendidas son las pruebas de hipótesis (aún cuando no corresponden). En esta clase vamos a diseccionar su anatomía y explorar sus componentes básicos, como los tipos de errores, la potencia estadística, el p-value y los effect size. Intentaremos resumir las discusiones actuales alrededor del tan amado y, a la vez, odiado p-value.
 
--   **Clase 7: Modelos jerárquicos: Qué son y para qué sirven los famosos modelos lineales de efectos mixtos.** <br /> Un p&lt;0.05 en una prueba de hipótesis parece ser el santo grial científico al que todos queremos llegar, pero no siempre se trata de una metodología correcta y puede llevar a grandes errores de interpretación. En esta clase vamos a introducir a los alumnos en una de las técnicas de modelado (una muy popular) para tratar con análisis exploratorios.
+-   **Clase 7: Modelos jerárquicos: Qué son y para qué sirven los famosos modelos lineales de efectos mixtos 😱** <br /> Un p&lt;0.05 en una prueba de hipótesis parece ser el santo grial científico al que todos queremos llegar, pero no siempre se trata de una metodología correcta y puede llevar a grandes errores de interpretación. En esta clase vamos a introducir a los alumnos en una de las técnicas de modelado (una muy popular) para tratar con análisis exploratorios.
 
 ### Unidad 4
 
--   **Clase 8: Ciencia Abierta: Por qué y para qué.** <br /> La Ciencia Abierta es un movimiento que tiene como objetivo hacer la investigación científica y su divulgación accesible en todo nivel. Se trata de un esfuerzo por construir una ciencia transparente y accesible en base a trabajos colaborativos y herramientas para compartir.
+-   **Clase 8: Ciencia Abierta: Por qué y para qué 😆** <br /> La Ciencia Abierta es un movimiento que tiene como objetivo hacer la investigación científica y su divulgación accesible en todo nivel. Se trata de un esfuerzo por construir una ciencia transparente y accesible en base a trabajos colaborativos y herramientas para compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo.** <br /> En esta clase exploraremos las opciones para la publicación eficiente y transparente tanto de nuestros datos como de nuestros códigos de análisis (por ejemplo, OSF, Github, etc.). También, como una consecuencia de la ciencia abierta vamos a hacer una mención a los pre-registros y a por qué son importantes, cuándo son factibles y cómo llevarlos adelante.
+-   **Clase 9: Ciencia Abierta: Cómo 😮** <br /> En esta clase exploraremos las opciones para la publicación eficiente y transparente tanto de nuestros datos como de nuestros códigos de análisis (por ejemplo, OSF, Github, etc.). También, como una consecuencia de la ciencia abierta vamos a hacer una mención a los pre-registros y a por qué son importantes, cuándo son factibles y cómo llevarlos adelante.
 
 ### Unidad 5
 
--   **Clase 10: Presentación del trabajo final.** <br /> Lxs alumnxs presentarán, para los docentes y el resto de sus compañerxs, los análisis que realizaron a modo de trabajo final. La idea es que puedan compartir una experiencia de aplicación honesta, con las complicaciones propias de la inferencia estadística en el mundo real.
+-   **Clase 10: Presentación del trabajo final 🙏** <br /> Lxs alumnxs presentarán, para los docentes y el resto de sus compañerxs, los análisis que realizaron a modo de trabajo final. La idea es que puedan compartir una experiencia de aplicación honesta, con las complicaciones propias de la inferencia estadística en el mundo real.
 
 ## Qué hacer antes de la primera clase
 
