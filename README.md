@@ -21,13 +21,20 @@ Los temas que vamos a tratar en el curso son:
 -   `Ciencia abierta` Por qué, para qué y cómo la ciencia abierta es la llave hacia una ciencia mejor.
 -   `Trabajo final` Lxs estudiantxs van a llevar adelante un modelo de análisis desde la limpieza de datos hasta las interpretaciones científicas.
 
+## Cómo inscribirse
+
+Los estudiantes del programa de doctorado en Ciencia y Tecnología de la UNQ lo van a poder hacer a través del campus en el período de inscripción (del 19 al 22 de junio de 2021). 
+
+Para los estudiantes externos que se quieran inscribir pueden encontrar toda la información necesaria en el siguiente [link](http://www.unq.edu.ar/cursos-posgrado/223-an%C3%A1lisis-estad%C3%ADstico-utilizando-r.php#n).
+
 ## Temario detallado
 
 ### Unidad 1
 
 -   **Clase 1: Introducción a R: Bienvenido al Tidyverse! 👶** <br /> Introducción a R como herramienta de análisis de datos centrado en las librerías del Tidyverse (principalmente tidyR, dplyr y Purrr). Cómo leer, organizar, resumir y manipular datos experimentales para construir un insumo confiable y reproducible.
 
--   **Clase 2: Visualización de datos con R 👨‍🎨** <br /> Como hacer gráficos que sean la envidia de tus colegas. Nociones básicas sobre el funcionamiento de ggplot2 (otra librería del tidyverse).
+-   **Clase 2: Visualización de datos con R 👨
+🎨** <br /> Como hacer gráficos que sean la envidia de tus colegas. Nociones básicas sobre el funcionamiento de ggplot2 (otra librería del tidyverse).
 
 ### Unidad 2
 
