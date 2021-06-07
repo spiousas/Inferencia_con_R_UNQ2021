@@ -75,7 +75,7 @@ Antes de comenzar el curso es necesario que acondicionen su computadora para sac
 
 ### Instalación de R
 
-Lo primeor que hay que hacer para poder correr scripts de R es, como resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema operativo en este [link](operathttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y siguiendo los pasos de la instalación.
+Lo primero que hay que hacer para poder correr scripts de R es, como resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema operativo en este [link](thttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y siguiendo los pasos de la instalación.
 
 ### Instalación de RStudio
 
