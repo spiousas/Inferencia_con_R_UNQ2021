@@ -125,7 +125,7 @@ paso a paso en la página de [You Tube](https://youtube.com/) del curso.
 
 Lo primero que hay que hacer para poder correr scripts de R es, como
 resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema
-operativo en este [link](thttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y
+operativo en este [link](http://mirror.fcaglp.unlp.edu.ar/CRAN/) y
 siguiendo los pasos de la instalación.
 
 ### Instalación de RStudio
