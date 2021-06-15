@@ -17,10 +17,14 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 # Análisis estadístico utilizando R <a href='https://github.com/spiousas/Inferencia_con_R_UNQ2021'><img src='https://ddhh.unq.edu.ar/wp-content/uploads/2017/04/Logo-UNQ-RGB.png' align="right" height="120" /></a>
 
-Docentes `r ji("computer")`
+### Docentes `r ji("computer")`
 
 * Dr. Pablo Etchemendy (UNTreF/Conicet)
 * Dr. Ignacio Spiousas (UNQ/Conicet)
+
+### Fechas `r ji("calendar")`
+
+El curso se dictará del **2 al 26 de agosto de 2021**. La modalidad de cursada será 100% virtual, con un 60% de clases "teóricoas" asincrónicas y un 40% de clases prácticas y de consulta sincrónicas.
 
 ## Bienvenidxs
 
