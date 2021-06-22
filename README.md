@@ -14,6 +14,14 @@ El curso se dictará del **2 al 26 de agosto de 2021**. La modalidad de
 cursada será 100% virtual, con un 60% de clases “teóricoas” asincrónicas
 y un 40% de clases prácticas y de consulta sincrónicas.
 
+### inscripción 🗃
+
+Si sos estudiante de doctorado de la UNQ te podés anotar a través del
+campus ella semana del 19 al 22 de junio.
+
+Si sos estudiante externo podés encontrar toda la información pertinete
+[acá](http://www.unq.edu.ar/cursos-posgrado/223-an%C3%A1lisis-estad%C3%ADstico-utilizando-r.php#n).
+
 ## Bienvenidxs
 
 Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis
@@ -103,7 +111,7 @@ Los temas que vamos a tratar en el curso son:
     accesible en base a trabajos colaborativos y herramientas para
     compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo 😄** <br /> En esta clase
+-   **Clase 9: Ciencia Abierta: Cómo 😆** <br /> En esta clase
     exploraremos las opciones para la publicación eficiente y
     transparente tanto de nuestros datos como de nuestros códigos de
     análisis (por ejemplo, OSF, Github, etc.). También, como una
@@ -131,7 +139,7 @@ paso a paso en la página de [You Tube](https://youtube.com/) del curso.
 
 Lo primero que hay que hacer para poder correr scripts de R es, como
 resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema
-operativo en este [link](http://mirror.fcaglp.unlp.edu.ar/CRAN/) y
+operativo en este [link](thttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y
 siguiendo los pasos de la instalación.
 
 ### Instalación de RStudio

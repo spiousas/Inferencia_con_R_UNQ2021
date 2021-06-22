@@ -26,6 +26,12 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 El curso se dictará del **2 al 26 de agosto de 2021**. La modalidad de cursada será 100% virtual, con un 60% de clases "teóricoas" asincrónicas y un 40% de clases prácticas y de consulta sincrónicas.
 
+### inscripción `r ji("file")`
+
+Si sos estudiante de doctorado de la UNQ te podés anotar a través del campus ella semana del 19 al 22 de junio.
+
+Si sos estudiante externo podés encontrar toda la información pertinete [acá](http://www.unq.edu.ar/cursos-posgrado/223-an%C3%A1lisis-estad%C3%ADstico-utilizando-r.php#n).
+
 ## Bienvenidxs
 
 Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis estadístico utilizando R** de la Unversidad Nacional de Quilmes. Acá vas a encontrar las presentaciones, Tutoriales, ejemplos y ejercisios del curso.
