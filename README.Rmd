@@ -46,7 +46,6 @@ Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis estadíst
 **Antes de empezar**
 
 Si ya estás inscripto en el curso te invitamos a que copmpletes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la "audiencia" para que el curso salga lo mejor posible.
-
 También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que e el medio que vamos a utilizar para comunicarnos. 
 ---
 

@@ -14,7 +14,7 @@ El curso se dictará del **2 al 26 de agosto de 2021**. La modalidad de
 cursada será 100% virtual, con un 60% de clases “teóricoas” asincrónicas
 y un 40% de clases prácticas y de consulta sincrónicas.
 
-### Inscripción 📂
+### Inscripción 🗃
 
 Si sos estudiante de doctorado de la UNQ te podés anotar a través del
 campus ella semana del 19 al 22 de junio.
@@ -34,11 +34,10 @@ estadístico utilizando R** de la Unversidad Nacional de Quilmes. Acá vas
 a encontrar las presentaciones, Tutoriales, ejemplos y ejercisios del
 curso.
 
-|                                                                                                                                                                                                                                                                                                           |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Antes de empezar**                                                                                                                                                                                                                                                                                      |
-| Si ya estás inscripto en el curso te invitamos a que copmpletes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la “audiencia” para que el curso salga lo mejor posible.                                                                                       |
-| También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que e el medio que vamos a utilizar para comunicarnos. |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Antes de empezar**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Si ya estás inscripto en el curso te invitamos a que copmpletes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la “audiencia” para que el curso salga lo mejor posible. También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que e el medio que vamos a utilizar para comunicarnos. |
 
 En este curso vamos a aprender a organizar, visualizar y modelar tus
 datos utilizando **R** para que puedas generar *pipelines* de análisis
@@ -115,14 +114,14 @@ Los temas que vamos a tratar en el curso son:
 
 ### Unidad 4
 
--   **Clase 8: Ciencia Abierta: Por qué y para qué 📭** <br /> La Ciencia
+-   **Clase 8: Ciencia Abierta: Por qué y para qué 📬** <br /> La Ciencia
     Abierta es un movimiento que tiene como objetivo hacer la
     investigación científica y su divulgación accesible en todo nivel.
     Se trata de un esfuerzo por construir una ciencia transparente y
     accesible en base a trabajos colaborativos y herramientas para
     compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo 📬** <br /> En esta clase
+-   **Clase 9: Ciencia Abierta: Cómo 😮** <br /> En esta clase
     exploraremos las opciones para la publicación eficiente y
     transparente tanto de nuestros datos como de nuestros códigos de
     análisis (por ejemplo, OSF, Github, etc.). También, como una
