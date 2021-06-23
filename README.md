@@ -22,20 +22,10 @@ campus ella semana del 19 al 22 de junio.
 Si sos estudiante externo podés encontrar toda la información pertinete
 [acá](http://www.unq.edu.ar/cursos-posgrado/223-an%C3%A1lisis-estad%C3%ADstico-utilizando-r.php#n).
 
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 10px;}
-</style>
-
-<div class="blue">
-
-**Importante**
-
-El curso tiene el cupo completo pero estamos gestionando una extensión.
-Si estás interesado en cursar te invitamos a que completes una [breve
-encuesta](https://forms.gle/kbDur1KXid17TsYZ7) así nos podemos poner en
-contacto con vos ante cualquier novedad.
-
-</div>
+|                                                                                                                                                                                                                                                                |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Importante**                                                                                                                                                                                                                                                 |
+| El curso tiene el cupo completo pero estamos gestionando una extensión. Si estás interesado en cursar te invitamos a que completes una [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) así nos podemos poner en contacto con vos ante cualquier novedad. |
 
 ## Bienvenidxs
 
@@ -93,7 +83,7 @@ Los temas que vamos a tratar en el curso son:
     Cómo leer, organizar, resumir y manipular datos experimentales para
     construir un insumo confiable y reproducible.
 
--   **Clase 2: Visualización de datos con R 👩‍🎨** <br /> Como hacer
+-   **Clase 2: Visualización de datos con R 👨‍🎨** <br /> Como hacer
     gráficos que sean la envidia de tus colegas. Nociones básicas sobre
     el funcionamiento de ggplot2 (otra librería del tidyverse).
 
@@ -146,7 +136,7 @@ Los temas que vamos a tratar en el curso son:
     accesible en base a trabajos colaborativos y herramientas para
     compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo 📂** <br /> En esta clase
+-   **Clase 9: Ciencia Abierta: Cómo 📖** <br /> En esta clase
     exploraremos las opciones para la publicación eficiente y
     transparente tanto de nuestros datos como de nuestros códigos de
     análisis (por ejemplo, OSF, Github, etc.). También, como una
