@@ -32,29 +32,23 @@ Si sos estudiante de doctorado de la UNQ te podés anotar a través del campus e
 
 Si sos estudiante externo podés encontrar toda la información pertinete [acá](http://www.unq.edu.ar/cursos-posgrado/223-an%C3%A1lisis-estad%C3%ADstico-utilizando-r.php#n).
 
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 10px;}
-</style>
-<div class = "blue">
+---
 **Importante**
 
 El curso tiene el cupo completo pero estamos gestionando una extensión. Si estás interesado en cursar te invitamos a que completes una [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) así nos podemos poner en contacto con vos ante cualquier novedad.
-</div>
+---
 
 ## Bienvenidxs
 
 Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis estadístico utilizando R** de la Unversidad Nacional de Quilmes. Acá vas a encontrar las presentaciones, Tutoriales, ejemplos y ejercisios del curso.
 
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 10px;}
-</style>
-<div class = "blue">
+---
 **Antes de empezar**
 
 Si ya estás inscripto en el curso te invitamos a que copmpletes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la "audiencia" para que el curso salga lo mejor posible.
 
 También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que e el medio que vamos a utilizar para comunicarnos. 
-</div>
+---
 
 En este curso vamos a aprender a organizar, visualizar y modelar tus datos utilizando **R** para que puedas generar *pipelines* de análisis elegantes, seguros y reproducibles.
 
