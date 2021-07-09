@@ -1,0 +1,958 @@
+---
+title: "Sknifedatar"
+author: "Rafael Zambrano & Karina Bartolomé"
+date: '2021-06-24'
+output: 
+  xaringan::moon_reader:
+    seal: false
+    css: "xaringan-themer.css"
+    nature:
+      navigation: 
+        scroll: false
+---
+class: center
+
+```{r, out.width='40%', echo=FALSE}
+knitr::include_graphics('images/gif_serie.gif')
+```
+# Sknifedatar
+
+**Ajuste y visualización de múltiples modelos**
+
+**sobre múltiples series de tiempo**
+
+<br>
+<br>
+<br>
+2021-06-24
+
+Rafael Zambrano & Karina Bartolomé
+<br>
+
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE, 
+                      comment=FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE, eval=FALSE}
+# Para generar el .css pero igual ya está generado, no correr de vuelta y editar el archivo directamente 
+library(xaringanthemer)
+style_mono_accent(
+  title_slide_background_color	='#ffffff',
+  title_slide_text_color = '#33407d',
+  base_color = "#33407d",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+```{css, echo=FALSE}
+/* Table width = 100% max-width */
+.remark-slide table{width: 100%;}
+/* Change the background color to white for shaded rows (even rows) */
+.remark-slide thead, .remark-slide tr:nth-child(2n) {
+  background-color: white;
+  .tfoot .td {background-color: white}
+}
+.bold-last-item > ul > li:last-of-type,
+.bold-last-item > ol > li:last-of-type {font-weight: bold;}
+```
+
+
+```{r, include=FALSE, warning=FALSE}
+xaringanExtra::use_progress_bar(color = "#0051BA", location = "top")
+```
+
+# ¿Quiénes somos?
+.pull-left[
+### Rafael Zambrano
+- Actuario 🇻🇪
+- Data Scientist en Ualá 🚀
+- Magister en métodos cuantitativos (en curso)
+]
+.pull-right[
+<br>
+<br>
+```{r, out.width='35%', fig.align='center', echo=FALSE}
+knitr::include_graphics('images/imagen_b.jpeg')
+```
+]
+
+.pull-left[
+### Karina Bartolomé
+- Economista 🇦🇷
+- Data Scientist en Ualá 🚀
+- Especialista en métodos cuantitativos (en curso)
+]
+.pull-right[
+<br>
+<br>
+```{r, out.width='35%', fig.align='center', echo=FALSE}
+knitr::include_graphics('images/imagen_a.jpeg')
+```
+]
+---
+# ¿Qué es #modeltime?
+
+Es un ecosistema desarrollado por **Matt Dancho** para realizar análisis de series de tiempo mediante un enfoque ordenado (o Tidy) con #tidymodels 📦. 
+
+```{r, echo=FALSE, out.height='90%',out.width='90%',  fig.align='center'}
+knitr::include_graphics('images/modeltime.png')
+```
+
+---
+
+# Sknifedatar 📦
+#### Una extensión de **#modeltime**
+```{r, eval=FALSE}
+install.packages('sknifedatar')
+```
+--
+```{r, echo=FALSE, out.width='20%', out.height='20%', fig.align='center'}
+knitr::include_graphics('images/sknifedatar.png')
+```
+Incluye: 
+- **Funciones multifit**: Múltiples modelos en múltiples series de tiempo (sin datos de panel)
+- **Workflowsets**: Ajuste de múltiples modelos y recetas de preprocesamiento con modeltime
+- **Workflowset multifit**: Ajuste de múltiples modelos y recetas de preprocesamiento sobre múltiples modelos (sin datos de panel)
+- **Automagic tabs**: Generación automática de tabs
+---
+# Agenda para hoy
+
+```{r, echo=FALSE, out.width='30%', fig.align='center'}
+knitr::include_graphics('images/gif_gato_lentes.gif')
+```
+
+- **Introducción a modeltime**
+
+- **Multifit**: Ajuste de múltiples modelos en múltiples series de tiempo
+
+- **Workflowsets**: Ajuste de múltiples modelos y recetas de preprocesamiento sobre múltiples modelos
+
+- **Automagic tabs**: Generación automática de tabs en Distill / Rmd
+
+---
+
+# Librerías utilizadas 📚
+
+```{r, message=FALSE}
+library(sknifedatar)
+library(modeltime)
+library(workflowsets)
+library(tidymodels)
+library(tidyverse)
+library(timetk)
+library(anomalize) 
+```
+
+```{r, echo=FALSE}
+library(gt)
+```
+
+
+```{r, echo=FALSE, out.width='50%', fig.align='center'}
+knitr::include_graphics('images/gif_libros.gif')
+```
+
+```{r, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+---
+
+# Datos 📊
+**Consumo residencial de gas 4 estados de Estados Unidos, entre 1989 y 2020** 
+
+--
+```{r}
+data <-  USgas::us_residential %>% 
+  rename(value=y) %>%  
+  filter(state %in%  c('Nevada','Maine',
+                       'Hawaii','West Virginia'))
+```
+--
+```{r, echo=FALSE}
+data %>% head(5) %>% kableExtra::kable(format = "html")
+```
+
+---
+
+### Evolución 📈
+
+```{r, fig.width=10, fig.height=5, message=FALSE, eval=FALSE}
+data %>% group_by(state) %>%
+  plot_time_series(date, value) 
+```
+
+```{r, fig.width=10, fig.height=6, message=FALSE, echo=FALSE}
+data %>% group_by(state) %>%
+  plot_time_series(date, value, .interactive=FALSE,
+    .facet_ncol = 2, .facet_scales = 'free_y') 
+```
+
+---
+### Detección de anomalías 🔍
+```{r, fig.width=10, fig.height=5, message=FALSE, eval=FALSE}
+data %>% group_by(state) %>%
+  plot_anomaly_diagnostics(date, value) 
+```
+
+```{r, fig.width=10, fig.height=6, message=FALSE, echo=FALSE}
+data %>% group_by(state) %>%
+  plot_anomaly_diagnostics(date, value, .anom_size = 1, .interactive=FALSE,
+    .facet_ncol = 2, .max_anomalies = 0.05, .facet_scales = 'free_y') 
+```
+
+---
+### Descomposición de series de tiempo 
+
+.panelset[
+.panel[.panel-name[Hawaii]
+
+```{r, message=FALSE, echo=FALSE, fig.width=10, fig.height=6}
+nest_data <- data %>% nest(nested_column = -state)
+nest_plots <- nest_data %>%
+  mutate(ts_plots = map(nested_column, 
+          ~  plot_stl_diagnostics(.x, 
+              .date_var=date, 
+              .value=value, 
+              .frequency = 'auto',
+              .trend = 'auto', 
+              .interactive=FALSE,
+              .feature_set = c("observed", "season", "trend", "remainder"))
+          ))
+nest_plots$ts_plots[[1]]
+```
+]
+
+.panel[.panel-name[Maine]
+
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+nest_plots$ts_plots[[2]]
+```
+]
+
+.panel[.panel-name[Nevada]
+
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+nest_plots$ts_plots[[3]]
+```
+]
+
+.panel[.panel-name[West Virginia]
+
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+nest_plots$ts_plots[[4]]
+```
+]
+]
+---
+<br>
+<br>
+# Múltiples modelos y una serie 
+<br>
+```{r, out.width='25%', fig.align='center', echo=FALSE}
+knitr::include_graphics('images/gif_gatos_multi.gif')
+```
+
+
+---
+## Flujo de trabajo de modeltime 
+
+### Preparación de datos ⚙️
+
+* Se selecciona el estado de 🏖 **Hawaii** 
+
+```{r, fig.height=3, fig.width=10}
+data_hawaii <- data %>% 
+  filter(state=='Hawaii')
+```
+
+--
+* Particiona el dataset en train y test ✂️
+
+```{r, fig.height=3, fig.width=10}
+splits <- data_hawaii %>%  
+  initial_time_split(prop = 0.8)
+```
+
+---
+### Visualización de la partición 
+
+```{r, fig.height=6, fig.width=10}
+splits %>% 
+  tk_time_series_cv_plan() %>%
+  plot_time_series_cv_plan(date, value) 
+```
+
+---
+### Receta 🌮
+Se crea una receta de **preprocesamiento**, incluye la fórmula a estimar y un paso adicional que añade variables en función de la fecha.
+```{r}
+receta <- recipe(value ~ date, data = training(splits)) %>%
+  
+  step_timeseries_signature(date) %>% 
+  
+  step_rm(contains("iso"), 
+          contains("minute"), 
+          contains("hour"),
+          contains("am.pm"), 
+          contains("xts"), 
+          contains("second"),
+          date_index.num, 
+          date_wday, 
+          date_month)
+```
+
+```{r, echo=FALSE}
+receta %>% prep() %>% juice() %>% head(2) %>% gt()
+```
+
+---
+### Modelos 🚀
+Definición y ajuste de modelos sobre train
+
+```{r, eval=FALSE}
+# Modelo: Auto-ARIMA
+m_autoarima <- arima_reg() %>% 
+  set_engine('auto_arima') %>%  
+  fit(value~date, data=training(splits))
+# Modelo: exponential smoothing
+m_exp_smoothing <- exp_smoothing() %>% 
+  set_engine('ets') %>% 
+  fit(value~date, data=training(splits))
+# Workflow: prophet boosted
+m_prophet_boost <- workflow() %>% 
+  
+  add_recipe(receta) %>% 
+  
+  add_model(
+    prophet_boost(mode='regression') %>%
+    set_engine("prophet_xgboost")
+  ) %>% 
+  
+  fit(data = training(splits))
+```
+
+---
+### Modeltimetable 
+
+El objeto central del ecosistema #modeltime 📦 es el **modeltime_table**, el cual incluye todos los modelos entrenados para realizar comparaciones. 
+
+```{r, eval=FALSE}
+modelos <- modeltime_table(m_autoarima,
+                           m_exp_smoothing,
+                           m_prophet_boost
+                           )
+```
+
+```{r, echo=FALSE}
+#saveRDS(modelos, 'modelos/modelos_hawaii.rds')
+modelos <- readRDS('modelos/modelos_hawaii.rds')
+```
+
+--
+```{r, echo=FALSE}
+modelos %>% rmarkdown::paged_table(list(rows.print = 6))
+```
+
+---
+### Calibración de modelos 🔧
+Se verifica el **rendimiento** de los modelos sobre la partición de test.
+
+```{r}
+calibration_table  <- modelos %>% 
+  modeltime_calibrate(new_data = testing(splits))
+```
+
+--
+* Verificación de métricas 🎯
+```{r, eval=FALSE}
+calibration_table %>% 
+  modeltime_accuracy()
+```
+
+```{r, echo=FALSE}
+calibration_table %>% modeltime_accuracy() %>% 
+  select(-.type) %>% 
+  rmarkdown::paged_table(list(rows.print = 6))
+```
+
+---
+* Forecasting 🔬
+
+Se realiza la **proyección** sobre los datos de testing para luego visualizarla. 
+
+```{r}
+forecast_series <- calibration_table %>% 
+  modeltime_forecast(
+    new_data    = testing(splits),
+    actual_data = data_hawaii)
+```
+
+---
+
+### Verificación visual
+
+```{r, fig.height=5, fig.width=10}
+forecast_series %>% 
+  plot_modeltime_forecast(
+    .legend_max_width     = 30, 
+    .interactive          = FALSE,
+    .conf_interval_alpha  = 0.2
+  )
+```
+
+---
+### Selección y reajuste de modelos
+
+Se seleccionan 2 modelos y luego se reajustan ambos modelos en todos los datos (train + test)
+
+```{r}
+refit_tbl <- calibration_table %>%
+  filter(.model_id %in% c(1,2)) %>% 
+  modeltime_refit(data = data_hawaii)
+```
+
+--
+
+## Proyección 🔮
+
+```{r}
+forecast_final <- refit_tbl %>% 
+  modeltime_forecast(
+    actual_data = data_hawaii,
+    h='2 years'
+  )
+```
+
+---
+
+### Visualización de la proyección a 2 años
+```{r, fig.height=5, fig.width=10}
+forecast_final %>% 
+  plot_modeltime_forecast(
+    .legend_max_width = 30, 
+    .interactive      = FALSE,
+    .conf_interval_alpha = 0.2
+)
+```
+
+---
+# Múltiples modelos sobre múltiples series (no panel)
+
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics('diagrama_multifit.png')
+```
+
+---
+## Datos 📊
+
+```{r}
+nest_data <- data %>% nest(nested_column = -state)
+```
+
+
+```{r, echo=FALSE, out.height='10%'}
+reactable::reactable(nest_data, details = function(index) {
+  data <- data[data$state == nest_data$state[index], c('date','value')] %>% 
+    mutate(value = round(value, 2))
+  htmltools::div(style = "padding: 10px", reactable::reactable(data, outlined = TRUE))
+}, defaultPageSize=4) 
+```
+
+---
+## Receta 🌮 
+
+```{r}
+receta <- recipe(value ~ date, data = data %>% select(-state)) %>%
+  
+  step_timeseries_signature(date) %>% 
+  
+  step_rm(contains("iso"), 
+          contains("minute"), 
+          contains("hour"),
+          contains("am.pm"), 
+          contains("xts"), 
+          contains("second"),
+          date_index.num, 
+          date_wday, 
+          date_month)
+```
+
+---
+## Modelos 🚀 
+
+Definición de modelos
+
+```{r}
+# Modelo: tbats
+m_tbats <-seasonal_reg() %>% 
+  set_engine("tbats")
+# Modelo stlm_arima
+m_seasonal <- seasonal_reg() %>%
+  set_engine("stlm_arima")
+# Workflow: prophet boosted
+m_prophet_boost <- workflow() %>% 
+  
+  add_recipe(receta) %>% 
+  
+  add_model(
+    prophet_boost(mode='regression') %>%
+      set_engine("prophet_xgboost")
+  )
+```
+
+---
+## Modeltime Multifit  ✨
+
+```{r, out.width='50%', fig.align='center', echo=FALSE}
+knitr::include_graphics('images/gif_jack.gif')
+```
+
+```{r ,echo=FALSE}
+#saveRDS(model_table, 'sknifedatar/modelos/model_table.rds')
+model_table <- readRDS('modelos/model_table.rds')
+```
+
+```{r ,eval=FALSE}
+model_table <- modeltime_multifit(serie = nest_data,
+                                  .prop = 0.9,
+                                  m_tbats,
+                                  m_seasonal,
+                                  m_prophet_boost
+                                  ) 
+```
+
+
+---
+## Modeltimetable 
+* **Table time**
+```{r ,eval=FALSE}
+model_table$table_time
+```
+
+```{r, echo=FALSE, eval=TRUE}
+model_table$table_time %>% rmarkdown::paged_table(list(rows.print = 6))
+```
+--
+
+```{r ,eval=FALSE}
+model_table$table_time$nested_model[[1]]
+```
+
+```{r,echo=FALSE, eval=TRUE}
+model_table$table_time$nested_model[[1]] %>%
+  rmarkdown::paged_table(list(rows.print = 6))
+```
+---
+## Calibración de modelos  🔧
+Se verifica el **rendimiento** de los modelos sobre la partición de test.
+
+* Verificación de métricas 🎯
+```{r,eval=FALSE}
+model_table$models_accuracy 
+```
+
+```{r,echo=FALSE, eval=TRUE}
+model_table$models_accuracy %>% 
+  rmarkdown::paged_table(list(rows.print = 6))
+```
+
+---
+## Proyección sobre test 🔬
+
+```{r}
+forecast_series <- modeltime_multiforecast(
+  model_table$table_time,
+  .prop = 0.9
+)
+```
+---
+* **Verificación visual**
+
+```{r, fig.height=6, fig.width=10, eval=FALSE}
+forecast_series %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast() 
+```
+
+```{r, fig.height=6, fig.width=10, echo=FALSE}
+forecast_series %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast(
+    .legend_max_width = 12,
+    .facet_ncol = 2, 
+    .line_size = 0.5,
+    .interactive = FALSE,
+    .facet_scales = 'free_y',
+    .title='Proyecciones') 
+```
+
+---
+### Selección de modelos 🥇
+
+Se selecciona el **mejor modelo** para cada serie en función a una métrica.
+
+```{r}
+best_models <- modeltime_multibestmodel(
+  .table = forecast_series,
+  .metric = "mae"
+)
+```
+
+```{r, echo=FALSE, out.width='30%', fig.align='center'}
+knitr::include_graphics('images/gif_minon_1.gif')
+```
+
+---
+
+```{r, eval=FALSE}
+best_models %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast() 
+```
+
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+best_models %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast(
+    .interactive = FALSE,
+    .facet_scales = 'free_y', 
+    .facet_ncol=2
+    ) 
+```
+
+---
+## Reajuste de los modelos 🌀 
+
+* **Se reajustan los modelos para todas las series completas (train + test)**
+```{r}
+models_refit <- modeltime_multirefit(best_models)
+```
+
+--
+
+**Proyección** 🔮
+
+* **Se predicen los proximos 2 años para todas las series.**
+
+```{r}
+forecast_final <- models_refit %>% 
+  modeltime_multiforecast(.h = "2 years")
+```
+
+--
+---
+**Visualización de la proyección a 2 años**
+
+```{r, fig.height=6, fig.width=10, echo=TRUE, eval=FALSE}
+forecast_final %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast() 
+```
+
+```{r, fig.height=6, fig.width=10, echo=FALSE}
+forecast_final %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast(
+    .legend_max_width = 12,
+    .facet_ncol = 2, 
+    .line_size = 0.5,
+    .interactive = FALSE,
+    .facet_scales = 'free_y',
+    .title='Proyecciones'
+  ) 
+```
+
+---
+
+# Workflowsets en múltiples series 
+
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics('diagrama_wfs.png')
+```
+
+
+---
+
+### Recetas 🌮
+```{r}
+# Receta base
+recipe_base <- recipe(value~date, data=data_hawaii)
+# Características según fecha
+recipe_date_extrafeatures <- recipe_base %>% 
+  step_date(date, features = c('month','year','quarter','semester'))
+# Resagos
+recipe_date_extrafeatures_lag <- recipe_date_extrafeatures %>% 
+  step_lag(value, lag = 1:6) %>% 
+  step_ts_impute(all_numeric(), period=365)
+# Fourier
+recipe_date_extrafeatures_fourier <-recipe_date_extrafeatures  %>% 
+  step_fourier(date, period = 365/12, K = 1)
+```
+
+---
+### Modelos 🚀
+```{r}
+# prophet_xgboost
+prophet_boost <- prophet_boost(mode = 'regression') %>% 
+  set_engine("prophet_xgboost")
+# nnetar
+nnetar <- nnetar_reg() %>% 
+  set_engine("nnetar")
+#auto_arima_xgboost
+auto_arima_boost <- arima_boost() %>% 
+  set_engine('auto_arima_xgboost')
+```
+---
+### Workflowsets ✨
+```{r}
+wfsets <- workflow_set(
+  preproc = list(
+    base                  = recipe_base,
+    extrafeatures         = recipe_date_extrafeatures,
+    extrafeatures_lag     = recipe_date_extrafeatures_lag,
+    extrafeatures_fourier = recipe_date_extrafeatures_fourier
+  ),
+  models  = list(
+    M_arima_boost       = auto_arima_boost,
+    M_prophet_boost     = prophet_boost,
+    M_nnetar            = nnetar
+  ),
+  cross   = TRUE
+) 
+```
+---
+👉 El objeto **wfsets** contiene todas las posibles combinaciones de recetas con modelos: 
+
+```{r}
+wfsets %>% 
+  rmarkdown::paged_table(list(rows.print = 6))
+```
+
+---
+
+### Ajuste de modelos ⚙️ 
+```{r, eval=FALSE}
+wfs_multifit <- modeltime_wfs_multifit(serie = nest_data,
+                                       .prop = 0.8,
+                                       .wfs  = wfsets)
+```
+
+```{r, echo=FALSE}
+# saveRDS(wfs_multifit, 'modelos/wfs_multifit.rds')
+wfs_multifit <- readRDS('modelos/wfs_multifit.rds')
+```
+
+```{r, echo=FALSE}
+wfs_multifit$table_time %>% 
+  rmarkdown::paged_table(list(rows.print = 6))
+```
+
+---
+**Performance según rsq de cada modelo en cada serie**
+.panelset[
+.panel[.panel-name[Hawaii]
+
+```{r, message=FALSE, echo=FALSE, fig.width=10, fig.height=5}
+plots <- wfs_multifit$models_accuracy %>% 
+  select(-.model_id) %>%  
+  rename(.model_id=.model_names) %>% mutate(.fit_model = '') %>% 
+  group_by(name_serie) %>% 
+  nest() %>% 
+  mutate(plot = map(data, ~ modeltime_wfs_heatmap(., metric = 'rsq',
+                                                 low_color = '#ece2f0',
+                                                 high_color = '#1f356e'
+                                                 ))) %>% 
+  ungroup()
+plots$plot[[1]]
+```
+]
+
+.panel[.panel-name[Maine]
+
+```{r, echo=FALSE, fig.width=10, fig.height=5}
+plots$plot[[2]]
+```
+]
+
+.panel[.panel-name[Nevada]
+
+```{r, echo=FALSE, fig.width=10, fig.height=5}
+plots$plot[[3]]
+```
+]
+
+.panel[.panel-name[West Virginia]
+
+```{r, echo=FALSE, fig.width=10, fig.height=5}
+plots$plot[[4]]
+```
+]
+]
+---
+### Proyecciones 🔬
+```{r, message=FALSE, warning=FALSE}
+wfs_multiforecast <- modeltime_wfs_multiforecast(
+  wfs_multifit$table_time, .prop=0.8)
+```
+
+```{r, echo=FALSE, fig.height=6, fig.width=14, fig.align='center'}
+wfs_multiforecast %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast(
+    .legend_max_width = 40,
+    .facet_ncol = 2, 
+    .line_size = 0.5,
+    .interactive = FALSE,
+    .facet_scales = 'free_y',
+    .title='Proyecciones') +
+  theme(legend.position='bottom', legend.margin=margin())
+```
+
+---
+### Selección del mejor modelo 🥇
+```{r}
+wfs_bests<- modeltime_wfs_multibestmodel(
+  .table = wfs_multiforecast,
+  .metric = "rsq",
+  .minimize = FALSE
+)
+```
+
+### Reentrenamiento para todos los datos 🌀
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, comment=FALSE}
+wfs_refit <- modeltime_wfs_multirefit(wfs_bests)
+```
+
+```{r, echo=FALSE}
+#saveRDS(wfs_refit, 'modelos/wfs_refit.rds')
+wfs_refit <- readRDS('modelos/wfs_refit.rds')
+```
+
+---
+### Proyecciones a 12 meses 🔮
+
+```{r, message=FALSE, warning=FALSE, comment=FALSE}
+wfs_forecast <- modeltime_wfs_multiforecast(wfs_refit, 
+                                            .h = "12 month")
+```
+
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+wfs_forecast %>% 
+  select(state, nested_forecast) %>% 
+  unnest(nested_forecast) %>% 
+  group_by(state) %>% 
+  plot_modeltime_forecast(
+    .facet_ncol = 2, 
+    .line_size = 0.5,
+    .legend_max_width = 50,
+    .interactive = FALSE,
+    .facet_scales = 'free_y',
+    .title='Proyecciones')+
+  theme(legend.position='bottom')
+```
+---
+
+ <br> 
+ <br>
+# Automagic Tabs 
+<br>
+```{r, out.width='50%', fig.align='center', echo=FALSE}
+knitr::include_graphics('images/gif_gato_tocadisco.gif')
+```
+
+
+---
+# ¿Por qué utilizar tabs? 🤔
+
+Mostrar muchos gráficos  📈 o resultados de modelos 🤖 juntos puede generar confusión. Organizar los resultados en solapas permite centrar la atención en ciertos aspectos y no sobrecargar de información. 
+
+.panelset[
+.panel[.panel-name[👋 Hey!]
+Esta es la primera tab
+
+🌟 Hacer click en las tabs para consejos no solicitados 🌟 👆
+
+]
+
+.panel[.panel-name[Consejo 1]
+```{r, out.width="50%",echo=FALSE ,fig.align = 'center'}
+knitr::include_graphics('https://media.tenor.com/images/be8a87467b75e9deaa6cfe8ad0b739a0/tenor.gif')
+```
+]
+
+.panel[.panel-name[Consejo 2]
+```{r, out.width="50%",echo=FALSE ,fig.align = 'center'}
+knitr::include_graphics('https://media.tenor.com/images/6a2cca305dfacae61c5668dd1687ad55/tenor.gif')
+```
+]
+
+.panel[.panel-name[Consejo 3]
+```{r, out.width="50%",echo=FALSE ,fig.align = 'center'}
+knitr::include_graphics('https://media.tenor.com/images/bfde5ad652b71fc9ded82c6ed760355b/tenor.gif')
+```
+]
+]
+---
+## ¿Cómo se crean tabs manualmente?
+
+```{r, out.width='70%', echo=FALSE, fig.align='center'}
+knitr::include_graphics('https://karbartolome-blog.netlify.app/posts/automagictabs/data/tabs.png')
+```
+
+---
+<br>
+<br>
+<br>
+
+```{r, out.width='50%', echo=FALSE, fig.align='center'}
+knitr::include_graphics('images/gif_minon_2.gif')
+```
+
+---
+## Generación automática de tabs 🙌
+
+👉 **Código inline** , utilizando un dataframe anidado, que incluye una variable del resultado a presentar por tab ('ts_plots'), y una variable agrupadora ('state')
+
+```{r, eval=FALSE}
+`r automagic_tabs(input_data = nest_plots_1, 
+                  panel_name = "state", 
+                  .output = "ts_plots")`
+```
+
+
+
+---
+
+```{r, out.width='30%', echo=FALSE, fig.align='center'}
+knitr::include_graphics('images/gif_bye.gif')
+```
+
+
+## Contactos ✉
+
+Karina Bartolome [![Twitter Badge](https://img.shields.io/badge/-@karbartolome-1ca0f1?style=flat&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/karbartolome)](https://twitter.com/karbartolome) [![Linkedin Badge](https://img.shields.io/badge/-karina bartolome-blue?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/karinabartolome/)](https://www.linkedin.com/in/karinabartolome/) [![Github Badge](https://img.shields.io/badge/-karbartolome-black?style=flat&logo=Github&logoColor=white&link=https://github.com/karbartolome)](https://github.com/karbartolome) [![Website Badge](https://img.shields.io/badge/-Personal%20blog-47CCCC?style=flat&logo=Google-Chrome&logoColor=white&link=https://karbartolome-blog.netlify.app/)](https://karbartolome-blog.netlify.app/)
+
+
+
+Rafael Zambrano [![Twitter Badge](https://img.shields.io/badge/-@rafa_zamr-1ca0f1?style=flat&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/rafa_zamr)](https://twitter.com/rafa_zamr) [![Linkedin Badge](https://img.shields.io/badge/-rafael zambrano-blue?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/rafael-zambrano/)](https://www.linkedin.com/in/rafael-zambrano/) [![Github Badge](https://img.shields.io/badge/-rafzamb-black?style=flat&logo=Github&logoColor=white&link=https://github.com/rafzamb)](https://github.com/rafzamb) [![Website Badge](https://img.shields.io/badge/-Personal%20blog-47CCCC?style=flat&logo=Google-Chrome&logoColor=white&link=https://rafael-zambrano-blog-ds.netlify.app/)](https://rafael-zambrano-blog-ds.netlify.app/)

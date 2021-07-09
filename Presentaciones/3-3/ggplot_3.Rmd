@@ -1,0 +1,95 @@
+---
+title: "Visualización de datos:<br>*return of the ggplot2*"
+subtitle: "Análisis estadístico utilizando R"
+author: "Ignacio Spiousas y Pablo Etchemendy"
+institute: "UNQ UNTreF CONICET"
+date: "(updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: "xaringan-themer.css"
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      navigation: 
+        scroll: false
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE, 
+                      comment = FALSE)
+```
+
+```{r xaringanExtra, echo = FALSE}
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(primary_color = "#A42339", 
+                 secondary_color = "#BADEFC",
+                 base_font_size = "20px",
+                 text_font_size = "1rem",
+                 text_slide_number_font_size = "0.5rem",
+                 header_h1_font_size = "2rem",
+                 header_h2_font_size = "1.5rem",
+                 header_h3_font_size = "1.25rem",
+                 header_font_google = google_font("Work Sans", "600"),
+                 text_font_google = google_font("Work Sans", "300", "300i"),
+                 code_font_google = google_font("IBM Plex Mono")
+)
+```
+
+
+# `r rmarkdown::metadata$title`
+### `r rmarkdown::metadata$subtitle`
+
+```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```
+
+```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
+```
+
+`r rmarkdown::metadata$institute`
+
+Ignacio Spiousas
+[`r icons::icon_style(icons::fontawesome("github"), fill = "#A42339")`](https://github.com/spiousas) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#A42339")`](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
+
+`r Sys.Date()`
+
+---
+class: left, top, highlight-last-item
+# Leamos unos datos
+
+Están en formato tidy?
+
+Qué hacer si no?
+
+TidyR al rescate con pivot_longer()
+
+```{r image_tidyr, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
+```
+
+
+---
+class: left, top, highlight-last-item
+# Acá llega lo bueno!
+
+DPLYR
+
+---
+class: left, top, highlight-last-item
+# Promedios y más...
+
+---
+class: left, top, highlight-last-item
+# *piping* FTW
