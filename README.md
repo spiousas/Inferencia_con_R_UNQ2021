@@ -31,13 +31,13 @@ Si sos estudiante externo podés encontrar toda la información pertinente
 
 Bienvenidxs al repositorio de GitHub del curso de posgrado **Análisis
 estadístico utilizando R** de la Unversidad Nacional de Quilmes. Acá vas
-a encontrar las presentaciones, Tutoriales, ejemplos y ejercicios del
+a encontrar las presentaciones, tutoriales, ejemplos y ejercicios del
 curso.
 
-|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Antes de empezar**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Si ya estás inscripto en el curso te invitamos a que completes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la “audiencia” para que el curso salga lo mejor posible. También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que e el medio que vamos a utilizar para comunicarnos. |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Antes de empezar**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Si ya estás inscripto en el curso te invitamos a que completes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la “audiencia” para que el curso salga lo mejor posible. También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-s304b9t1-jR8iGDAxmBXF1WuqVfYvMA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que es el medio que vamos a utilizar para comunicarnos. |
 
 En este curso vamos a aprender a organizar, visualizar y modelar tus
 datos utilizando **R** para que puedas generar *pipelines* de análisis
@@ -51,7 +51,7 @@ Los temas que vamos a tratar en el curso son:
     conceptos básicos de variables aleatorias y distribuciones de
     probabilidad.
 -   `Inferencia estadística` Pruebas de hipótesis y modelos, qué son,
-    cuándos y cómo utilizarlos para entender nuestros datos.
+    cuándo y cómo utilizarlos para entender nuestros datos.
 -   `Ciencia abierta` Por qué, para qué y cómo la ciencia abierta es la
     llave hacia una ciencia mejor.
 -   `Trabajo final` Lxs estudiantxs van a llevar adelante un modelo de
@@ -70,7 +70,7 @@ Los temas que vamos a tratar en el curso son:
 
 -   **Clase 2: Visualización de datos con R 👨‍🎨** <br /> Como hacer
     gráficos que sean la envidia de tus colegas. Nociones básicas sobre
-    el funcionamiento de ggplot2 (otra librería del tidyverse).
+    el funcionamiento de ggplot2 (otra librería del Tidyverse).
 
 ### Unidad 2
 
@@ -104,7 +104,7 @@ Los temas que vamos a tratar en el curso son:
     vez, odiado p-value.
 
 -   **Clase 7: Modelos jerárquicos: Qué son y para qué sirven los
-    famosos modelos lineales de efectos mixtos 😨** <br /> Un p&lt;0.05
+    famosos modelos lineales de efectos mixtos 😱** <br /> Un p&lt;0.05
     en una prueba de hipótesis parece ser el santo grial científico al
     que todos queremos llegar, pero no siempre se trata de una
     metodología correcta y puede llevar a grandes errores de
@@ -114,14 +114,14 @@ Los temas que vamos a tratar en el curso son:
 
 ### Unidad 4
 
--   **Clase 8: Ciencia Abierta: Por qué y para qué 📂** <br /> La Ciencia
+-   **Clase 8: Ciencia Abierta: Por qué y para qué 📬** <br /> La Ciencia
     Abierta es un movimiento que tiene como objetivo hacer la
     investigación científica y su divulgación accesible en todo nivel.
     Se trata de un esfuerzo por construir una ciencia transparente y
     accesible en base a trabajos colaborativos y herramientas para
     compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo 😺** <br /> En esta clase
+-   **Clase 9: Ciencia Abierta: Cómo 📭** <br /> En esta clase
     exploraremos las opciones para la publicación eficiente y
     transparente tanto de nuestros datos como de nuestros códigos de
     análisis (por ejemplo, OSF, Github, etc.). También, como una
@@ -149,7 +149,7 @@ paso a paso en la página de [You Tube](https://youtube.com/) del curso.
 
 Lo primero que hay que hacer para poder correr scripts de R es, como
 resulta evidente, instalar R. Lo pueden hacer seleccionando su sistema
-operativo en este [link](thttp://mirror.fcaglp.unlp.edu.ar/CRAN/) y
+operativo en este [link](http://mirror.fcaglp.unlp.edu.ar/CRAN/) y
 siguiendo los pasos de la instalación.
 
 ### Instalación de RStudio
@@ -158,7 +158,7 @@ Pueden bajar la versión gratuita de RStudio del siguiente
 [link](https://www.rstudio.com/products/rstudio/download/#download). En
 caso de que el link no haya detectado correctamente el sistema
 operativo, en la sección *All Installers* pueden seleccionarlo
-manualmente. Un vez descargado el instalador sólo hay que seguir los
+manualmente. Una vez descargado el instalador sólo hay que seguir los
 pasos de la intalación.
 
 ### Clonado del repositorio
@@ -166,7 +166,7 @@ pasos de la intalación.
 GitHub es una plataforma de desarrollo colaborativo que permite alojar
 proyectos utilizando el control de versiones Git. Para ustedes es
 simplemente el lugar donde van a encontrar todos los materiales del
-curso Para bajar todos los pateriales de una sola vez, lo que deben
+curso. Para bajar todos los materiales de una sola vez, lo que deben
 hacer es abrir el RStudio e ir a la solapa *File*/*New Project*. Una vez
 ahí deben seleccionar *Version Control* y luego *Git*. Seleccionen la
 carpeta donde quieran descargar el material del curso y (acá viene lo
@@ -183,7 +183,7 @@ poderosísima para el trabajo colaborativo y la ciencia reproducible.
 Quedensé tranquilxs que a lo largo del curso van a aprender cómo
 incorporarlo a sus hábitos de trabajo.
 
-\#\#Modo de evaluación:
+## Modo de evaluación:
 
 Antes de comenzar con el desarrollo del trabajo final lxs alumnxs
 deberán completar un examen escrito en el que se evaluarán los
