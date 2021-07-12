@@ -14,7 +14,7 @@ El curso se dictará del **2 al 26 de agosto de 2021**. La modalidad de
 cursada será 100% virtual, con un 60% de clases “teóricas” asincrónicas
 y un 40% de clases prácticas y de consulta sincrónicas.
 
-### Inscripción 📁
+### Inscripción 📂
 
 Si sos estudiante de doctorado de la UNQ te podés anotar a través del
 campus en la semana del 19 al 22 de junio.
@@ -68,7 +68,7 @@ Los temas que vamos a tratar en el curso son:
     Cómo leer, organizar, resumir y manipular datos experimentales para
     construir un insumo confiable y reproducible.
 
--   **Clase 2: Visualización de datos con R 👨‍🎨** <br /> Como hacer
+-   **Clase 2: Visualización de datos con R 👩‍🎨** <br /> Como hacer
     gráficos que sean la envidia de tus colegas. Nociones básicas sobre
     el funcionamiento de ggplot2 (otra librería del Tidyverse).
 
@@ -114,14 +114,14 @@ Los temas que vamos a tratar en el curso son:
 
 ### Unidad 4
 
--   **Clase 8: Ciencia Abierta: Por qué y para qué 😃** <br /> La Ciencia
+-   **Clase 8: Ciencia Abierta: Por qué y para qué 📖** <br /> La Ciencia
     Abierta es un movimiento que tiene como objetivo hacer la
     investigación científica y su divulgación accesible en todo nivel.
     Se trata de un esfuerzo por construir una ciencia transparente y
     accesible en base a trabajos colaborativos y herramientas para
     compartir.
 
--   **Clase 9: Ciencia Abierta: Cómo 🔓** <br /> En esta clase
+-   **Clase 9: Ciencia Abierta: Cómo 😺** <br /> En esta clase
     exploraremos las opciones para la publicación eficiente y
     transparente tanto de nuestros datos como de nuestros códigos de
     análisis (por ejemplo, OSF, Github, etc.). También, como una
@@ -203,7 +203,8 @@ que esto pudiera presentar.
 ## Donde ver las clases
 
 Las clases van a estar colgadas de manera pública en el canal de [You
-Tube](https://youtube.com/) del curso
+Tube](https://www.youtube.com/channel/UCCXeuz_Uqc0HDToqy5WQUMA) del
+curso
 
 ## Bibliografía
 
