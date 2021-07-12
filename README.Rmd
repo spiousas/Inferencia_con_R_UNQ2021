@@ -94,7 +94,7 @@ Nociones básicas sobre el funcionamiento de ggplot2 (otra librería del tidyver
 
 ## Qué hacer antes de la primera clase
 
-Antes de comenzar el curso es necesario que acondicionen su computadora para sacarle el máximo jugo a las clases. A continuación les contamos qué y cómo hacerlo y también van a poder encontrar un vídeo explicativo paso a paso en la página de [You Tube](https://youtube.com/) del curso.
+Antes de comenzar el curso es necesario que acondicionen su computadora para sacarle el máximo jugo a las clases. A continuación les contamos qué y cómo hacerlo y también van a poder encontrar un vídeo explicativo paso a paso en la página de [You Tube](https://www.youtube.com/channel/UCCXeuz_Uqc0HDToqy5WQUMA) del curso.
 
 ### Instalación de R
 
