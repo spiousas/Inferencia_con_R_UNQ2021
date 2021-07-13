@@ -18,6 +18,7 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
@@ -28,7 +29,6 @@ xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
 style_duo_accent(primary_color = "#A42339", 
                  secondary_color = "#BADEFC",
                  base_font_size = "20px",
@@ -63,7 +63,41 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
+# ¿Tidy data? `r emo::ji("thinking")`
+
+.pull-left[
+### Es *tidy data* `r emo::ji("check")`
+]
+
+--
+.pull-right[
+### NO es *tidy data* `r emo::ji("creature")`
+]
+
+???
+Tidy data es una forma de organizar los datos para la limpieza y el preparado de los datos.
+Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficr, modelar y más.
+El nombre Tidy data fue acuñado por Hadley Wickham, una personalidad MUY conocida en el mundo R,
+
+---
+class: left, top, highlight-last-item
 # ¿Qué es el tidyverse?
+
+.pull-left[
+```{r image_tidyverse2, fig.show = "hold", out.width = "50%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```
+]
+
+.pull-right[El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
+
+Todos los paquetes comparten una filosofía de disño, gramática y estructura de datos.
+] 
+
+Entonces, para instalar todos los paquetes sólo debemos ejecutar:
+```{r df-drop-ok, eval = FALSE}
+install.packages("tidyverse")
+```
 
 ---
 class: left, top, highlight-last-item

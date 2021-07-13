@@ -67,29 +67,14 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Leamos unos datos
+# Bola extra
 
-Están en formato tidy?
+Ggplot y la comunidad de dataviz con R es una comunidad genial!
 
-Qué hacer si no?
+TidyTuesday
 
-TidyR al rescate con pivot_longer()
+30 days
 
-```{r image_tidyr, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
-```
+Librerías adicionales como ggforce, ggtext o gg
 
-
----
-class: left, top, highlight-last-item
-# Acá llega lo bueno!
-
-DPLYR
-
----
-class: left, top, highlight-last-item
-# Promedios y más...
-
----
-class: left, top, highlight-last-item
-# *piping* FTW
+Cerremos con la mejor librería de extras para ggplot!
