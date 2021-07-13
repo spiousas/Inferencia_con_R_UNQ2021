@@ -72,7 +72,7 @@ Los temas que vamos a tratar en el curso son:
     gráficos que sean la envidia de tus colegas. Nociones básicas sobre
     el funcionamiento de ggplot2 (otra librería del Tidyverse).
 
-### Unidad 2
+### Unidad 2sd
 
 -   **Clase 3: Revisando conceptos de probabilidad y estadística:
     Aleatoriedad y otros temas aleatorios 🎲** <br /> ¿Qué es una
