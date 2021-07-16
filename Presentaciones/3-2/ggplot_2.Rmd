@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,31 +20,56 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
 ```
 
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
-```
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(primary_color = "#A42339", 
-                 secondary_color = "#BADEFC",
-                 base_font_size = "20px",
-                 text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
-                 header_font_google = google_font("Work Sans", "600"),
-                 text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+
+style_mono_accent(base_color = "#A42339",
+                  code_highlight_color = "#BADEFC",
+                  base_font_size = "18px",
+                  text_font_size = "1rem",
+                  text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.8rem",
+                  header_h1_font_size = "2.5rem",
+                  header_h2_font_size = "2rem",
+                  header_h3_font_size = "1.5rem",
+                  header_font_google = google_font("Work Sans", "600"),
+                  text_font_google = google_font("Work Sans", "300", "300i"),
+                  code_font_google = google_font("Fira Mono")
 )
 ```
 
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
 
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
@@ -68,29 +95,38 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Leamos unos datos
+# ggplot2 `r emo::ji("graph")`
 
-Están en formato tidy?
-
-Qué hacer si no?
-
-TidyR al rescate con pivot_longer()
-
-```{r image_tidyr, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
+.pull-left-narrow[
+```{r image_ggplot, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
 ```
+]
 
+.pull-right-wide[
+Como les conté antes **ggplot2** es un sistema declarativo de creación de gráficos basado en la **grammar of graphics**
 
----
-class: left, top, highlight-last-item
-# Acá llega lo bueno!
+No es sólo una librería sino toda una forma de crear los gáficas
 
-DPLYR
-
----
-class: left, top, highlight-last-item
-# Promedios y más...
+Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+]
 
 ---
 class: left, top, highlight-last-item
-# *piping* FTW
+# Los stats
+
+---
+class: left, top, highlight-last-item
+# Por último, hablemos de themes
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., & DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
+
+- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+
+]]

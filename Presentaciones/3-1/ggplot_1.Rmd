@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,31 +20,59 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins, patchwork)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
-```
-
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+theme_set(theme_grey(base_size = 18)) 
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(primary_color = "#A42339", 
-                 secondary_color = "#BADEFC",
-                 base_font_size = "20px",
-                 text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
-                 header_font_google = google_font("Work Sans", "600"),
-                 text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+
+style_mono_accent(base_color = "#A42339",
+                  code_highlight_color = "#BADEFC",
+                  base_font_size = "18px",
+                  text_font_size = "1rem",
+                  text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.8rem",
+                  header_h1_font_size = "2.5rem",
+                  header_h2_font_size = "2rem",
+                  header_h3_font_size = "1.5rem",
+                  header_font_google = google_font("Work Sans", "600"),
+                  text_font_google = google_font("Work Sans", "300", "300i"),
+                  code_font_google = google_font("Fira Mono")
 )
 ```
 
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "right",
+                             "width" = "75%"),
+  ".small" = list("font-size" = "90%"),
+  ".tiny" = list("font-size"  = "50%"),
+  ".big" = list("font-size"   = "120%"),
+  ".huge" = list("font-size"  = "150%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
 
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
@@ -68,29 +98,516 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Leamos unos datos
+# ggplot2 `r emo::ji("graph")`
 
-Están en formato tidy?
+.pull-left-narrow[
+```{r image_ggplot, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
+```
+]
 
-Qué hacer si no?
+.pull-right-wide[
+Como les conté antes **ggplot2** es un sistema declarativo de creación de gráficos basado en la **grammar of graphics**
 
-TidyR al rescate con pivot_longer()
+No es sólo una librería sino toda una forma de crear los gáficas
 
-```{r image_tidyr, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
+Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+]
+
+???
+Estas visualizaciones no solo se ven atractivas, sino que pueden aumentar la transparencia sobre la distribución de los datos subyacentes en lugar de depender de visualizaciones de agregaciones de uso común, como gráficos de barras de medias (Newman & Scholl, 2012).
+
+La visualización de datos se beneficia de las mismas ventajas que el análisis estadístico al escribir código en lugar de usar software de apuntar y hacer clic: reproducibilidad y transparencia
+
+Sin embargo, hay un beneficio adicional para la reproducibilidad que se reconoce con menos frecuencia en comparación con los objetivos más elevados de mejorar la ciencia psicológica: si escribe código para producir sus gráficos, puede reutilizar y adaptar ese código en el futuro en lugar de comenzar desde cero cada vez. . 
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+El concepto de **grammar of graphics** es la forma en que una cualidad del gráfico se relaciona con un dato de mi dataset.
+
+Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
+
+.pull-left[
+```{r ggplot_1, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_1-out, ref.label="ggplot_1", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+Y **ggplot2** se encarga del resto!
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+Por ejemplo, le podemos decír que el **color** mapée la especie
+
+.pull-left[
+```{r ggplot_2, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = species)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_2-out, ref.label="ggplot_2", fig.align = "center", out.width = "100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+O que el **color** sea una variable continua como el peso
+
+.pull-left[
+```{r ggplot_3, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_3-out, ref.label="ggplot_3", fig.align = "center", out.width = "100%", echo=FALSE}
+```
+]
+
+Esto es, en su forma más básica, como funciona la **grammar of graphics** y **ggplot2**
+
+---
+class: left, top, highlight-last-item
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Los datos:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, #<<
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
 ```
 
+---
+class: left, top, highlight-last-item
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+La estética, o el mapeo enter variables y cualidades de la gráfica:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm, #<<
+           y = bill_depth_mm, #<<
+           color = body_mass_g)) + #<<
+  geom_point(alpha = 0.5)
+```
 
 ---
 class: left, top, highlight-last-item
-# Acá llega lo bueno!
+# The grammar of graphics
 
-DPLYR
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm, 
+           color = body_mass_g)) + 
+  geom_point(alpha = 0.5) #<<
+```
+
+Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
+
+También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
+
+--
+
+Lo último que queda por definir es la estética, o el **tema**, de la figura, pero para eso va a haber tiempo...
 
 ---
 class: left, top, highlight-last-item
-# Promedios y más...
+# Una GoG por capas
+
+```{r, fig.align = "center", dpi=300, fig.width = 10, fig.height = 6.5, echo=FALSE}
+p1 <- ggplot()
+
+p2 <- ggplot(data = penguins,
+             aes(x = bill_length_mm,
+                 y = bill_depth_mm)) +
+  theme_gray(base_size = 12)
+
+p3 <- p2 + geom_point()
+
+p4 <- p3 + geom_smooth(method = "lm")
+
+p5 <- p4 + labs(title = "Pinguinos",
+                x = "Longitud del pico mm",
+                y = "Ancho del pico en mm")
+
+p6 <- p5 + theme_pubclean()
+
+p1 / p4 | p2 / p5 | p3 / p6 
+```
+
+???
+Una buena analogía son las viejas películas de Disney en las que los artistas creaban un fondo y luego agregaban elementos móviles sobre el fondo mediante transparencias.
 
 ---
 class: left, top, highlight-last-item
-# *piping* FTW
+# Exploremos las geometrías
+
+* **geom_point()** mapea coordenadas x e y en un punto
+
+.pull-left[
+```{r ggplot_point, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) + 
+  geom_point() #<<
+```
+]
+
+.pull-right[
+```{r ggplot_point-out, ref.label="ggplot_point", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+???
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_line()** mapea coordenadas x e y en un punto
+
+.small[
+```{r ggplot_line, eval = FALSE}
+penguins %>%
+  group_by(species) %>%
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %>%
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm)) +
+  geom_line() #<<
+```
+]
+.pull-left[
+```{r ggplot_line-out, ref.label="ggplot_line", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right.center[
+![:scale 80%](./figs/sorcery.jpg)
+]
+
+---
+class: left, top, highlight-last-item
+# Pipe en acción ![:scale 5%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/pipe.png)
+
+Podemos usar **%>%** para hacer cálculos con los datos y después usarlos para plotear
+
+.small[
+```{r ggplot_line2, eval = FALSE}
+penguins %>% #<<
+  group_by(species) %>% #<<
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE), #<<
+            mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %>% #<<
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm)) +
+  geom_line() 
+```
+]
+
+```{r ggplot_line-out2, ref.label="ggplot_line2", fig.align = "center", out.width = "40%", echo=FALSE}
+```
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* Y si agregamos la dimensión **color** en **island**
+
+.tiny[
+```{r ggplot_line_island, eval = FALSE}
+penguins %>%
+  group_by(species, island) %>%
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %>%
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm,
+             color = island)) + #<<
+  geom_line() 
+```
+]
+
+```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "40%", echo=FALSE}
+```
+
+??? 
+Por qué hay sólo dos líneas?
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_col()** 
+
+.small[
+```{r ggplot_col1, eval = FALSE}
+penguins %>%
+    group_by(species) %>%
+    summarise(N = n()) %>%
+    ggplot(aes(x = species,
+               y = N)) +
+    geom_col() #<<
+```
+]
+
+.pull-left[
+```{r ggplot_col1-out, ref.label="ggplot_col1", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+Hablar de que en el eje x también puede haber una variable categorica
+
+Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_col()** 
+
+.small[
+```{r ggplot_col2, eval = FALSE}
+penguins %>%
+    group_by(species, island) %>%
+    summarise(N = n()) %>%
+    ggplot(aes(x = species,
+               y = N,
+               fill = island)) +
+    geom_col() #<<
+```
+]
+.pull-left[
+```{r ggplot_col2-out, ref.label="ggplot_col2", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+Agrupamos y ahora entendemos la figura de puntos anteior
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_col()** 
+
+.small[
+```{r ggplot_col3, eval = FALSE}
+penguins %>%
+    group_by(species, island) %>%
+    summarise(N = n()) %>%
+    ggplot(aes(x = species,
+               y = N,
+               fill = island)) +
+    geom_col(position = "dodge2") #<<
+```
+]
+
+.pull-left[
+```{r ggplot_col3-out, ref.label="ggplot_col3", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+Se ve mejor con colores
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_histogram**
+
+.small[
+```{r ggplot_hist1, eval = FALSE}
+penguins %>%
+  ggplot(aes(x = bill_length_mm)) +
+    geom_histogram() #<<
+```
+]
+
+.pull-left[
+```{r ggplot_hist1-out, ref.label="ggplot_hist1", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_histogram**
+
+.small[
+```{r ggplot_hist2, eval = FALSE}
+penguins %>%
+  ggplot(aes(x = bill_length_mm,
+             fill = species)) + #<<
+    geom_histogram() 
+```
+]
+
+.pull-left[
+```{r ggplot_hist2-out, ref.label="ggplot_hist2", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+* **geom_histogram**
+
+.small[
+```{r ggplot_hist3, eval = FALSE}
+penguins %>%
+  ggplot(aes(x = bill_length_mm,
+             fill = species)) +
+  geom_histogram() +
+  facet_grid(species ~ .)#<<
+```
+]
+
+.pull-left[
+```{r ggplot_hist3-out, ref.label="ggplot_hist3", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+**geom_density**
+
+.small[
+```{r ggplot_density, eval = FALSE}
+penguins %>%
+    ggplot(aes(x = bill_length_mm,
+               fill = species)) +
+    geom_density() +
+    facet_grid(species ~ .) #<<
+```
+]
+
+.pull-left[
+```{r ggplot_density-out, ref.label="ggplot_density", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+]
+
+---
+class: left, top, highlight-last-item
+# Exploremos las geometrías
+
+**geom_density**
+```{r ggplot_density2, eval = FALSE}
+penguins %>%
+    ggplot(aes(x = bill_length_mm,
+               fill = species)) +
+    geom_density() +
+    geom_histogram(aes(y = ..density..),
+                   color = "black",
+                   alpha = 0.5) +
+    facet_grid(species ~ .)#<<
+```
+]
+
+.pull-left[
+```{r ggplot_density2-out, ref.label="ggplot_density2", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+]
+
+---
+class: left, top, highlight-last-item
+# Resumiendo
+
+.pull-left-narrow[**geom_point()**]
+.pull-right-wide[Es bal bla]
+
+<br><br>
+.pull-left-narrow[**geom_line()**]
+.pull-right-wide[Es bal bla]
+
+<br><br>
+.pull-left-narrow[**geom_col()**]
+.pull-right-wide[Es bal bla]
+
+<br><br>
+.pull-left-narrow[**geom_histogram()**]
+.pull-right-wide[Es bal bla]
+
+<br><br>
+.pull-left-narrow[**geom_density()**]
+.pull-right-wide[Es bal bla]
+
+--
+<br><br>	
+Y más ...
+<br><br>
+**geom_abline() geom_hline() geom_vline() geom_bar() geom_col() stat_count() geom_bin_2d() stat_bin_2d() geom_blank() geom_boxplot() stat_boxplot() geom_contour() geom_contour_filled() stat_contour() stat_contour_filled() geom_count() stat_sum() geom_density() stat_density() geom_density_2d() geom_density_2d_filled() stat_density_2d() stat_density_2d_filled() geom_dotplot() geom_errorbarh() geom_function() stat_function() geom_hex() stat_bin_hex() geom_freqpoly() geom_histogram() stat_bin() geom_jitter() geom_crossbar() geom_errorbar() geom_linerange() geom_pointrange() geom_map() geom_path() geom_line() geom_step() geom_point() geom_polygon() geom_qq_line() stat_qq_line() geom_qq() stat_qq() geom_quantile() stat_quantile() geom_ribbon() geom_area() geom_rug() geom_segment() geom_curve() geom_smooth() stat_smooth() geom_spoke() geom_label() geom_text() geom_raster() geom_rect() geom_tile() geom_violin() stat_ydensity() geom_sf() geom_sf_label() geom_sf_text() stat_sf()**
+
+
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., & DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
+
+- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+
+- https://psyteachr.github.io/introdataviz/
+
+]]

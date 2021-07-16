@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,31 +20,56 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
 ```
 
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
-```
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(primary_color = "#A42339", 
-                 secondary_color = "#BADEFC",
-                 base_font_size = "20px",
-                 text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
-                 header_font_google = google_font("Work Sans", "600"),
-                 text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+
+style_mono_accent(base_color = "#A42339",
+                  code_highlight_color = "#BADEFC",
+                  base_font_size = "18px",
+                  text_font_size = "1rem",
+                  text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.8rem",
+                  header_h1_font_size = "2.5rem",
+                  header_h2_font_size = "2rem",
+                  header_h3_font_size = "1.5rem",
+                  header_font_google = google_font("Work Sans", "600"),
+                  text_font_google = google_font("Work Sans", "300", "300i"),
+                  code_font_google = google_font("Fira Mono")
 )
 ```
 
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
 
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
@@ -53,6 +80,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 
 ```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/scales.png")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -67,14 +95,193 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Bola extra
+# Librerías útiles
 
-Ggplot y la comunidad de dataviz con R es una comunidad genial!
+Mapeo
+ggdist
+gggibous
+ggbees
 
-TidyTuesday
+Estética
+gghtemer
+ggpubr
+paletas
 
-30 days
+Combinar
+Patchwork
 
-Librerías adicionales como ggforce, ggtext o gg
+Interactivos 
+plotly
 
-Cerremos con la mejor librería de extras para ggplot!
+Mapas
+asf
+
+Estadística
+ggstatplot
+
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+El concepto de **grammar of graphics** es la forma en que una cualidad del gráfico se relaciona con un dato de mi dataset.
+
+Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
+
+.pull-left[
+```{r ggplot_1, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_1-out, ref.label="ggplot_1", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+Y **ggplot2** se encarga del resto!
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+Por ejemplo, le podemos decír que el **color** mapée la especie
+
+.pull-left[
+```{r ggplot_2, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = species)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_2-out, ref.label="ggplot_2", fig.align = "center", out.width = "100%", echo=FALSE}
+```
+]
+
+---
+# Nociones básicas
+
+O que el **color** sea una variable continua como el peso
+
+.pull-left[
+```{r ggplot_3, eval = FALSE}
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+```{r ggplot_3-out, ref.label="ggplot_3", fig.align = "center", out.width = "100%", echo=FALSE}
+```
+]
+
+Esto es, en su forma más básica, como funciona la **grammar of graphics** y **ggplot2**
+
+---
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Los datos:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, #<<
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+
+---
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+La estética, o el mapeo enter variables y cualidades de la gráfica:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm, #<<
+           y = bill_depth_mm, #<<
+           color = body_mass_g)) + #<<
+  geom_point(alpha = 0.5)
+```
+
+---
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm, 
+           color = body_mass_g)) + 
+  geom_point(alpha = 0.5) #<<
+```
+
+Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
+
+También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
+
+--
+
+Lo último que queda por definir es la estética, o el **tema**, de la figura, pero para eso va a haber tiempo...
+
+---
+# Exploremos un poco las geometrías
+
+geom_point
+
+geom_line
+
+geom_col
+
+geom_histogram
+
+geom_density
+
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+```{r, eval = FALSE}
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm, 
+           color = body_mass_g)) + 
+  geom_point(alpha = 0.5) #<<
+```
+
+Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
+
+También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
+
+pipeable
+---
+# Los stats
+
+---
+# Por último, hablemos de themes
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., & DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
+
+- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+
+]]

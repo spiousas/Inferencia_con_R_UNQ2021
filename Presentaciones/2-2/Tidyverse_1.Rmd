@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,29 +20,55 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
-pacman::p_load(xaringanthemer, here, jpeg)
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
 ```
 
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+
+style_mono_accent(base_color = "#A42339",
+                  code_highlight_color = "#BADEFC",
+                  base_font_size = "18px",
+                  text_font_size = "1rem",
+                  text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.8rem",
+                  header_h1_font_size = "2.5rem",
+                  header_h2_font_size = "2rem",
+                  header_h3_font_size = "1.5rem",
+                  header_font_google = google_font("Work Sans", "600"),
+                  text_font_google = google_font("Work Sans", "300", "300i"),
+                  code_font_google = google_font("Fira Mono")
+)
 ```
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-style_duo_accent(primary_color = "#A42339", 
-                 secondary_color = "#BADEFC",
-                 base_font_size = "20px",
-                 text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
-                 header_font_google = google_font("Work Sans", "600"),
-                 text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
 )
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
 ```
 
 
@@ -66,72 +94,329 @@ class: left, top, highlight-last-item
 # ¿Tidy data? `r emo::ji("thinking")`
 
 .pull-left[
-### Es *tidy data* `r emo::ji("check")`
+.center[
+### ES tidy data `r emo::ji("check")`
+]
+```{r, echo=FALSE} 
+tibble(sujetos = rep(c("Jerry", "Elaine", "George"), each = 2),
+       trial = rep(c(1, 2), each = 3),
+       tiempo_respuesta = runif(6)) %>%
+  kbl() %>%
+  kable_styling(font_size = 14)
+```
 ]
 
---
 .pull-right[
-### NO es *tidy data* `r emo::ji("creature")`
+.center[
+### NO ES tidy data `r emo::ji("creature")`
+
+```{r, echo=FALSE} 
+tibble(sujetos = rep(c("Jerry", "Elaine", "George")),
+       trial_1 = runif(3),
+       trial_2 = runif(3)) %>%
+  kbl() %>%
+  kable_styling(font_size = 14)
+```
+<br>
+Es **messy data**
+```{r image_messi, fig.show = "hold", out.width = "20%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://as.com/img/comunes/fotos/fichas/deportistas/m/mes/large/15167.png")
+```
+]]
+
+<br>
+<br>
+
+.center[
+¿Por qué unos datos son **tidy** y otros son **messy**?
 ]
 
 ???
-Tidy data es una forma de organizar los datos para la limpieza y el preparado de los datos.
+Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparaci'on de los mismos sin tener que inventar la rueda cada vez.
 Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficr, modelar y más.
 El nombre Tidy data fue acuñado por Hadley Wickham, una personalidad MUY conocida en el mundo R,
-
----
-class: left, top, highlight-last-item
-# ¿Qué es el tidyverse?
-
-.pull-left[
-```{r image_tidyverse2, fig.show = "hold", out.width = "50%", fig.align = "center", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
-```
-]
-
-.pull-right[El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
-
-Todos los paquetes comparten una filosofía de disño, gramática y estructura de datos.
-] 
-
-Entonces, para instalar todos los paquetes sólo debemos ejecutar:
-```{r df-drop-ok, eval = FALSE}
-install.packages("tidyverse")
-```
+Tidy data y Tidy Tools van de la mano, es decir, la aplicaci'on de tidy tools a tidy data es trivial.
+Es una forma de conectar la estructura de un dataset (su forma física) con su semántica (su significado).
+Cada valor correponde a una **variable** y a una **observación**.
+Tidy data is particularly well suited for vectorised programming
+languages like R, because the layout ensures that values of different variables from the same
+observation are always paired.
 
 ---
 class: left, top, highlight-last-item
 # ¿De qué hablamos cuando hablamos de *tidy data*?
 
----
-class: left, top, highlight-last-item
-# Paquetes más populares
+```{r, echo=FALSE} 
+tibble(sujetos = rep(c("Jerry", "Elaine", "George"), each = 2),
+       trial = rep(c(1, 2), each = 3),
+       tiempo_respuesta = runif(6)) %>%
+  kbl() %>%
+  kable_styling(font_size = 14)
+```
+
+.center[.big[
+Cada **variable** es una **columna**
+<br>
+<br>
+Cada **observación** es una **fila**
+<br>
+<br>
+Cada tipo de **unidad observacional** forma una tabla
+]]
+
+???
+ A variable contains all values that measure the same underlying attribute (like
+height, temperature, duration) across units. An observation contains all values measured on
+the same unit (like a person, or a day, or a race) across attributes.
 
 ---
 class: left, top, highlight-last-item
-# readr
+# El problemas más comun
+
+Los encabezados de **columnas** son **valores**
+
+Como en este caso en el que las columnas son los rangos de salario
+
+```{r, echo=FALSE} 
+head(relig_income) %>%
+  kbl() %>%
+  kable_styling(font_size = 10)
+```
+
+--
+<br>
+No teman, hay herramientas para convertirlos en datos **tidy**
+
+.center[
+![](https://media.giphy.com/media/2OP9jbHFlFPW/giphy.gif)
+]
+
+???
 
 ---
 class: left, top, highlight-last-item
-# dplyr
+# ¿Qué es el tidyverse?
+
+.pull-left-narrow[
+```{r image_tidyverse2, fig.show = "hold", out.width = "50%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```
+]
+
+.pull-right-wide[
+El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
+
+Todos los paquetes comparten una filosofía de diseño, gramática y estructura de datos.
+] 
+
+Entonces, para instalar todos los paquetes sólo debemos ejecutar:
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+???
+
+---
+class: center, top, highlight-last-item
+# Los paquetes que vamos a usar hasta cansarnos
+
+.pull-left.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png)
+]
+
+.pull-right.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png)
+]
 
 ---
 class: left, top, highlight-last-item
-# ggplot2
+# readr `r emo::ji("book")`
 
-scales
+.pull-left-narrow[
+```{r image_readr, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png")
+```
+]
+
+.pull-right-wide[
+
+**readr** es un paquete para leer archivos de datos (csv, etc.).
+
+Fue diseñado para detectar automáticamente los tipos de datos en una base de datos.
+]
+
+.pull-right-wide[
+Un ejemplo:
+
+```{r example_readr}
+read_csv(here("presentaciones/2-2/data/penguins.csv"))
+```
+]
+---
+class: left, top, highlight-last-item
+# dplyr `r emo::ji("wrench")`
+
+.pull-left-narrow[
+```{r image_dplyr, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png")
+```
+]
+
+.pull-right-wide[
+
+**dplyr** es una gramática de la manipulación de datos.
+
+Provee una conjunto de **verbos** que ayudan a resolver los problemas más comunes de manipulación de datos.
+
+- **mutate()** agrega una nueva variables (columna) que es función de las existentes
+- **select()** elige variables basadas en su nombre.
+- **filter()** filtra observaciones basadas en su valor
+- **summarise()** reduce múltiples observaciones a un valor sumarizado
+- **arrange()** cambia el orden de las filas
+
+¡En la lección que sigue los vamos a ver en acción! 
+]
+
+???
 
 ---
 class: left, top, highlight-last-item
-# tibble
+# ggplot2 `r emo::ji("graph")`
+
+.pull-left-narrow[
+```{r image_ggplot, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
+```
+]
+
+.pull-right-wide[
+**ggplot2** de *grammar of graphics* es un sistema declarativo de creación de gráficos
+
+No es sólo una librería sino toda una forma de crear los gáficas
+
+Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+
+.pull-left[
+Podés pasar de esto:
+
+```{r, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+hist(rnorm(1000))
+```
+]
+
+.pull-right[
+A esto:
+
+```{r, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+tibble(count = rnorm(1000)) %>%
+    ggplot(aes(x = count)) +
+    stat_interval(.width = c(.1, .25, .5, .75, 1), 
+                   height = 5, show.legend = F) +
+    stat_halfeye(.width = 0, fill = "tan", alpha = 0.6, height = 1, 
+                  size = 0.7, point_alpha = 1, point_color = "#590000") +
+    geom_dots(fill = ghibli::ghibli_palettes$MarnieLight1[3], 
+              color = ghibli::ghibli_palettes$MarnieLight1[3]) +
+  rcartocolor::scale_color_carto_d(palette = "Peach")  +
+  #scale_y_continuous(limits = c(-.1,1)) +
+  theme_pubclean() 
+```
+]
+
+¡Toda la segunda parte de esta semana vamos a jugar con **ggplot2**!
+
+]
+
+
+
+???
 
 ---
 class: left, top, highlight-last-item
-# Otros paquetes copados
+# tibble `r emo::ji("number")`
 
-xaringan
-stringr
-broom
-purrr
-rmarkdown
-gtable
+.pull-left-narrow[
+```{r image_tibble, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png")
+```
+]
+
+.pull-right-wide[
+
+Un **tibble** (o **tbl_df**) es una reversión moderna del **data.frame**
+
+```{r}
+as_tibble(iris)
+```
+]
+
+???
+Un **tibble** (o **tbl_df**) es una reversión moderna del **data.frame**, conservando lo que se probó efectivo y tirando lo que no.
+
+Los **tibbles** son data frames vagos: Hacen menos (por ejemplo, no cambian nombres ni tipos de variables) y se quejan más (por ejemplo, cuando una variable no existe)
+
+Esto nos fuerza a confrontar los problemas antes, llevando típicamente a código más limpio y expresivo.
+
+---
+class: center, top, highlight-last-item
+# Paquetes para echarles un `r emo::ji("eye")`
+
+.pull-left.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
+]
+
+.pull-right.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
+]
+
+---
+class: left, top, highlight-last-item
+# Los pinguinos de Palmer `r emo::ji("penguin")`
+
+.pull-left-narrow[
+```{r image_penguin, fig.show = "hold", out.width = "70%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("https://allisonhorst.github.io/palmerpenguins/reference/figures/palmerpenguins.png")
+```
+]
+
+.pull-right-wide[
+Una librería con datos de **pinguinos** que vamos a usar mucho!
+
+```{r, eval = FALSE}
+install.packages("palmerpenguins")
+```
+
+```{r}
+library(palmerpenguins)
+
+head(penguins) %>% #<<
+  kbl() %>%
+  kable_styling(font_size = 11) 
+```
+
+No se preocupen por los **%>%** en el código, ya vamos a entender perfectamente qué significa...
+]
+
+???
+The goal of palmerpenguins is to provide a great dataset for data exploration & visualization, as an alternative to iris.
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Wickham, H. (2014). Tidy data. Journal of statistical software, 59(1), 1-23.
+
+- Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
+]]

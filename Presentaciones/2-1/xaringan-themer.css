@@ -20,7 +20,7 @@
  * ------------------------------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Work+Sans:300,300i&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Work+Sans:600&display=swap);
-@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Fira+Mono&display=swap);
 
 
 :root {
@@ -32,15 +32,15 @@
   --header-font-family: 'Work Sans';
   --header-font-is-google: 1;
   --header-font-family-fallback: Georgia, serif;
-  --code-font-family: 'IBM Plex Mono';
+  --code-font-family: 'Fira Mono';
   --code-font-is-google: 1;
-  --base-font-size: 20px;
+  --base-font-size: 18px;
   --text-font-size: 1rem;
-  --code-font-size: 0.9rem;
+  --code-font-size: 0.8rem;
   --code-inline-font-size: 1em;
-  --header-h1-font-size: 2rem;
-  --header-h2-font-size: 1.5rem;
-  --header-h3-font-size: 1.25rem;
+  --header-h1-font-size: 2.5rem;
+  --header-h2-font-size: 2rem;
+  --header-h3-font-size: 1.5rem;
 
   /* Colors */
   --text-color: #000000;
@@ -48,7 +48,7 @@
   --background-color: #FFFFFF;
   --link-color: #A42339;
   --text-bold-color: #A42339;
-  --code-highlight-color: rgba(255,255,0,0.5);
+  --code-highlight-color: #BADEFC;
   --inverse-text-color: #000000;
   --inverse-background-color: #BADEFC;
   --inverse-header-color: #000000;
@@ -106,7 +106,7 @@ h1, h2, h3 {
 .remark-slide-number {
   color: #A42339;
   opacity: 1;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 strong {
   font-weight: bold;

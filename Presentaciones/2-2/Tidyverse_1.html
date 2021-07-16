@@ -6,12 +6,19 @@
     <meta name="author" content="Ignacio Spiousas y Pablo Etchemendy" />
     <script src="Tidyverse_1_files/header-attrs-2.9/header-attrs.js"></script>
     <script src="Tidyverse_1_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="Tidyverse_1_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="Tidyverse_1_files/tile-view-0.2.6/tile-view.js"></script>
+    <script src="Tidyverse_1_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="Tidyverse_1_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 
 class: center, middle
+
+
 
 
 
@@ -37,8 +44,6 @@ class: center, middle
 }</style>
 
 
-
-
 # Bienvenidos al tidyverse
 ### Análisis estadístico utilizando R
 
@@ -52,37 +57,301 @@ Ignacio Spiousas
 Pablo Etchemendy
 [&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/https://github.com/petcheme) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/petcheme)
 
-2021-07-13
+2021-07-16
 
 ---
 class: left, top, highlight-last-item
 # ¿Tidy data? 🤔
 
 .pull-left[
-### Es *tidy data* ✅
+.center[
+### ES tidy data ✅
+]
+&lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; sujetos &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; trial &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; tiempo_respuesta &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5026562 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3287945 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5789010 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4076354 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1425988 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4067869 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 
---
 .pull-right[
-### NO es *tidy data* 👻
+.center[
+### NO ES tidy data 👾
+
+&lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; sujetos &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; trial_1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; trial_2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3857230 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7476957 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9081101 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6604303 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0496838 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5707416 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+Es **messy data**
+&lt;img src="https://as.com/img/comunes/fotos/fichas/deportistas/m/mes/large/15167.png" width="20%" style="display: block; margin: auto;" /&gt;
+]]
+
+&lt;br&gt;
+&lt;br&gt;
+
+.center[
+¿Por qué unos datos son **tidy** y otros son **messy**?
 ]
 
 ???
-Tidy data es una forma de organizar los datos para la limpieza y el preparado de los datos.
+Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparaci'on de los mismos sin tener que inventar la rueda cada vez.
 Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficr, modelar y más.
 El nombre Tidy data fue acuñado por Hadley Wickham, una personalidad MUY conocida en el mundo R,
+Tidy data y Tidy Tools van de la mano, es decir, la aplicaci'on de tidy tools a tidy data es trivial.
+Es una forma de conectar la estructura de un dataset (su forma física) con su semántica (su significado).
+Cada valor correponde a una **variable** y a una **observación**.
+Tidy data is particularly well suited for vectorised programming
+languages like R, because the layout ensures that values of different variables from the same
+observation are always paired.
+
+---
+class: left, top, highlight-last-item
+# ¿De qué hablamos cuando hablamos de *tidy data*?
+
+&lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; sujetos &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; trial &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; tiempo_respuesta &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1700085 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8248110 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2497219 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5666735 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1374376 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3416477 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.center[.big[
+Cada **variable** es una **columna**
+&lt;br&gt;
+&lt;br&gt;
+Cada **observación** es una **fila**
+&lt;br&gt;
+&lt;br&gt;
+Cada tipo de **unidad observacional** forma una tabla
+]]
+
+???
+ A variable contains all values that measure the same underlying attribute (like
+height, temperature, duration) across units. An observation contains all values measured on
+the same unit (like a person, or a day, or a race) across attributes.
+
+---
+class: left, top, highlight-last-item
+# El problemas más comun
+
+Los encabezados de **columnas** son **valores**
+
+Como en este caso en el que las columnas son los rangos de salario
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; religion &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; &amp;lt;$10k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $10-20k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $20-30k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $30-40k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $40-50k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $50-75k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $75-100k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; $100-150k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; &amp;gt;150k &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Don't know/refused &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Agnostic &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 81 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 76 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 137 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 122 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 109 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 84 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 96 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Atheist &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 73 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 59 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 74 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 76 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Buddhist &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 58 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 62 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 54 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Catholic &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 418 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 617 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 732 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 670 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 638 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1116 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 949 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 792 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 633 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1489 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Don’t know/refused &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 116 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Evangelical Prot &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 575 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 869 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1064 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 982 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 881 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1486 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 949 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 723 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 414 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1529 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+&lt;br&gt;
+No teman, hay herramientas para convertirlos en datos **tidy**
+
+.center[
+![](https://media.giphy.com/media/2OP9jbHFlFPW/giphy.gif)
+]
+
+???
 
 ---
 class: left, top, highlight-last-item
 # ¿Qué es el tidyverse?
 
-.pull-left[
+.pull-left-narrow[
 &lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
-.pull-right[El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
+.pull-right-wide[
+El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
 
-Todos los paquetes comparten una filosofía de disño, gramática y estructura de datos.
+Todos los paquetes comparten una filosofía de diseño, gramática y estructura de datos.
 ] 
 
 Entonces, para instalar todos los paquetes sólo debemos ejecutar:
@@ -91,47 +360,308 @@ Entonces, para instalar todos los paquetes sólo debemos ejecutar:
 install.packages("tidyverse")
 ```
 
----
-class: left, top, highlight-last-item
-# ¿De qué hablamos cuando hablamos de *tidy data*?
+???
 
 ---
-class: left, top, highlight-last-item
-# Paquetes más populares
+class: center, top, highlight-last-item
+# Los paquetes que vamos a usar hasta cansarnos
 
----
-class: left, top, highlight-last-item
-# readr
+.pull-left.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png)
 
----
-class: left, top, highlight-last-item
-# dplyr
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png)
+]
 
----
-class: left, top, highlight-last-item
-# ggplot2
+.pull-right.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png)
 
-scales
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png)
+]
 
 ---
 class: left, top, highlight-last-item
-# tibble
+# readr 📖
+
+.pull-left-narrow[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+
+**readr** es un paquete para leer archivos de datos (csv, etc.).
+
+Fue diseñado para detectar automáticamente los tipos de datos en una base de datos.
+]
+
+.pull-right-wide[
+Un ejemplo:
+
+
+```r
+read_csv(here("presentaciones/2-2/data/penguins.csv"))
+```
+
+```
+FALSE # A tibble: 344 x 8
+FALSE    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+FALSE    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+FALSE  1 Adelie  Torgersen           39.1          18.7               181        3750
+FALSE  2 Adelie  Torgersen           39.5          17.4               186        3800
+FALSE  3 Adelie  Torgersen           40.3          18                 195        3250
+FALSE  4 Adelie  Torgersen           NA            NA                  NA          NA
+FALSE  5 Adelie  Torgersen           36.7          19.3               193        3450
+FALSE  6 Adelie  Torgersen           39.3          20.6               190        3650
+FALSE  7 Adelie  Torgersen           38.9          17.8               181        3625
+FALSE  8 Adelie  Torgersen           39.2          19.6               195        4675
+FALSE  9 Adelie  Torgersen           34.1          18.1               193        3475
+FALSE 10 Adelie  Torgersen           42            20.2               190        4250
+FALSE # … with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;
+```
+]
+---
+class: left, top, highlight-last-item
+# dplyr 🔧
+
+.pull-left-narrow[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+
+**dplyr** es una gramática de la manipulación de datos.
+
+Provee una conjunto de **verbos** que ayudan a resolver los problemas más comunes de manipulación de datos.
+
+- **mutate()** agrega una nueva variables (columna) que es función de las existentes
+- **select()** elige variables basadas en su nombre.
+- **filter()** filtra observaciones basadas en su valor
+- **summarise()** reduce múltiples observaciones a un valor sumarizado
+- **arrange()** cambia el orden de las filas
+
+¡En la lección que sigue los vamos a ver en acción! 
+]
+
+???
 
 ---
 class: left, top, highlight-last-item
-# Otros paquetes copados
+# ggplot2 📉
 
-xaringan
-stringr
-broom
-purrr
-rmarkdown
-gtable
+.pull-left-narrow[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+**ggplot2** de *grammar of graphics* es un sistema declarativo de creación de gráficos
+
+No es sólo una librería sino toda una forma de crear los gáficas
+
+Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+
+.pull-left[
+Podés pasar de esto:
+
+&lt;img src="Tidyverse_1_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+A esto:
+
+&lt;img src="Tidyverse_1_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+¡Toda la segunda parte de esta semana vamos a jugar con **ggplot2**!
+
+]
+
+
+
+???
+
+---
+class: left, top, highlight-last-item
+# tibble #️⃣
+
+.pull-left-narrow[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+
+Un **tibble** (o **tbl_df**) es una reversión moderna del **data.frame**
+
+
+```r
+as_tibble(iris)
+```
+
+```
+FALSE # A tibble: 150 x 5
+FALSE    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+FALSE           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+FALSE  1          5.1         3.5          1.4         0.2 setosa 
+FALSE  2          4.9         3            1.4         0.2 setosa 
+FALSE  3          4.7         3.2          1.3         0.2 setosa 
+FALSE  4          4.6         3.1          1.5         0.2 setosa 
+FALSE  5          5           3.6          1.4         0.2 setosa 
+FALSE  6          5.4         3.9          1.7         0.4 setosa 
+FALSE  7          4.6         3.4          1.4         0.3 setosa 
+FALSE  8          5           3.4          1.5         0.2 setosa 
+FALSE  9          4.4         2.9          1.4         0.2 setosa 
+FALSE 10          4.9         3.1          1.5         0.1 setosa 
+FALSE # … with 140 more rows
+```
+]
+
+???
+Un **tibble** (o **tbl_df**) es una reversión moderna del **data.frame**, conservando lo que se probó efectivo y tirando lo que no.
+
+Los **tibbles** son data frames vagos: Hacen menos (por ejemplo, no cambian nombres ni tipos de variables) y se quejan más (por ejemplo, cuando una variable no existe)
+
+Esto nos fuerza a confrontar los problemas antes, llevando típicamente a código más limpio y expresivo.
+
+---
+class: center, top, highlight-last-item
+# Paquetes para echarles un 👁
+
+.pull-left.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
+]
+
+.pull-right.center[
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
+
+![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
+]
+
+---
+class: left, top, highlight-last-item
+# Los pinguinos de Palmer 🐧
+
+.pull-left-narrow[
+&lt;img src="https://allisonhorst.github.io/palmerpenguins/reference/figures/palmerpenguins.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+Una librería con datos de **pinguinos** que vamos a usar mucho!
+
+
+```r
+install.packages("palmerpenguins")
+```
+
+
+```r
+library(palmerpenguins)
+
+*head(penguins) %&gt;%
+  kbl() %&gt;%
+  kable_styling(font_size = 11) 
+```
+
+&lt;table class="table" style="font-size: 11px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; species &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; island &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bill_length_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bill_depth_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; flipper_length_mm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; body_mass_g &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 181 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3750 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 186 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3800 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 40.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 195 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3250 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 193 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3450 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adelie &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Torgersen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 190 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3650 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+No se preocupen por los **%&gt;%** en el código, ya vamos a entender perfectamente qué significa...
+]
+
+???
+The goal of palmerpenguins is to provide a great dataset for data exploration &amp; visualization, as an alternative to iris.
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Wickham, H. (2014). Tidy data. Journal of statistical software, 59(1), 1-23.
+
+- Wickham, H., &amp; Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
+]]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "solarized-dark",
 "highlightLines": true,
 "countIncrementalSlides": false,
 "navigation": {

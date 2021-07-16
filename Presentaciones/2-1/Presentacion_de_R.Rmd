@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,31 +20,57 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
 ```
 
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
-```
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(primary_color = "#A42339", 
+
+style_duo_accent(primary_color = "#A42339",
                  secondary_color = "#BADEFC",
-                 base_font_size = "20px",
+                 code_highlight_color = "#BADEFC",
+                 base_font_size = "18px",
                  text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
+                 text_slide_number_font_size = "0.8rem",
+                 code_font_size = "0.8rem",
+                 header_h1_font_size = "2.5rem",
+                 header_h2_font_size = "2rem",
+                 header_h3_font_size = "1.5rem",
                  header_font_google = google_font("Work Sans", "600"),
                  text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+                 code_font_google = google_font("Fira Mono")
 )
 ```
 
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
 
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
@@ -71,13 +99,27 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 class: left, top, highlight-last-item
 # Gratis y Open-source
 
+![:scale 30%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
 ---
 class: left, top, highlight-last-item
-# Popular
+# Common Descriptive and Statistical Analyses
 
 ---
 class: left, top, highlight-last-item
 # La comunidad
+
+---
+class: left, top, highlight-last-item
+# El uso de R en las ciencias
+
+---
+class: left, top, highlight-last-item
+# Reproductibilidad
+
+---
+class: left, top, highlight-last-item
+# EL lenguaje R
 
 ---
 class: left, top, highlight-last-item
@@ -87,10 +129,6 @@ class: left, top, highlight-last-item
 class: left, top, highlight-last-item
 # Pensar los modelos y analizar los resultados
 Hablar del fork
-
----
-class: left, top, highlight-last-item
-# Versatilidad
 
 ---
 class: left, top, highlight-last-item
@@ -112,4 +150,15 @@ class: left, top, highlight-last-item
 class: left, top, highlight-last-item
 # Infinidad de recusos increibles
 
+Qué son los paquetes
+
 Por ejemplo esta presentación, el sitio de la materia, etc...
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Barrett, T. S. (2019). Six Reasons to Consider Using R in Psychological Research.
+
+]]

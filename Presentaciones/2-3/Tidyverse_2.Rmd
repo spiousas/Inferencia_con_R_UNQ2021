@@ -7,10 +7,12 @@ date: "(updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     seal: false
-    css: "xaringan-themer.css"
+    css: 
+      - xaringan-themer.css
+      - custom.css
     nature:
-      highlightStyle: solarized-dark
       highlightLines: true
+      beforeInit: "macros.js"
       countIncrementalSlides: false
       navigation: 
         scroll: false
@@ -18,31 +20,56 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
 ```
 
-```{r xaringanExtra, echo = FALSE}
-xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
-```
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(primary_color = "#A42339", 
-                 secondary_color = "#BADEFC",
-                 base_font_size = "20px",
-                 text_font_size = "1rem",
-                 text_slide_number_font_size = "0.5rem",
-                 header_h1_font_size = "2rem",
-                 header_h2_font_size = "1.5rem",
-                 header_h3_font_size = "1.25rem",
-                 header_font_google = google_font("Work Sans", "600"),
-                 text_font_google = google_font("Work Sans", "300", "300i"),
-                 code_font_google = google_font("IBM Plex Mono")
+
+style_mono_accent(base_color = "#A42339",
+                  code_highlight_color = "#BADEFC",
+                  base_font_size = "18px",
+                  text_font_size = "1rem",
+                  text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.8rem",
+                  header_h1_font_size = "2.5rem",
+                  header_h2_font_size = "2rem",
+                  header_h3_font_size = "1.5rem",
+                  header_font_google = google_font("Work Sans", "600"),
+                  text_font_google = google_font("Work Sans", "300", "300i"),
+                  code_font_google = google_font("Fira Mono")
 )
 ```
 
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
 
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
@@ -73,27 +100,277 @@ Pablo Etchemendy
 class: left, top, highlight-last-item
 # Leamos unos datos
 
-Están en formato tidy?
-
-Qué hacer si no?
-
-TidyR al rescate con pivot_longer()
-
-```{r image_tidyr, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
+```{r}
+test <- read_csv( here("presentaciones/2-3/data/test.csv"))
+test
 ```
 
+Están en formato tidy?
 
+---
+class: left, top, highlight-last-item
+# Leamos unos datos
+No hay problema, **tidyr** al rescate con pivot_longer() ![:scale 5%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png)
+
+
+```{r}
+test2 <- test %>% 
+    pivot_longer(c(test_1, test_2), names_to = "test", values_to = "grade") %>% 
+    arrange(id, test)
+test2
+```
+
+Pero... ¿Qué son los **%>%**?
+---
+class: left, top, highlight-last-item
+# Piping **%>%**  
+
+Use %>% to emphasise a sequence of actions, rather than the object that the actions are being performed on.
+
+.pull-left[
+Por ejemplo, si queremos ordena los valores únicos de una lista:
+
+```{r}
+x <- c(1, 3, 1, 2, 1, 3)
+
+x_unique <- unique(x)
+
+x_sorted <- sort(x_unique)
+x_sorted
+```
+]
+
+.pull-right[
+Las funciones se pueden encadenar en una línea de código
+```{r}
+x <- c(1, 3, 1, 2, 1, 3)
+
+x_sorted <- x %>%
+            unique() %>%
+            sort()
+x_sorted
+```
+]
+
+Es decir, la función después del **%>%** toma como input lo que sale del paso anterior.
+
+.center[![:scale 10%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/pipe.png)]
+
+Igual tranquilxs que lo vamos a usar **MUCHO** y ya va a ir quedando claro
 ---
 class: left, top, highlight-last-item
 # Acá llega lo bueno!
 
-DPLYR
+Una vez que tenemos los datos acomodados podemos usar las funciones de **dplyr** para crear una columna con los datos normalizados
+
+En lo que sigue vamos a usar los datos de **Palmer penguins**
+
+```{r}
+penguins %>% 
+  head() %>%
+  kbl() %>%
+  kable_styling(font_size = 11) 
+```
 
 ---
 class: left, top, highlight-last-item
-# Promedios y más...
+# Calculemos el promedio del peso por especie
+
+Primero agrupamos los datos por especie
+
+```{r}
+grouped_penguins <- group_by(penguins, species)
+```
 
 ---
 class: left, top, highlight-last-item
-# *piping* FTW
+# Calculemos el promedio del peso por especie
+
+Y ahora calculamos el promedio
+
+```{r}
+summarise(grouped_penguins, mass = mean(body_mass_g))
+```
+
+Automáticamente se da cuenta que los promedios deben ser por especie
+
+--
+
+Vamos a sacarnos de encima a los NAs
+
+```{r}
+summarise(grouped_penguins, mean_mass = mean(body_mass_g, na.rm = TRUE))
+```
+
+---
+class: left, top, highlight-last-item
+# Calculemos el promedio del peso por especie
+
+Pongamos en práctica el **%>%**
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarise(mean_mass = mean(body_mass_g, 
+                             na.rm = TRUE))
+
+```
+
+El operador **%>%** no sólo nos ayuda a tener menos líneas de código sino un código **más ordenado**
+
+---
+class: left, top, highlight-last-item
+# Calculemos una nueva columna 
+
+![:scale 30%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png) La vamos a hacer con la suma del ancho y largo del pico.
+
+El verbo de **dplyr** que vamos a usar ahora es **mutate()**
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  mutate(sum_bill = bill_length_mm + bill_depth_mm) %>%
+  head()
+```
+
+---
+class: left, top, highlight-last-item
+# Elijamos algunas columnas
+
+Vamos a quedarnos con la  **especie**, la **isla** y la **nueva columna**.
+
+El verbo para seleccionar columnas es... bueno... **select()**
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  mutate(sum_bill = bill_length_mm + bill_depth_mm) %>%
+  select(c(species, island, sum_bill)) 
+```
+
+---
+class: left, top, highlight-last-item
+# Y ahora elijamos unos casos
+
+Vamos a quedarnos con los especímentes en los que **sum_bill** es  **mayor a 58 mm **
+
+En este caso el verbo de  **dplyr** que tenemos que usar es **filter()**
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  mutate(sum_bill = bill_length_mm + bill_depth_mm) %>%
+  select(c(species, island, sum_bill)) %>%
+  filter(sum_bill > 58)
+```
+
+Pasamos de **334** filas a **222**
+
+---
+class: left, top, highlight-last-item
+# Por último, ordenarlos
+
+Vamos a urdenar los casos de menos a mayor **sum_bill**
+
+El último verbo de  **dplyr** que nos queda es **arrange()**
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  mutate(sum_bill = bill_length_mm + bill_depth_mm) %>%
+  select(c(species, island, sum_bill)) %>%
+  filter(sum_bill > 58) %>%
+  arrange(sum_bill)
+```
+
+Vimos como concatenar verbos de **dplyr** para extraer información de un dataset.
+
+---
+class: left, top, highlight-last-item
+# Ahora pensemos en una apliación
+
+### ¿Y si queremos eliminar outliers de peso por isla y por especie?
+
+Vamos a eliminar los casos en los que el peso sea mayor a **mediana + 1.5IQR** y menor a **mediana - 1.5IQR**, donde IQR es el intervalo intercuartil
+
+Pensemos los pasos que tenemos que llevar adelante
+
+* Calcular la mediana y el IQR por isla y especie
+  * asdf
+  
+* Armar una columna con los límites para poder comparar (**mutate()**)
+
+* Elegir sólo a los animales que están en ese intervalo (**filter()**) 
+
+---
+class: left, top, highlight-last-item
+# Outliers por especie y por isla ![:scale 10%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+### Calcular la mediana y el IQR por isla y especie
+
+Tenemos que hacer un group_by por isla y especie
+```{r}
+penguins %>%
+  group_by(species, island) %>%
+  mutate(median_mass = median(body_mass_g, na.rm = TRUE),
+         IQR_mass = IQR(body_mass_g, na.rm = TRUE))
+```
+---
+class: left, top, highlight-last-item
+# Outliers por especie y por isla ![:scale 10%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+### Armar una columna con los límites para poder comparar
+
+Una columna **median_mass + 1.5*IQR_mass** y otra **median_mass - 1.5I*QR_mas**
+
+```{r}
+penguins %>%
+  group_by(species, island) %>%
+  mutate(median_mass = median(body_mass_g, na.rm = TRUE),
+         IQR_mass = IQR(body_mass_g, na.rm = TRUE)) %>%
+  mutate(lim_sup = median_mass + 1.5*IQR_mass,
+         lim_inf = median_mass - 1.5*IQR_mass)
+```
+
+---
+class: left, top, highlight-last-item
+# Outliers por especie y por isla ![:scale 10%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+### Armar una columna con los límites para poder comparar
+
+Las podemos armar de un sólo paso:
+
+```{r}
+penguins %>%
+  group_by(species, island) %>%
+  mutate(lim_sup = median(body_mass_g, na.rm = TRUE) + 1.5*IQR(body_mass_g, na.rm = TRUE),
+         lim_inf = median(body_mass_g, na.rm = TRUE) - 1.5*IQR(body_mass_g, na.rm = TRUE))
+```
+
+---
+class: left, top, highlight-last-item
+# Outliers por especie y por isla ![:scale 10%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+### Elegir sólo a los animales que están en ese intervalo
+
+Ahora tenemos que filtrar los casos menores a **lim_sup** y mayores a **lim_inf**
+
+```{r}
+penguins %>%
+  group_by(species, island) %>%
+  mutate(lim_sup = median(body_mass_g, na.rm = TRUE) + 1.5*IQR(body_mass_g, na.rm = TRUE),
+         lim_inf = median(body_mass_g, na.rm = TRUE) - 1.5*IQR(body_mass_g, na.rm = TRUE)) %>%
+  filter((body_mass_g<lim_sup) & (body_mass_g>lim_inf))
+```
+
+Pasamos de **344** a **326** casos
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Wickham, H. (2014). Tidy data. Journal of statistical software, 59(1), 1-23.
+
+- Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
+]]
