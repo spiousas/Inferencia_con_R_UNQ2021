@@ -79,11 +79,7 @@ xaringanExtra::use_tile_view()
 
 ```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
-```
-
-```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/scales.png")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -94,7 +90,7 @@ Ignacio Spiousas
 Pablo Etchemendy
 [`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
 
-`r Sys.Date()`
+**Agosto 2021**
 
 ---
 class: left, top, highlight-last-item
@@ -275,22 +271,25 @@ Una buena analogía son las viejas películas de Disney en las que los artistas 
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_point()
 
-* **geom_point()** mapea coordenadas x e y en un punto
-
-.pull-left[
 ```{r ggplot_point, eval = FALSE}
 ggplot(data = penguins, 
        aes(x = bill_length_mm,
            y = bill_depth_mm)) + 
   geom_point() #<<
+
+```
+
+.pull-left[
+```{r ggplot_point-out, ref.label="ggplot_point", fig.align = "center", out.width = "80%", echo=FALSE}
 ```
 ]
 
 .pull-right[
-```{r ggplot_point-out, ref.label="ggplot_point", fig.align = "center", out.width = "80%", echo=FALSE}
-```
+**geom_point()** mapea coordenadas x e y en un punto
+
+Puede ser usado con variables tanto continuas como catagóricas
 ]
 
 ???
@@ -298,9 +297,7 @@ Y la geometría, o la forma en la que vamos a representar esos datos utilizando 
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
-
-* **geom_line()** mapea coordenadas x e y en un punto
+# geom_line()
 
 .small[
 ```{r ggplot_line, eval = FALSE}
@@ -370,9 +367,7 @@ Por qué hay sólo dos líneas?
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
-
-* **geom_col()** 
+# geom_col()
 
 .small[
 ```{r ggplot_col1, eval = FALSE}
@@ -391,6 +386,10 @@ penguins %>%
 ]
 
 .pull-right[
+
+**geom_col()** 
+
+
 Hablar de que en el eje x también puede haber una variable categorica
 
 Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
@@ -399,8 +398,6 @@ Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
 ---
 class: left, top, highlight-last-item
 # Exploremos las geometrías
-
-* **geom_col()** 
 
 .small[
 ```{r ggplot_col2, eval = FALSE}
@@ -419,14 +416,14 @@ penguins %>%
 ]
 
 .pull-right[
-Agrupamos y ahora entendemos la figura de puntos anteior
+¿Por qué están apilados?
+
+¿Podemos hacer algo para verlo mejor?
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
-
-* **geom_col()** 
+# geom_col()
 
 .small[
 ```{r ggplot_col3, eval = FALSE}
@@ -446,14 +443,16 @@ penguins %>%
 ]
 
 .pull-right[
-Se ve mejor con colores
+Ahora que agrupamos podemos entender por qué acá hay dos líneas:
+<br>
+```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "80%", echo=FALSE}
+```
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_col()
 
-* **geom_histogram**
 
 .small[
 ```{r ggplot_hist1, eval = FALSE}
@@ -469,13 +468,14 @@ penguins %>%
 ]
 
 .pull-right[
+**geom_histogram** permite visuzlizar la distribución de una sola variable continua dividiendo el eje x en bines y contando el número de observaciones en cada bin
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_histogram
 
-* **geom_histogram**
+¿Y si queremos ver el histograma por **especie**?
 
 .small[
 ```{r ggplot_hist2, eval = FALSE}
@@ -492,13 +492,14 @@ penguins %>%
 ]
 
 .pull-right[
+¿Se ve bien?
+
+¿Cómo podemos mejorarlo?
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
-
-* **geom_histogram**
+# geom_histogram
 
 .small[
 ```{r ggplot_hist3, eval = FALSE}
@@ -516,21 +517,45 @@ penguins %>%
 ]
 
 .pull-right[
+![:scale 60%](./figs/fort.png)
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_freqpoly
 
-**geom_density**
+.small[
+```{r ggplot_hist4, eval = FALSE}
+penguins %>%
+    ggplot(aes(x = bill_length_mm,
+               color = species)) + #<<
+    geom_freqpoly() + #<<
+    facet_grid(species ~ .) 
+```
+]
+
+.pull-left[
+```{r ggplot_hist4-out, ref.label="ggplot_hist4", fig.align = "center", out.width = "80%", echo=FALSE}
+```
+]
+
+.pull-right[
+También se puede usar **geom_freqpoly** que es una curva que uno los centros de los bines del histograma
+
+Cambiamos el mapeo de la columna **species** de **fill** a **color**
+]
+
+---
+class: left, top, highlight-last-item
+# geom_density
 
 .small[
 ```{r ggplot_density, eval = FALSE}
 penguins %>%
     ggplot(aes(x = bill_length_mm,
                fill = species)) +
-    geom_density() +
-    facet_grid(species ~ .) #<<
+    geom_density() + #<<
+    facet_grid(species ~ .) 
 ```
 ]
 
@@ -540,22 +565,24 @@ penguins %>%
 ]
 
 .pull-right[
+**geom_density** computa y dibuja la densidad de probabilidades estimada, que es uan versión suavizada del histograma. 
+
+Es una alternativa al histograma útil para datos continuos que provienen de una distribución "suave" subyacente.
 ]
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_density
 
-**geom_density**
 ```{r ggplot_density2, eval = FALSE}
 penguins %>%
     ggplot(aes(x = bill_length_mm,
                fill = species)) +
     geom_density() +
-    geom_histogram(aes(y = ..density..),
+    geom_histogram(aes(y = ..density..), #<<
                    color = "black",
                    alpha = 0.5) +
-    facet_grid(species ~ .)#<<
+    facet_grid(species ~ .)
 ```
 ]
 
@@ -565,6 +592,7 @@ penguins %>%
 ]
 
 .pull-right[
+De hecho, podemos juntar **geom_density** y **geom_histogram** en la misma figura.
 ]
 
 ---
@@ -572,23 +600,23 @@ class: left, top, highlight-last-item
 # Resumiendo
 
 .pull-left-narrow[**geom_point()**]
-.pull-right-wide[Es bal bla]
+.pull-right-wide[Mapeo dos columnas de los datos a las posiciones *x* e *y*]
 
 <br><br>
 .pull-left-narrow[**geom_line()**]
-.pull-right-wide[Es bal bla]
+.pull-right-wide[Mapeo dos columnas de los datos a las posiciones *x* e *y* y las une con una línea]
 
 <br><br>
 .pull-left-narrow[**geom_col()**]
-.pull-right-wide[Es bal bla]
+.pull-right-wide[A cada columna categórica le asigna una barra de otra columna dad]
 
 <br><br>
 .pull-left-narrow[**geom_histogram()**]
-.pull-right-wide[Es bal bla]
+.pull-right-wide[Plotea el histograma de una columna]
 
 <br><br>
 .pull-left-narrow[**geom_density()**]
-.pull-right-wide[Es bal bla]
+.pull-right-wide[Plotea la densidad de probabilidades de una columna]
 
 --
 <br><br>	

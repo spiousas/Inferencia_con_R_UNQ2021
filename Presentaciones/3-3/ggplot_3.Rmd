@@ -103,9 +103,11 @@ gggibous
 ggbees
 
 Estética
+scales
 gghtemer
 ggpubr
 paletas
+
 
 Combinar
 Patchwork
@@ -119,160 +121,6 @@ asf
 Estadística
 ggstatplot
 
-
----
-class: left, top, highlight-last-item
-# Nociones básicas
-
-El concepto de **grammar of graphics** es la forma en que una cualidad del gráfico se relaciona con un dato de mi dataset.
-
-Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
-
-.pull-left[
-```{r ggplot_1, eval = FALSE}
-ggplot(data = penguins,
-       aes(x = bill_length_mm,
-           y = bill_depth_mm)) +
-  geom_point(alpha = 0.5)
-```
-]
-
-.pull-right[
-```{r ggplot_1-out, ref.label="ggplot_1", fig.align = "center", out.width = "80%", echo=FALSE}
-```
-]
-
-Y **ggplot2** se encarga del resto!
-
----
-class: left, top, highlight-last-item
-# Nociones básicas
-
-Por ejemplo, le podemos decír que el **color** mapée la especie
-
-.pull-left[
-```{r ggplot_2, eval = FALSE}
-ggplot(data = penguins,
-       aes(x = bill_length_mm,
-           y = bill_depth_mm,
-           color = species)) +
-  geom_point(alpha = 0.5)
-```
-]
-
-.pull-right[
-```{r ggplot_2-out, ref.label="ggplot_2", fig.align = "center", out.width = "100%", echo=FALSE}
-```
-]
-
----
-# Nociones básicas
-
-O que el **color** sea una variable continua como el peso
-
-.pull-left[
-```{r ggplot_3, eval = FALSE}
-ggplot(data = penguins,
-       aes(x = bill_length_mm,
-           y = bill_depth_mm,
-           color = body_mass_g)) +
-  geom_point(alpha = 0.5)
-```
-]
-
-.pull-right[
-```{r ggplot_3-out, ref.label="ggplot_3", fig.align = "center", out.width = "100%", echo=FALSE}
-```
-]
-
-Esto es, en su forma más básica, como funciona la **grammar of graphics** y **ggplot2**
-
----
-# The grammar of graphics
-
-Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
-
-Los datos:
-
-```{r, eval = FALSE}
-ggplot(data = penguins, #<<
-       aes(x = bill_length_mm,
-           y = bill_depth_mm,
-           color = body_mass_g)) +
-  geom_point(alpha = 0.5)
-```
-
----
-# The grammar of graphics
-
-Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
-
-La estética, o el mapeo enter variables y cualidades de la gráfica:
-
-```{r, eval = FALSE}
-ggplot(data = penguins, 
-       aes(x = bill_length_mm, #<<
-           y = bill_depth_mm, #<<
-           color = body_mass_g)) + #<<
-  geom_point(alpha = 0.5)
-```
-
----
-# The grammar of graphics
-
-Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
-
-Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
-
-```{r, eval = FALSE}
-ggplot(data = penguins, 
-       aes(x = bill_length_mm,
-           y = bill_depth_mm, 
-           color = body_mass_g)) + 
-  geom_point(alpha = 0.5) #<<
-```
-
-Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
-
-También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
-
---
-
-Lo último que queda por definir es la estética, o el **tema**, de la figura, pero para eso va a haber tiempo...
-
----
-# Exploremos un poco las geometrías
-
-geom_point
-
-geom_line
-
-geom_col
-
-geom_histogram
-
-geom_density
-
-Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
-
-```{r, eval = FALSE}
-ggplot(data = penguins, 
-       aes(x = bill_length_mm,
-           y = bill_depth_mm, 
-           color = body_mass_g)) + 
-  geom_point(alpha = 0.5) #<<
-```
-
-Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
-
-También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
-
-pipeable
----
-# Los stats
-
----
-# Por último, hablemos de themes
 
 
 ---

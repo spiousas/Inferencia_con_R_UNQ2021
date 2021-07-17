@@ -20,10 +20,11 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
-pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins, patchwork)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
+theme_set(theme_grey(base_size = 18)) 
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
@@ -51,10 +52,12 @@ xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
 extra_css <- list(
   ".pull-left-narrow" = list("float" = "left",
                              "width" = "20%"),
-  ".pull-right-wide" = list("float"  = "left",
+  ".pull-right-wide" = list("float"  = "right",
                              "width" = "75%"),
-  ".small" = list("font-size"  = "90%"),
-  ".big" = list("font-size"  = "120%"),
+  ".small" = list("font-size" = "90%"),
+  ".tiny" = list("font-size"  = "50%"),
+  ".big" = list("font-size"   = "120%"),
+  ".huge" = list("font-size"  = "150%"),
   ".full-width" = list("display" = "flex",
                        "width"   = "100%",
                        "flex"    = "1 1 auto"),
@@ -76,11 +79,7 @@ xaringanExtra::use_tile_view()
 
 ```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
-```
-
-```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/scales.png")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -91,7 +90,7 @@ Ignacio Spiousas
 Pablo Etchemendy
 [`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
 
-`r Sys.Date()`
+**Agosto 2021**
 
 ---
 class: left, top, highlight-last-item
