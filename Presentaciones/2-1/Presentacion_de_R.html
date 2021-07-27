@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>¿Por qué R?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ignacio Spiousas y Pablo Etchemendy" />
+    <script src="Presentacion_de_R_files/header-attrs-2.9/header-attrs.js"></script>
+    <script src="Presentacion_de_R_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="Presentacion_de_R_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="Presentacion_de_R_files/tile-view-0.2.6/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+
+
+
+
+<style>.xe__progress-bar__container {
+  bottom:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 0.25em;
+  background-color: #A42339;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
+
+# ¿Por qué R?
+### Análisis estadístico utilizando R
+
+UNQ UNTreF CONICET
+
+Ignacio Spiousas
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/spiousas) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/https://github.com/petcheme) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/petcheme)
+
+2021-07-27
+
+---
+class: center, middle, inverse
+
+Como un anticipo del curso, les cuento que esta presentación ha sido preparada enteramente en **R** 🎉 usando los paquete **Rmarkdown**📦 y **Xaringan**📦
+
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png" width="10%" /&gt;
+
+---
+class: left, top, highlight-last-item
+# Gratis y Open-source
+
+El hecho de que **R** se gratís es especialmente beneficiosos para estudiantes e investigadors en países en desarrollo
+
+Además, **R** es muy utilizado tanto en la academia como en la industria y su popularidad ha crecido en los años recientes
+
+.pull-left.center[
+![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/plot_tags_time-1-768x768.png)
+.caption[*fuente:* Robinson(2017)]
+]
+
+.pull-right.center[
+![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/by_industry_graph-1-768x768.png)
+.caption[*fuente:* Robinson(2017)]
+]
+
+---
+class: left, top, highlight-last-item
+# La comunidad
+
+Una de las principales razones para comenzar y continuar usando **R** es su comunidad.
+
+Una comunidad diversa en términos de expertise, identidad, ubicación, afilizaciones y experiencia.
+
+Hay una gan cantidad de recursos gratuitos incluidos **tutoriales** y **libros**
+
+.center[
+![:scale 20%](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png)´
+![:scale 20%](https://images.routledge.com/common/jackets/crclarge/978081538/9780815384571.jpg)
+![:scale 20%](https://bookdown.org/yihui/rmarkdown/images/cover.png)
+]
+
+???
+Como tal, muchos en la comunidad R están motivados por la colaboración y la interdependencia entre investigadores.
+
+---
+class: left, top, highlight-last-item
+# El uso de R en las ciencias
+
+**R** es cada día un recurso más ubicuo en las publicaciones académicas
+
+Muchos de los métodos estadísticos "de moda" tienen implementaciones en **R**
+
+.center[
+![:scale 50%](https://wrathematics.github.io/assets/marketshare.png)
+.caption.center[[Fuente](https://librestats.com/2012/04/12/statistical-software-popularity-on-google-scholar/)]
+]
+
+
+---
+class: left, top, highlight-last-item
+# Adaptable y flexible
+
+###Adaptabilidad
+
+Los usuarios de **R** pueden escribir paquetes que aumenten las capacidades de **R**
+
+Existen miles de **paquetes** disponibles online para agregarle funcionalidades al **R Base**
+
+
+###Flexibilidad
+
+**R** nos permite configurar los parámetros de la gran mayoría de los métodos y funciones de una manera mucho más directa que los sofware propietarios
+
+???
+La adaptabilidad de **R** significa que los métodos estadísticao más modernos están disponibles en R años antes que en los software propietarios.
+
+Suponga que desea realizar un procedimiento estadístico pero modificarlo ligeramente. En un lenguaje propietario, esto suele ser difícil: el código utilizado para ejecutar el procedimiento se mantiene oculto y los únicos parámetros que puede cambiar son los que se incluyen como opciones y se muestran al usuario. En R, es mucho más fácil realizar cambios.
+
+---
+class: left, top, highlight-last-item
+# Los paquetes de R 📦 
+
+Existe una infinidad de paquetes para ayudarnos a trabajar en **R**
+
+Para instalarlos debemos ejecutar:
+
+
+```r
+install.packages("paquete_ejemplo")
+```
+
+Una vez instalado se lo debe cargar a la sesión con:
+
+
+```r
+library(paquete_ejemplo)
+```
+
+.center[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png" width="20%" /&gt;
+
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/pipe.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png" width="10%" /&gt;
+]
+???
+A veces para instalar paquetes, sobre todo cuando son nuevos, hay que seguir los pasos del desarrollador.
+
+Les recomiedno buscar la página de Github de los paquetes.
+
+Durante el curso vamos a utilizar principalmente los paquetes del **Tidyverse** y los utilizados para el ajuste de **modelos lineales de efectos mixtos**
+---
+class: left, top, highlight-last-item
+# Un paso hacia la ciencia abierta
+
+### Reproductibilidad
+
+Otra razón importante para considerar **R** es que hay muchas herramientas gratuitas diseñadas para incrementar la **reproductibilidad** en ciencia
+
+Por ejemplo, utilizando plataformas como **Open Science Framework** todo el pipeline de análisis puede ser abierto y transparente
+
+### Replicabilidad y control de cambios
+Es posible generar scripts de análisis o documentos utilizando **Rmarkdown** 
+
+**R** ofrece la posibilidad de utilizar sistemas de control de cambios tipo **git** para trabajar colaborativamente y de forma organizada.
+
+Por ejemplo, se puede adjuntar a un trabajo un noteboook de **Rmarkdown** o una **Shiny app** para que la comunidad pueda utilizar nuestros datos y repetir nuestros análisis
+
+???
+Existen también paquetes como papaja que permiten escribir artículos directamenten en RMarkdown
+
+Las ventajas de **R** sobre un software en el que tenemos que cargar los datos y clickear es que es muy sencillo repetir los análisis, ya sea con distintos dataset o con pequeños cambios (por ejemplo, cambiando algún parámetro)
+
+
+---
+class: left, top, highlight-last-item
+# El lenguaje R
+
+El lenguaje **R** ha mejorado tanto en mejoras en el **R** base como en mediante el desarrollo de **paquetes**
+
+Con unas líneas de código podemos **importar** los datos, **crear** una variable y **calcular** las medias por grupo.
+
+
+```r
+library(dplyr)
+
+data &lt;- read_csv("mi_experimento.csv")    # Leer los datos
+data &lt;- mutate(data, nueva_var = var + 2) # Crear una nueva variable
+data &lt;- data %&gt;%
+  group_by(grupejo) %&gt;%
+  summarise(media = mean(new_var)         # Obtener la media por grupo
+```
+
+Esto nos permite **probar** cosas y **equivocarnos** sin necesidad de modificar los datos originales
+
+Esto se contrapone a los software **point and click** en los cuales hay que tener una versión de el archivo de datos para cada paso
+
+---
+class: left, top, highlight-last-item
+# Los beneficios de no clickear
+
+.center[
+![:scale 65%](./figs/golem.png)
+
+.caption[*Fuente:* McElreath, 2018]
+&lt;br&gt;
+&lt;br&gt;
+**Pensar los modelos y analizar los resultados**
+]
+
+---
+class: left, top, highlight-last-item
+# ¿Ya mencionamos a la comunidad?
+
+Existen grupos con actividades increíbles y una infinidad de actividades y recursos (por ejemplo, en **YouTube**)
+
+- **RenBaires** https://renbaires.github.io/
+![:scale 10%](https://renbaires.github.io/assets/icons/icon.png)
+
+- Hay muchos grupos de **RLadies** increíbles!
+  - **RLadies Buenos Aires** https://twitter.com/rladiesba
+  - **RLadies Oslo** https://twitter.com/rladiesoslo
+  - **RLadies Seattle** https://rladiesseattle.org/
+  
+También es una buena idea seguir los hashtags **#rtats** y **#tidytuesday** en Twitter 
+
+---
+class: left, top, highlight-last-item
+# Cómo olvidar gráficas tan lindas 🗻
+
+Aunque no lo crean estas infografías están hechas 100% utilizando **R**
+
+.center.mid[
+![:scale 50%](https://raw.githubusercontent.com/Z3tt/TidyTuesday/master/plots/2020_29/2020_29_Astronauts_blur_color.png)
+![:scale 45%](https://github.com/gkaramanis/tidytuesday/raw/master/week-23/ramen.png)
+]
+---
+class: left, top, highlight-last-item
+# Infinidad de recusos increibles
+
+.pull-left.center[
+**Presentaciones**
+
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
+
+**Reportes**
+
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+]
+
+
+.pull-right.center[
+**Libros**
+
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/bookdown.png)
+
+**Aplicaciones interactivas**
+
+![:scale 40%](http://hexb.in/hexagons/shiny.png)
+]
+???
+Hay una infinidad de paquetes y funcionalidades increíbles como las presentaciones de esta materia, que las hicimos con Xaringan y los reportes con RMarkdown o libros con Bookdown y las aplicaciones intercativas con ShinyApps.
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Barrett, T. S. (2019). Six Reasons to Consider Using R in Psychological Research.
+
+- Robinson, D. (2017, October). The impressive growth of r. StackOverflow Blog. Retrieved from https://stackoverflow.blog/2017/10/10/impressive-growth-r/
+
+- McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC.
+
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"countIncrementalSlides": false,
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
