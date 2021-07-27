@@ -443,7 +443,7 @@ p4 &lt;- ggplot(mtcars) + geom_bar(aes(carb))
 
 ---
 class: left, top, highlight-last-item
-# Datos geográficos (todo un 🌎)
+# Datos geográficos (todo un 🌐)
 
 Combinando el paquete **sf** con las funcionalidades de **ggplot2** se pueden hacer cosas muy lindas
 
@@ -487,14 +487,16 @@ install.packages("ggstatsplot")
 
 
 ```r
-# library(ggstatsplot)
-# 
-*# ggbetweenstats(
-#   data = iris,
-#   x = Species,
-#   y = Sepal.Length,
-#   title = "Distribution of sepal length across Iris species") 
+library(ggstatsplot)
+
+*ggbetweenstats(
+  data = iris,
+  x = Species,
+  y = Sepal.Length,
+  title = "Distribution of sepal length across Iris species")
 ```
+
+&lt;img src="ggplot_3_files/figure-html/ggstatsplot-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ???
 Como pueden ver, en la figura hay un montón de información estadística. Cosas como tests paramétricos, no paramétricos, bayesianos, etc...
@@ -506,7 +508,9 @@ class: left, top, highlight-last-item
 
 .center[![:scale 60%](figs/data-science-explore.png)]
 
-El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
+El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. 
+
+Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
 
 Vamos a ver un pequeño ejemplo...
 
@@ -516,7 +520,7 @@ class: left, top, highlight-last-item
 
 El viejo y conocido **barplot** o **dynamite plot**
 
-&lt;img src="ggplot_3_files/figure-html/dynamite_plot-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_3_files/figure-html/dynamite_plot-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 Es un gráfico simple que muestra la **media** y el **error estándar**
 
@@ -533,7 +537,7 @@ El viejo y conocido **barplot** o **dynamite plot**
 
 La información que nos muestra la gráfica es, de hecho, esta:
 
-&lt;table class=" lightable-paper lightable-hover" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+&lt;table class="table table-striped" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; x &lt;/th&gt;
@@ -561,7 +565,7 @@ class: left, top, highlight-last-item
 
 El viejo y conocido **barplot** o **dynamite plot**
 
-&lt;img src="ggplot_3_files/figure-html/dynamite_plot_2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_3_files/figure-html/dynamite_plot_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Las cosas no eran **TAN** distintas. Pero ¿Cómo lo podemos resolver?
 
@@ -685,9 +689,11 @@ class: left, top, highlight-last-item
 
 Más información sobre los **raincloud plots** se puede encontrar acá:
 
+.big[
 - [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
 
 - [Open letter to journal editors: dynamite plots must die](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/)
+]
 
 ---
 class: left, top, highlight-last-item

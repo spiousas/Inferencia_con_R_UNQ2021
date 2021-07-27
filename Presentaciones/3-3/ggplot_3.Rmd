@@ -490,14 +490,14 @@ class: left, top, highlight-last-item
 install.packages("ggstatsplot")
 ```
 
-```{r ggstatsplot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 8, fig.height = 5, out.width="50%", warning=FALSE}
-# library(ggstatsplot)
-# 
-# ggbetweenstats( #<<
-#   data = iris,
-#   x = Species,
-#   y = Sepal.Length,
-#   title = "Distribution of sepal length across Iris species") 
+```{r ggstatsplot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 8, fig.height = 5, out.width="60%", warning=FALSE}
+library(ggstatsplot)
+
+ggbetweenstats( #<<
+  data = iris,
+  x = Species,
+  y = Sepal.Length,
+  title = "Distribution of sepal length across Iris species")
 ```
 
 ???
@@ -510,7 +510,9 @@ class: left, top, highlight-last-item
 
 .center[![:scale 60%](figs/data-science-explore.png)]
 
-El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
+El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. 
+
+Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
 
 Vamos a ver un pequeño ejemplo...
 
@@ -520,7 +522,7 @@ class: left, top, highlight-last-item
 
 El viejo y conocido **barplot** o **dynamite plot**
 
-```{r dynamite_plot, fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="40%", echo=FALSE}
+```{r dynamite_plot, fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="50%", echo=FALSE}
 set.seed(0)
 n <- 20
 cases <- rnorm(n, log2(64), 0.25)
@@ -568,7 +570,7 @@ dat %>%
   summarise(media = mean(Outcome),
             error_estandar = sd(Outcome) / sqrt(n)) %>%
   kbl() %>%
-  kable_paper("hover", full_width = F)
+  kable_styling(bootstrap_options = "striped", font_size = 16)
 ```
 
 ---
@@ -577,7 +579,7 @@ class: left, top, highlight-last-item
 
 El viejo y conocido **barplot** o **dynamite plot**
 
-```{r dynamite_plot_2, fig.align = "center", dpi=300, fig.width = 10, fig.height = 5, out.width="80%", echo=FALSE}
+```{r dynamite_plot_2, fig.align = "center", dpi=300, fig.width = 10, fig.height = 5, out.width="100%", echo=FALSE}
 p2 <- dat %>% ggplot(aes(x = x,
                          y = Outcome,
                          fill = x)) +
@@ -647,7 +649,7 @@ dat %>% ggplot(aes(x = x, y = Outcome,
 ]
 
 .pull-right[
-```{r raincloud_plot_1-out, fig.show = "hold", ref.label="raincloud_plot_1", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```{r raincloud_plot_1-out, fig.show = "hold", ref.label="raincloud_plot_1", fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="100%", echo=FALSE}
 ```
 ]
 
@@ -680,7 +682,7 @@ dat %>% ggplot(aes(x = x, y = Outcome,
 ]
 
 .pull-right[
-```{r raincloud_plot_2-out, fig.show = "hold", ref.label="raincloud_plot_2", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```{r raincloud_plot_2-out, fig.show = "hold", ref.label="raincloud_plot_2", fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="100%", echo=FALSE}
 ```
 ]
 
@@ -717,7 +719,7 @@ dat %>% ggplot(aes(x = x, y = Outcome,
 ]
 
 .pull-right[
-```{r raincloud_plot_3-out, fig.show = "hold", ref.label="raincloud_plot_3", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```{r raincloud_plot_3-out, fig.show = "hold", ref.label="raincloud_plot_3", fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="100%", echo=FALSE}
 ```
 ]
 
@@ -727,9 +729,11 @@ class: left, top, highlight-last-item
 
 Más información sobre los **raincloud plots** se puede encontrar acá:
 
+.big[
 - [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
 
 - [Open letter to journal editors: dynamite plots must die](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/)
+]
 
 ---
 class: left, top, highlight-last-item
