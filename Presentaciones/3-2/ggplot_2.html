@@ -58,29 +58,274 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# ggplot2 📉
+# ggplot2 📈
 
-.pull-left-narrow[
-&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="20%" style="display: block; margin: auto;" /&gt;
+
+En esta breve presentación vamos a hablar un poco de geometrías más complejas, como algunas **geoms_** y **stats_**
+
+---
+class: left, top, highlight-last-item
+# geom_bar()
+
+Con **geom_col()** hay que calcular la media antes.
+
+.pull-left[
+
+```r
+penguins %&gt;%
+    group_by(species) %&gt;%
+    summarise(mMass = mean(body_mass_g,
+                           na.rm = TRUE)) %&gt;%
+    ggplot(aes(x = species,
+               y = mMass,
+               fill = species)) +
+*   geom_col()
+```
 ]
 
-.pull-right-wide[
-Como les conté antes **ggplot2** es un sistema declarativo de creación de gráficos basado en la **grammar of graphics**
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/bar1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
 
-No es sólo una librería sino toda una forma de crear los gáficas
+Usando **geom_bar()** se calcula la media de la magnitud en **y** para cada valor de **x**
 
-Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+.pull-left[
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = species,
+               y = body_mass_g,
+               fill = species)) +
+*   geom_bar(fun = "mean",
+*            stat = "summary")
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/bar2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 class: left, top, highlight-last-item
-# Los stats
+# stat_count
+
+**stat_count** cumple la misma tarea que **geom_bar()** pero contando los casos
+
+.pull-left[
+
+```r
+penguins %&gt;%
+    group_by(species) %&gt;%
+    summarise(N = n()) %&gt;%
+    ggplot(aes(x = species,
+               y = N,
+               fill = species)) +
+*   geom_col()
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/count1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+Podemos reemplazar ese pipe con esto:
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = species,
+             fill = species)) +
+* stat_count()
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/count-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]   
 
 ---
 class: left, top, highlight-last-item
-# Por último, hablemos de themes
+# stat_summary
+
+Usando **stat_summary()** agrega de alguna forma la magnitud en **y** para cada valor de **x**
+
+Por ejemplo, podemos calcular la media y el error estándar:
+
+.pull-left[
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = species,
+               y = body_mass_g,
+               color = species)) +
+*   stat_summary(fun.data = mean_se)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/summary1-out-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+O en formato barra:
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = species,
+               y = body_mass_g,
+               fill = species)) +
+* stat_summary(fun.data = mean_se,
+*                geom = "bar") +
+* stat_summary(fun.data = mean_se,
+*                geom = "errorbar")
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/summary2-out-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# geom_boxplot
+
+Un boxplot muestra de forma compacta la distribución de una variable continua.
+
+Es posible visualizar la **mediana**, el **IQR** y los **Outliers**
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = species,
+             y = body_mass_g,
+             color = species)) +
+* geom_boxplot()
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/boxplot1-out-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+También lo podemos usar para ver los datos y las estadísticas descriptivas
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = species,
+               y = body_mass_g,
+               color = species)) +
+* geom_boxplot(outlier.shape = NA) +
+* geom_jitter(width = 0.2)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/boxplot2-out-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+Mencionar que se puede ajustar el criterio de outliers en base al IQR
+---
+class: left, top, highlight-last-item
+# geom_violin
+
+**geom_violin()** nos permite graficar un **violin plot** de los datos
+
+Un **Violin plot** es una forma compacta de mostrar una distribución continua
+
+Es una mezcla entre un **geom_boxplot()** y **geom_density()**
+
+.pull-left[
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = species,
+               y = body_mass_g,
+               fill = species)) +
+*   geom_violin()
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/violin-out-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+Combinado con los datos crudos podemos hacer un **raincloud plot**, pero esa es historia para más adelnte
+
+---
+class: left, top, highlight-last-item
+# geom_smooth
+
+**geom_smooth** ayuda a ver patrones en nubes de puntos suporponiendo una capa suavizada
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  ggplot(aes(x = bill_length_mm,
+             y = bill_depth_mm)) +
+  geom_point() + 
+* geom_smooth()
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/smooth1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+Se puede forzar la **geometrìa** de esa capa
+
+.pull-left[
+
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  ggplot(aes(x = bill_length_mm,
+             y = bill_depth_mm)) +
+  geom_point() + 
+* geom_smooth(se = FALSE,
+*             method = lm)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_2_files/figure-html/smooth2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# geom_hex
+
+**geom_hex** divide el plano en polígonos regulares y cuenta la candidad de casos en cada **bin**
+
+Es una especie de **histograma bidimensional** o **heathmap discreto**
 
 
+```r
+penguins %&gt;%
+  filter(species == "Adelie") %&gt;%
+  ggplot(aes(x = bill_length_mm,
+             y = bill_depth_mm)) +
+* geom_hex(binwidth = c(1, 0.5))
+```
+
+
+&lt;img src="ggplot_2_files/figure-html/hex-out-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+class: left, top, highlight-last-item
+# Para seguir investigando...
+
+Pueden seguir investigando más **geoms**, capas y escalas [acá](https://ggplot2.tidyverse.org/reference/)
+
+![](figs/referencia.png)
 ---
 class: center, top
 # Referencias

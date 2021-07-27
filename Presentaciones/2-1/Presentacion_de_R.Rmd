@@ -34,7 +34,8 @@ style_duo_accent(primary_color = "#A42339",
                  base_font_size = "18px",
                  text_font_size = "1rem",
                  text_slide_number_font_size = "0.8rem",
-                 code_font_size = "0.8rem",
+                 code_font_size = "0.6rem",
+                 code_inline_font_size = "0.6rem",
                  header_h1_font_size = "2.5rem",
                  header_h2_font_size = "2rem",
                  header_h3_font_size = "1.5rem",
@@ -62,7 +63,9 @@ extra_css <- list(
   ".content" = list("position"   = "relative",
                     "top"        = "50%",
                     "transform"  = "translateY(-50%)",
-                    "text-align" = "center")
+                    "text-align" = "center"),
+  ".caption" = list("text-align" = "center",
+                    "font-size"  = ".6rem")
 )
 
 style_extra_css(css = extra_css, outfile = "custom.css")
@@ -99,66 +102,229 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 class: left, top, highlight-last-item
 # Gratis y Open-source
 
-![:scale 30%](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+El hecho de que **R** se gratís es especialmente beneficiosos para estudiantes e investigadors en países en desarrollo
 
----
-class: left, top, highlight-last-item
-# Common Descriptive and Statistical Analyses
+Además, **R** es muy utilizado tanto en la academia como en la industria y su popularidad ha crecido en los años recientes
+
+.pull-left.center[
+![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/plot_tags_time-1-768x768.png)
+.caption[*fuente:* Robinson(2017)]
+]
+
+.pull-right.center[
+![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/by_industry_graph-1-768x768.png)
+.caption[*fuente:* Robinson(2017)]
+]
 
 ---
 class: left, top, highlight-last-item
 # La comunidad
 
+Una de las principales razones para comenzar y continuar usando **R** es su comunidad.
+
+Una comunidad diversa en términos de expertise, identidad, ubicación, afilizaciones y experiencia.
+
+Hay una gan cantidad de recursos gratuitos incluidos **tutoriales** y **libros**
+
+.center[
+![:scale 20%](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png)´
+![:scale 20%](https://images.routledge.com/common/jackets/crclarge/978081538/9780815384571.jpg)
+![:scale 20%](https://bookdown.org/yihui/rmarkdown/images/cover.png)
+]
+
+???
+Como tal, muchos en la comunidad R están motivados por la colaboración y la interdependencia entre investigadores.
+
 ---
 class: left, top, highlight-last-item
 # El uso de R en las ciencias
 
----
-class: left, top, highlight-last-item
-# Reproductibilidad
+**R** es cada día un recurso más ubicuo en las publicaciones académicas
+
+Muchos de los métodos estadísticos "de moda" tienen implementaciones en **R**
+
+.center[
+![:scale 50%](https://wrathematics.github.io/assets/marketshare.png)
+.caption.center[[Fuente](https://librestats.com/2012/04/12/statistical-software-popularity-on-google-scholar/)]
+]
+
 
 ---
 class: left, top, highlight-last-item
-# EL lenguaje R
+# Adaptable y flexible
+
+###Adaptabilidad
+
+Los usuarios de **R** pueden escribir paquetes que aumenten las capacidades de **R**
+
+Existen miles de **paquetes** disponibles online para agregarle funcionalidades al **R Base**
+
+
+###Flexibilidad
+
+**R** nos permite configurar los parámetros de la gran mayoría de los métodos y funciones de una manera mucho más directa que los sofware propietarios
+
+???
+La adaptabilidad de **R** significa que los métodos estadísticao más modernos están disponibles en R años antes que en los software propietarios.
+
+Suponga que desea realizar un procedimiento estadístico pero modificarlo ligeramente. En un lenguaje propietario, esto suele ser difícil: el código utilizado para ejecutar el procedimiento se mantiene oculto y los únicos parámetros que puede cambiar son los que se incluyen como opciones y se muestran al usuario. En R, es mucho más fácil realizar cambios.
+
+---
+class: left, top, highlight-last-item
+# Los paquetes de R `r emo::ji("package")` 
+
+Existe una infinidad de paquetes para ayudarnos a trabajar en **R**
+
+Para instalarlos debemos ejecutar:
+
+```{r, eval=FALSE}
+install.packages("paquete_ejemplo")
+```
+
+Una vez instalado se lo debe cargar a la sesión con:
+
+```{r, eval=FALSE}
+library(paquete_ejemplo)
+```
+
+.center[
+```{r image_tidyverse, fig.show = "hold", out.width = "20%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```
+
+```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/pipe.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/dplyr.png")
+```
+]
+???
+A veces para instalar paquetes, sobre todo cuando son nuevos, hay que seguir los pasos del desarrollador.
+
+Les recomiedno buscar la página de Github de los paquetes.
+
+Durante el curso vamos a utilizar principalmente los paquetes del **Tidyverse** y los utilizados para el ajuste de **modelos lineales de efectos mixtos**
+---
+class: left, top, highlight-last-item
+# Un paso hacia la ciencia abierta
+
+### Reproductibilidad
+
+Otra razón importante para considerar **R** es que hay muchas herramientas gratuitas diseñadas para incrementar la **reproductibilidad** en ciencia
+
+Por ejemplo, utilizando plataformas como **Open Science Framework** todo el pipeline de análisis puede ser abierto y transparente
+
+### Replicabilidad y control de cambios
+Es posible generar scripts de análisis o documentos utilizando **Rmarkdown** 
+
+**R** ofrece la posibilidad de utilizar sistemas de control de cambios tipo **git** para trabajar colaborativamente y de forma organizada.
+
+Por ejemplo, se puede adjuntar a un trabajo un noteboook de **Rmarkdown** o una **Shiny app** para que la comunidad pueda utilizar nuestros datos y repetir nuestros análisis
+
+???
+Existen también paquetes como papaja que permiten escribir artículos directamenten en RMarkdown
+
+Las ventajas de **R** sobre un software en el que tenemos que cargar los datos y clickear es que es muy sencillo repetir los análisis, ya sea con distintos dataset o con pequeños cambios (por ejemplo, cambiando algún parámetro)
+
+
+---
+class: left, top, highlight-last-item
+# El lenguaje R
+
+El lenguaje **R** ha mejorado tanto en mejoras en el **R** base como en mediante el desarrollo de **paquetes**
+
+Con unas líneas de código podemos **importar** los datos, **crear** una variable y **calcular** las medias por grupo.
+
+```{r, eval=FALSE}
+library(dplyr)
+
+data <- read_csv("mi_experimento.csv")    # Leer los datos
+data <- mutate(data, nueva_var = var + 2) # Crear una nueva variable
+data <- data %>%
+  group_by(grupejo) %>%
+  summarise(media = mean(new_var)         # Obtener la media por grupo
+```
+
+Esto nos permite **probar** cosas y **equivocarnos** sin necesidad de modificar los datos originales
+
+Esto se contrapone a los software **point and click** en los cuales hay que tener una versión de el archivo de datos para cada paso
 
 ---
 class: left, top, highlight-last-item
 # Los beneficios de no clickear
 
----
-class: left, top, highlight-last-item
-# Pensar los modelos y analizar los resultados
-Hablar del fork
+.center[
+![:scale 65%](./figs/golem.png)
 
----
-class: left, top, highlight-last-item
-# Replicabilidad y control de cambios
-
----
-class: left, top, highlight-last-item
-# Reproductibilidad al alcance de la mano
-
----
-class: left, top, highlight-last-item
-# Cómo olvidar estas gráficas tan lindas
+.caption[*Fuente:* McElreath, 2018]
+<br>
+<br>
+**Pensar los modelos y analizar los resultados**
+]
 
 ---
 class: left, top, highlight-last-item
 # ¿Ya mencionamos a la comunidad?
 
+Existen grupos con actividades increíbles y una infinidad de actividades y recursos (por ejemplo, en **YouTube**)
+
+- **RenBaires** https://renbaires.github.io/
+![:scale 10%](https://renbaires.github.io/assets/icons/icon.png)
+
+- Hay muchos grupos de **RLadies** increíbles!
+  - **RLadies Buenos Aires** https://twitter.com/rladiesba
+  - **RLadies Oslo** https://twitter.com/rladiesoslo
+  - **RLadies Seattle** https://rladiesseattle.org/
+  
+También es una buena idea seguir los hashtags **#rtats** y **#tidytuesday** en Twitter 
+
+---
+class: left, top, highlight-last-item
+# Cómo olvidar gráficas tan lindas `r emo::ji("fuji")`
+
+Aunque no lo crean estas infografías están hechas 100% utilizando **R**
+
+.center.mid[
+![:scale 50%](https://raw.githubusercontent.com/Z3tt/TidyTuesday/master/plots/2020_29/2020_29_Astronauts_blur_color.png)
+![:scale 45%](https://github.com/gkaramanis/tidytuesday/raw/master/week-23/ramen.png)
+]
 ---
 class: left, top, highlight-last-item
 # Infinidad de recusos increibles
 
-Qué son los paquetes
+.pull-left.center[
+**Presentaciones**
 
-Por ejemplo esta presentación, el sitio de la materia, etc...
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
 
+**Reportes**
+
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+]
+
+
+.pull-right.center[
+**Libros**
+
+![:scale 40%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/bookdown.png)
+
+**Aplicaciones interactivas**
+
+![:scale 40%](http://hexb.in/hexagons/shiny.png)
+]
+???
+Hay una infinidad de paquetes y funcionalidades increíbles como las presentaciones de esta materia, que las hicimos con Xaringan y los reportes con RMarkdown o libros con Bookdown y las aplicaciones intercativas con ShinyApps.
 ---
 class: center, top
 # Referencias
 
 .left[.big[
 - Barrett, T. S. (2019). Six Reasons to Consider Using R in Psychological Research.
+
+- Robinson, D. (2017, October). The impressive growth of r. StackOverflow Blog. Retrieved from https://stackoverflow.blog/2017/10/10/impressive-growth-r/
+
+- McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC.
 
 ]]

@@ -20,7 +20,9 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
-pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, 
+               palmerpenguins, ggthemes, tvthemes, ggforce, ggtext, leaflet, sf,
+               rcartocolor, wesanderson, ghibli)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
@@ -33,7 +35,8 @@ style_mono_accent(base_color = "#A42339",
                   base_font_size = "18px",
                   text_font_size = "1rem",
                   text_slide_number_font_size = "0.8rem",
-                  code_font_size = "0.8rem",
+                  code_font_size = "0.6rem",
+                  code_inline_font_size = "0.6rem",
                   header_h1_font_size = "2.5rem",
                   header_h2_font_size = "2rem",
                   header_h3_font_size = "1.5rem",
@@ -76,11 +79,7 @@ xaringanExtra::use_tile_view()
 
 ```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
-```
-
-```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/scales.png")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -95,33 +94,447 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Librerías útiles
+# Funcionalidades extra
 
-Mapeo
-ggdist
-gggibous
-ggbees
+Hay una **infinidad** de paquetes que agregan funcionalidades a **ggplot2** vamos a ver algunos:
 
-Estética
-scales
+.pull-left[
+### Geometrías
+
+`r emo::ji("package")`**ggdist**: Distribuciones más lindas
+
+`r emo::ji("package")`**ggforce**: Anotaciones y grupos
+
+`r emo::ji("package")`**ggtext**: Texto con formato
+
+### Layout
+
+`r emo::ji("package")`**patchwork**: Varias subfiguras
+
+### Extras
+
+`r emo::ji("package")`**leaflet**: Mapas y goecosas
+
+`r emo::ji("package")`**ggstatsplot**: Figuras + estadística
+]
+
+.pull-right[
+### Estética
+ 
+`r emo::ji("package")`**ggpubr**: Figuras y temas listos para publicación
+
+`r emo::ji("package")`**ggthemes**: Temas lindos `r emo::ji("beauty")`
+
+`r emo::ji("package")`**tvthemes**: Temás inspirados en TV
+
+`r emo::ji("package")`**wesanderson**: Paletas inspiradas en películas de Wes Anderson
+
+`r emo::ji("package")`**ghibli**: Paletas inspiradas en películas de Estudio Ghibli
+
+`r emo::ji("package")`**paleteer**: Colección de las paletas más populares `r emo::ji("paint")`
+]
+---
+class: left, top, highlight-last-item
+# Figura básica
+
+Retomemos este plot básico de los **Palmer Penguins** para tener de base
+
+```{r penguins_base}
+penguins_base <- penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = bill_length_mm,
+             y = flipper_length_mm,
+             color = species)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Palmer penguins",
+       x = "Longitud del pico en mm",
+       y = "Longitud de la aleta en mm") 
+```
+
+```{r penguins_base_plot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="60%", echo=FALSE}
+penguins_base
+```
+
+
+---
+class: left, top, highlight-last-itemMe
+# ggdist `r emo::ji("package")`
+
+**ggdist()** es un paquete especialmente pensado para la visualización de incertezas
+
+No permite tanto graficar las distribuciones de los datos como el ajuste de alguna distribución típica a partir de sus parámetros
+
+.pull-left[
+```{r ggdist, eval = FALSE}
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = bill_length_mm,
+             y = species)) +
+  stat_interval() + #<<
+  labs(title = "Palmer penguins",
+       x = "Longitud del pico en mm",
+       y = "Especie") 
+```
+]
+
+.pull-right[
+```{r ggdist-out, ref.label="ggdist", fig.align = "center", dpi=300, fig.width = 6, fig.height = 2, out.width = "100%", echo=FALSE}
+```
+]
+
+.pull-left[
+```{r ggdist2, eval = FALSE}
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = bill_length_mm,
+             y = species)) +
+  stat_halfeye() + #<<
+  labs(title = "Palmer penguins",
+       x = "Longitud del pico en mm",
+       y = "Especie") 
+```
+]
+
+.pull-right[
+```{r ggdist2-out, ref.label="ggdist2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ggforce `r emo::ji("package")`
+
+**ggforce()** es un paquete que permite hacer anotaciones y agrupamiento de forma simple y eficiente
+
+.pull-left[
+```{r ggforce, eval = FALSE}
+penguins_base + 
+  geom_mark_ellipse(aes(fill = species, #<<
+                        label = species), #<<
+                    expand = unit(0.5, "mm"), #<<
+                    label.buffer = unit(-5, 'mm')) #<<
+```
+]
+
+.pull-right[
+```{r ggforce-out, ref.label="ggforce", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ggtext `r emo::ji("package")`
+
+**ggtext()**
+```{r ggtext, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="60%"}
+penguins_base + 
+  labs(title = "Dimensiones del pico y aleta del pingüino <i style='color:#28A87D;'>Pygoscelis</i>",
+       caption = "Fuente: Gorman, Williams & Fraser (2014) *PLoS ONE*",
+       x = "**Longitud del pico** (mm)",
+       y = "**Longitud de la aleta** (mm)") +
+  theme(plot.title = element_markdown(face = "bold"), #<<
+        plot.caption = element_markdown(margin = margin(t = 15)), #<<
+        axis.title.x = element_markdown(), #<<
+        axis.title.y = element_markdown() #<<
+  )
+```
+
+
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+El paquete [ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/) tiene como filosofía crear *publication ready plots*
+
+```{r ggpubr, eval=FALSE}
+install.packages("ggpubr")
+library(ggpubr)
+```
+
+.pull-left[
+**ggdensity()**
+```{r ggpubr_2, eval = FALSE}
+ggdensity(penguins, 
+          x = "body_mass_g",
+          add = "mean", 
+          rug = TRUE,
+          color = "species", 
+          fill = "species",
+          palette = c("#00AFBB", "#E7B800", "#E09891"))
+```
+]
+
+.pull-right[
+```{r ggpubr_2-out, ref.label="ggpubr_2", fig.align = "center", out.width = "100%", echo=FALSE}
+```
+]
+
+
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+Pero [ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/) también tiene *themes* muy interesantes
+
+.pull-left[
+**theme_pubclean()**
+```{r ggpubr_themes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + theme_pubclean()
+```
+]
+
+.pull-right[
+**theme_pubr()**
+```{r ggpubr_themes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + theme_pubr()
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+El paquete [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) ofrece alternativas de *themes*
 gghtemer
-ggpubr
-paletas
+
+```{r ggthemes, eval=FALSE}
+install.packages("ggthemes")
+library(ggthemes)
+```
+
+.pull-left[
+**Wall Street Journal**
+```{r ggthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + theme_wsj()
+```
+]
+
+.pull-right[
+**Five Thirty Eight**
+```{r ggthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + theme_fivethirtyeight()
+```
+]
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+También hay cosas locas como [tvthemes](https://ryo-n7.github.io/2019-05-16-introducing-tvthemes-package/)
+
+```{r tvthemes, eval=FALSE}
+install.packages("tvthemes")
+library(tvthemes)
+```
+
+.pull-left[
+**Parks and Recreation** 
+```{r tvthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + 
+  scale_color_parksAndRec() + 
+  theme_parksAndRecLight()
+```
+]
+
+.pull-right[
+**Bob Esponja**
+```{r tvthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+penguins_base + 
+  scale_color_spongeBob() +
+  theme_spongeBob()
+```
+]
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+**rcartocolor** es un paquete de paletas para datos geográficos pero que es muy útil
+
+.pull-left[
+```{r cartopalette, eval = FALSE}
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = bill_length_mm,
+             y = species)) +
+  stat_interval() +
+  scale_color_carto_d(palette = "Mint") + #<<
+  labs(title = "Palmer penguins",
+       x = "Longitud del pico en mm",
+       y = "Especie") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+```{r cartopalette-out, ref.label="cartopalette", fig.align = "center", dpi=300, fig.width = 6, fig.height = 2, out.width = "100%", echo=FALSE}
+```
+]
+
+**wesanderson** es un paquete de paletas basado en las películas de Wes Anderson
+
+.pull-left[
+```{r wesanderson, eval = FALSE}
+penguins_base +
+  scale_color_manual(values = #<<
+                       wes_palette("FantasticFox1")) + #<<
+  theme_minimal()
+```
+]
+
+.pull-right[
+```{r wesanderson-out, ref.label="wesanderson", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Y que las figuras queden lindas `r emo::ji("frame")`
+
+**ghibli** es un paquete de paletas basado en las películas del estudio Ghibli, con bellezas como esto:
+
+.pull-left[
+```{r ghibli1, eval = FALSE}
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = bill_length_mm,
+             y = species)) +
+  stat_interval() +
+  scale_colour_ghibli_d("PonyoLight") + #<<
+  labs(title = "Palmer penguins",
+       x = "Longitud del pico en mm",
+       y = "Especie") +
+  theme_minimal()
+```
+]
+
+.pull-right[
+```{r ghibli1-out, ref.label="ghibli1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 2, out.width = "100%", echo=FALSE}
+```
+]
+
+Y esto:
+.pull-left[
+```{r ghibli2, eval = FALSE}
+penguins_base +
+  scale_colour_ghibli_d("LaputaMedium", #<<
+                        direction = -1) + #<<
+  theme_minimal()
+```
+]
+
+.pull-right[
+```{r ghibli2-out, ref.label="ghibli2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```
+]
+---
+class: left, top, highlight-last-item
+# Combinar varias subfiguras
+
+![:scale 5%](https://patchwork.data-imaginist.com/reference/figures/logo.png) El paquete [patchwork](https://patchwork.data-imaginist.com/)
+
+```{r patchwork_install, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("thomasp85/patchwork")
+```
+
+```{r patchwork, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 10, fig.height = 6.5, out.width="50%"}
+library(ggplot2)
+library(patchwork)
+
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 <- ggplot(mtcars) + geom_bar(aes(carb))
+
+(p1 | p2 | p3) / p4 #<<
+```
+
+---
+class: left, top, highlight-last-item
+# Datos geográficos (todo un `r emo::ji("world")`)
+
+Combinando el paquete **sf** con las funcionalidades de **ggplot2** se pueden hacer cosas muy lindas
+
+```{r leaflet_install, eval=FALSE}
+install.packages("sf")
+```
+
+.pull-left[
+```{r geo, eval=FALSE, warning=FALSE}
+# Mapa
+rnaturalearthdata::countries50 %>%      
+  st_as_sf() %>% 
+  st_crop(xmin = -88, xmax = -28, ymin = -56, ymax = 12) %>%
+  ggplot(aes(fill = pop_est)) +
+  geom_sf(size = .5,
+          color = "black",
+          alpha = .5) +
+  labs(title = "Población en sudamérica",
+       fill = "Población\nestimada") +
+  theme_void() +
+  theme(legend.position = "right")
+```
+]
+
+.pull-right[
+```{r geo-out, fig.show = "hold", ref.label="geo", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="80%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Figuras + Estadística
+
+![:scale 5%](https://github.com/IndrajeetPatil/ggstatsplot/raw/master/man/figures/logo.png) Un paquete para investigar con tiempo: [ggstatsplot](https://github.com/IndrajeetPatil/ggstatsplot)
+
+```{r ggstatsplot_install, eval=FALSE}
+install.packages("ggstatsplot")
+```
+
+```{r ggstatsplot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 8, fig.height = 5, out.width="50%", warning=FALSE}
+# library(ggstatsplot)
+# 
+# ggbetweenstats( #<<
+#   data = iris,
+#   x = Species,
+#   y = Sepal.Length,
+#   title = "Distribution of sepal length across Iris species") 
+```
+
+???
+Como pueden ver, en la figura hay un montón de información estadística. Cosas como tests paramétricos, no paramétricos, bayesianos, etc...
+Es una excelente herramienta para explorar datos y testear hipótesis rápidamente.
+
+---
+class: left, top, highlight-last-item
+# Un poco de visualización de datos
+
+.center[![:scale 80%](figs/data-science-explore.png)]
+
+El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
+
+Vamos a ver un pequeño ejemplo...
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
 
 
-Combinar
-Patchwork
 
-Interactivos 
-plotly
+---
+class: left, top, highlight-last-item
+# Más recursos para seguir investigando.
 
-Mapas
-asf
+UNa lista de recursos online para seguir investigando sobre las formas más eficientes de comunicar la información:
 
-Estadística
-ggstatplot
+.big[
+- [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7)
 
+- [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
 
+- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)
+
+- [Data Visualization. A practical introduction](https://socviz.co/index.html#preface)
+]
 
 ---
 class: center, top
