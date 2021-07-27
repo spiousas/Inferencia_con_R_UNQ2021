@@ -22,7 +22,7 @@ class: center, middle
 ```{r setup, include=FALSE}
 pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, 
                palmerpenguins, ggthemes, tvthemes, ggforce, ggtext, leaflet, sf,
-               rcartocolor, wesanderson, ghibli)
+               rcartocolor, wesanderson, ghibli, tweetrmd)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE, 
                       comment = FALSE)
@@ -508,7 +508,7 @@ Es una excelente herramienta para explorar datos y testear hipótesis rápidamen
 class: left, top, highlight-last-item
 # Un poco de visualización de datos
 
-.center[![:scale 80%](figs/data-science-explore.png)]
+.center[![:scale 60%](figs/data-science-explore.png)]
 
 El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
 
@@ -518,18 +518,227 @@ Vamos a ver un pequeño ejemplo...
 class: left, top, highlight-last-item
 # Una oda al *raincloud plot*
 
+El viejo y conocido **barplot** o **dynamite plot**
 
+```{r dynamite_plot, fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="40%", echo=FALSE}
+set.seed(0)
+n <- 20
+cases <- rnorm(n, log2(64), 0.25)
+controls <- rnorm(n, log2(64), 0.25)
+cases <- 2 ^ (cases)
+controls <- 2 ^ (controls)
+cases[1:2] <- c(110, 150) #introduce outliers
+dat <- data.frame(x = factor(rep(c("Controls", "Cases"), each = n),
+                             levels = c("Controls", "Cases")),
+                  Outcome = c(controls, cases))
+
+
+p1 <- dat %>% ggplot(aes(x = x,
+                         y = Outcome,
+                         fill = x)) +
+  stat_summary(geom = "errorbar", width = .3) +
+  stat_summary(geom = "bar", width = .6) +
+  labs(x = "Nivel",
+       y = "Medida") +
+  theme_pubclean() +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1")) +
+  theme(legend.position = "none")
+
+p1
+```
+
+Es un gráfico simple que muestra la **media** y el **error estándar**
+
+???
+Esta gráfica es muy linda pero la información que entrega es MUY limitada, son básicamente 4 valores
+
+Si hiciéramos un t-test vale la pena mencionar que la diferencia entre ambas poblaciones es significativa
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+El viejo y conocido **barplot** o **dynamite plot**
+
+La información que nos muestra la gráfica es, de hecho, esta:
+
+```{r dynamite_table, echo=FALSE}
+dat %>% 
+  group_by(x) %>%
+  summarise(media = mean(Outcome),
+            error_estandar = sd(Outcome) / sqrt(n)) %>%
+  kbl() %>%
+  kable_paper("hover", full_width = F)
+```
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+El viejo y conocido **barplot** o **dynamite plot**
+
+```{r dynamite_plot_2, fig.align = "center", dpi=300, fig.width = 10, fig.height = 5, out.width="80%", echo=FALSE}
+p2 <- dat %>% ggplot(aes(x = x,
+                         y = Outcome,
+                         fill = x)) +
+  stat_summary(geom = "errorbar", width = .3) +
+  stat_summary(geom = "bar", width = .6) +
+  geom_point() +
+  labs(x = "Nivel",
+       y = "Medida") +
+  theme_pubclean() +
+  scale_y_continuous(limits = c(0, 160)) +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1")) +
+  theme(legend.position = "none")
+
+p1 <- p1 + scale_y_continuous(limits = c(0, 160)) 
+
+p1 + p2
+```
+
+Las cosas no eran **TAN** distintas. Pero ¿Cómo lo podemos resolver?
+
+???
+Ahora lo que vemos es que las poblaciones no son TAN diferentes como creíamos y que parte de esa diferencia se debe más bien a los dos outliers en 110 y 150. Esta información nos la perdemos cuando usamos dynamite plot.
+
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+Ante la duda, háganle caso a Cedric...
+
+.center[
+```{r tweet-from-CedScherer, dpi=300, out.width="50%", echo=FALSE}
+tweet_screenshot(
+  tweet_url("CedScherer", "1375438100298674179"),
+  maxwidth = 600,
+  scale = 4,
+  hide_media = FALSE,
+  theme = "light"
+)
+```
+]
+
+???
+El raincloud plot intenta abordar las limitaciones antes mencionadas en un formato intuitivo, modular y estadísticamente sólido. 
+
+En esencia, los raincloud plots combinan un 'violín dividido en la mitad' (un PDF no reflejado trazado contra el eje de datos redundantes), puntos de datos sin procesar y una visualización estándar de tendencia central (es decir, media o mediana) y error, como como un boxplot. 
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+.pull-left[
+```{r raincloud_plot_1, eval = FALSE}
+dat %>% ggplot(aes(x = x, y = Outcome, 
+                   color = x, fill = x)) +
+  geom_point( #<<
+    size = 2, #<<
+    alpha = .6, #<<
+    position = position_jitter(seed = 1, width = .1)) + #<<
+  labs(x = "Nivel",
+       y = "Medida") +
+  theme_pubclean() +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1")) +
+  scale_color_manual(values = c("#FAAB18", "#1380A1")) +
+  theme(legend.position = "none")
+```
+]
+
+.pull-right[
+```{r raincloud_plot_1-out, fig.show = "hold", ref.label="raincloud_plot_1", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+.pull-left[
+```{r raincloud_plot_2, eval = FALSE}
+dat %>% ggplot(aes(x = x, y = Outcome, 
+                   color = x, fill = x)) +
+  geom_point(
+    size = 2,
+    alpha = .6,
+    position = position_jitter(seed = 1, width = .1)) +
+  ggdist::stat_halfeye( #<<
+    alpha = .4, #<<
+    adjust = .5, #<<
+    width = .6, #<<
+    .width = 0, #<<
+    justification = -.3, #<<
+    point_colour = NA) + #<<
+  labs(x = "Nivel",
+       y = "Medida") +
+  theme_pubclean() +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1")) +
+  scale_color_manual(values = c("#FAAB18", "#1380A1")) +
+  theme(legend.position = "none")
+```
+]
+
+.pull-right[
+```{r raincloud_plot_2-out, fig.show = "hold", ref.label="raincloud_plot_2", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+.pull-left[
+```{r raincloud_plot_3, eval = FALSE}
+dat %>% ggplot(aes(x = x, y = Outcome, 
+                   color = x, fill = x)) +
+  geom_point(
+    size = 2,
+    alpha = .6,
+    position = position_jitter(seed = 1, width = .1)) +
+  ggdist::stat_halfeye(
+    alpha = .4, 
+    adjust = .5,
+    width = .6, 
+    .width = 0, 
+    justification = -.3, 
+    point_colour = NA) + 
+   geom_boxplot(alpha = .4, #<<
+               width = .25, #<<
+               outlier.shape = NA) + #<<
+  labs(x = "Nivel",
+       y = "Medida") +
+  theme_pubclean() +
+  scale_fill_manual(values = c("#FAAB18", "#1380A1")) +
+  scale_color_manual(values = c("#FAAB18", "#1380A1")) +
+  theme(legend.position = "none")
+
+```
+]
+
+.pull-right[
+```{r raincloud_plot_3-out, fig.show = "hold", ref.label="raincloud_plot_3", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="100%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Una oda al *raincloud plot*
+
+Más información sobre los **raincloud plots** se puede encontrar acá:
+
+- [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
+
+- [Open letter to journal editors: dynamite plots must die](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/)
 
 ---
 class: left, top, highlight-last-item
 # Más recursos para seguir investigando.
 
-UNa lista de recursos online para seguir investigando sobre las formas más eficientes de comunicar la información:
+Una lista de recursos online para seguir investigando sobre las formas más eficientes de comunicar la información:
 
 .big[
 - [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7)
-
-- [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
 
 - [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)
 
