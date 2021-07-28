@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 

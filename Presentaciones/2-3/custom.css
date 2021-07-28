@@ -7262,3 +7262,31 @@
   transform: translateY(-50%);
   text-align: center;
 }
+
+
+/* Extra CSS */
+.pull-left-narrow {
+  float: left;
+  width: 20%;
+}
+.pull-right-wide {
+  float: left;
+  width: 75%;
+}
+.small {
+  font-size: 90%;
+}
+.big {
+  font-size: 120%;
+}
+.full-width {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+}
+.content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}

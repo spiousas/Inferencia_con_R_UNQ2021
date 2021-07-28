@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 
@@ -133,15 +134,17 @@ knitr::include_graphics("https://as.com/img/comunes/fotos/fichas/deportistas/m/m
 ]
 
 ???
-Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparaci'on de los mismos sin tener que inventar la rueda cada vez.
-Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficr, modelar y más.
+Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparación de los mismos sin tener que inventar la rueda cada vez.
+
+Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficar, modelar y más.
+
 El nombre Tidy data fue acuñado por Hadley Wickham, una personalidad MUY conocida en el mundo R,
+
 Tidy data y Tidy Tools van de la mano, es decir, la aplicaci'on de tidy tools a tidy data es trivial.
+
 Es una forma de conectar la estructura de un dataset (su forma física) con su semántica (su significado).
+
 Cada valor correponde a una **variable** y a una **observación**.
-Tidy data is particularly well suited for vectorised programming
-languages like R, because the layout ensures that values of different variables from the same
-observation are always paired.
 
 ---
 class: left, top, highlight-last-item
@@ -166,9 +169,9 @@ Cada tipo de **unidad observacional** forma una tabla
 ]]
 
 ???
- A variable contains all values that measure the same underlying attribute (like
-height, temperature, duration) across units. An observation contains all values measured on
-the same unit (like a person, or a day, or a race) across attributes.
+Una variable contiene todos los valores que miden el mismo **atributo** (como altura, peso, duración).
+
+Una observación contiene todos los valores medidos para la misma **unidad** (como una persona, un día o una carrera) para todos los **atributos**.
 
 ---
 class: left, top, highlight-last-item
@@ -366,19 +369,19 @@ class: center, top, highlight-last-item
 # Paquetes para echarles un `r emo::ji("eye")`
 
 .pull-left.center[
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
 ]
 
 .pull-right.center[
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
 ]
 
 ---
@@ -410,7 +413,7 @@ No se preocupen por los **%>%** en el código, ya vamos a entender perfectamente
 ]
 
 ???
-The goal of palmerpenguins is to provide a great dataset for data exploration & visualization, as an alternative to iris.
+El objetivo de Palmer Penguins es proveer un dataset para **exploración** y **visualización** alternativo al clásico **iris**.
 
 ---
 class: center, top

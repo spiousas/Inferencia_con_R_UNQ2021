@@ -79,32 +79,32 @@ class: left, top, highlight-last-item
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.7189285 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2640450 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.6797602 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3271290 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2688985 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0093855 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.3764862 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4003249 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1249856 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5621927 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8169764 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2733494 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -112,7 +112,7 @@ class: left, top, highlight-last-item
 
 .pull-right[
 .center[
-### NO ES tidy data 👻
+### NO ES tidy data 👹
 
 &lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
@@ -125,18 +125,18 @@ class: left, top, highlight-last-item
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0645837 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.3430920 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2610357 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8516831 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2734209 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2234059 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9468262 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5992106 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0065925 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.9606210 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4386984 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6444495 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -153,15 +153,17 @@ Es **messy data**
 ]
 
 ???
-Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparaci'on de los mismos sin tener que inventar la rueda cada vez.
-Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficr, modelar y más.
+Tidy data es un standard para organizar los datos que te permite llevar adelante la limpieza y preparación de los mismos sin tener que inventar la rueda cada vez.
+
+Pero como vamos a ver más adelante, es mucho más que eso, es una forma de organizar la información para graficar, modelar y más.
+
 El nombre Tidy data fue acuñado por Hadley Wickham, una personalidad MUY conocida en el mundo R,
+
 Tidy data y Tidy Tools van de la mano, es decir, la aplicaci'on de tidy tools a tidy data es trivial.
+
 Es una forma de conectar la estructura de un dataset (su forma física) con su semántica (su significado).
+
 Cada valor correponde a una **variable** y a una **observación**.
-Tidy data is particularly well suited for vectorised programming
-languages like R, because the layout ensures that values of different variables from the same
-observation are always paired.
 
 ---
 class: left, top, highlight-last-item
@@ -179,32 +181,32 @@ class: left, top, highlight-last-item
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0404874 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5100491 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Jerry &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.4048163 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5106984 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8201732 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3970978 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Elaine &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5778076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1252727 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.7601094 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6392049 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; George &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8262569 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4508004 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -220,9 +222,9 @@ Cada tipo de **unidad observacional** forma una tabla
 ]]
 
 ???
- A variable contains all values that measure the same underlying attribute (like
-height, temperature, duration) across units. An observation contains all values measured on
-the same unit (like a person, or a day, or a race) across attributes.
+Una variable contiene todos los valores que miden el mismo **atributo** (como altura, peso, duración).
+
+Una observación contiene todos los valores medidos para la misma **unidad** (como una persona, un día o una carrera) para todos los **atributos**.
 
 ---
 class: left, top, highlight-last-item
@@ -432,7 +434,7 @@ class: left, top, highlight-last-item
 
 Provee una conjunto de **verbos** que ayudan a resolver los problemas más comunes de manipulación de datos.
 
-- **mutate()** agrega una nueva variables (columna) que es función de las existentes
+- **mutate()** agrega una nueva variable (columna) que es función de las existentes
 - **select()** elige variables basadas en su nombre.
 - **filter()** filtra observaciones basadas en su valor
 - **summarise()** reduce múltiples observaciones a un valor sumarizado
@@ -445,7 +447,7 @@ Provee una conjunto de **verbos** que ayudan a resolver los problemas más comun
 
 ---
 class: left, top, highlight-last-item
-# ggplot2 📉
+# ggplot2 📈
 
 .pull-left-narrow[
 &lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="70%" style="display: block; margin: auto;" /&gt;
@@ -454,7 +456,7 @@ class: left, top, highlight-last-item
 .pull-right-wide[
 **ggplot2** de *grammar of graphics* es un sistema declarativo de creación de gráficos
 
-No es sólo una librería sino toda una forma de crear los gáficas
+No es sólo una librería sino toda una forma de crear los gráficos
 
 Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
 
@@ -525,19 +527,19 @@ class: center, top, highlight-last-item
 # Paquetes para echarles un 👁
 
 .pull-left.center[
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/xaringan.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/stringr.png) 
 ]
 
 .pull-right.center[
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/broom.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/purrr.png)
 
-![:scale 35%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
+![:scale 25%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/gtable.png) 
 ]
 
 ---
@@ -549,7 +551,7 @@ class: left, top, highlight-last-item
 ]
 
 .pull-right-wide[
-Una librería con datos de **pinguinos** que vamos a usar mucho!
+Una librería con datos de **pingüinos** que vamos a usar mucho!
 
 
 ```r
@@ -646,7 +648,7 @@ No se preocupen por los **%&gt;%** en el código, ya vamos a entender perfectame
 ]
 
 ???
-The goal of palmerpenguins is to provide a great dataset for data exploration &amp; visualization, as an alternative to iris.
+El objetivo de Palmer Penguins es proveer un dataset para **exploración** y **visualización** alternativo al clásico **iris**.
 
 ---
 class: center, top
@@ -666,7 +668,8 @@ class: center, top
 "countIncrementalSlides": false,
 "navigation": {
 "scroll": false
-}
+},
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
