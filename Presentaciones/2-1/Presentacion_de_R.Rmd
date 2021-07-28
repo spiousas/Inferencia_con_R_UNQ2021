@@ -249,7 +249,7 @@ data <- data %>%
 
 Esto nos permite **probar** cosas y **equivocarnos** sin necesidad de modificar los datos originales
 
-Esto se contrapone a los software **point and click** en los cuales hay que tener una versión de el archivo de datos para cada paso
+Esto se contrapone a los software **point and click** en los cuales hay que tener una versión del archivo de datos para cada paso
 
 ---
 class: left, top, highlight-last-item
@@ -292,7 +292,7 @@ Aunque no lo crean estas infografías están hechas 100% utilizando **R**
 ]
 ---
 class: left, top, highlight-last-item
-# Infinidad de recusos increibles
+# Infinidad de recusos increíbles
 
 .pull-left.center[
 **Presentaciones**
