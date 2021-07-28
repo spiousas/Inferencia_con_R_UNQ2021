@@ -66,7 +66,7 @@ class: left, top, highlight-last-item
 
 
 ```r
-test &lt;- read_csv( here("presentaciones/2-3/data/test.csv"))
+test &lt;- read_csv(here("presentaciones/2-3/data/test.csv"))
 test
 ```
 
@@ -86,7 +86,6 @@ Están en formato tidy?
 class: left, top, highlight-last-item
 # Leamos unos datos
 No hay problema, **tidyr** al rescate con pivot_longer() ![:scale 5%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png)
-
 
 
 ```r
@@ -115,10 +114,10 @@ Pero... ¿Qué son los **%&gt;%**?
 class: left, top, highlight-last-item
 # Piping **%&gt;%**  
 
-Use %&gt;% to emphasise a sequence of actions, rather than the object that the actions are being performed on.
+Se utiliza **%&gt;%** para encadenar una secuencia de acciones donde el **output** del paso anterior es el **input** del actual.
 
 .pull-left[
-Por ejemplo, si queremos ordenar los valores únicos de una lista:
+Por ejemplo, si queremos ordenar los valores de una lista:
 
 
 ```r
@@ -161,7 +160,7 @@ Igual tranquilxs que lo vamos a usar **MUCHO** y ya va a ir quedando claro
 class: left, top, highlight-last-item
 # Acá llega lo bueno!
 
-Una vez que tenemos los datos acomodados podemos usar las funciones de **dplyr** para crear una columna con los datos normalizados
+Una vez que tenemos los datos acomodados podemos usar las funciones de **dplyr**
 
 En lo que sigue vamos a usar los datos de **Palmer penguins**
 
@@ -170,10 +169,10 @@ En lo que sigue vamos a usar los datos de **Palmer penguins**
 penguins %&gt;% 
   head() %&gt;%
   kbl() %&gt;%
-  kable_styling(font_size = 11) 
+  kable_styling(font_size = 14) 
 ```
 
-&lt;table class="table" style="font-size: 11px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; species &lt;/th&gt;
@@ -431,7 +430,7 @@ Pasamos de **334** filas a **222**
 class: left, top, highlight-last-item
 # Por último, ordenarlos
 
-Vamos a urdenar los casos de menos a mayor **sum_bill**
+Vamos a ordenar los casos de menos a mayor **sum_bill**
 
 El último verbo de  **dplyr** que nos queda es **arrange()**
 
@@ -476,7 +475,8 @@ Vamos a eliminar los casos en los que el peso sea mayor a **mediana + 1.5IQR** y
 Pensemos los pasos que tenemos que llevar adelante
 
 * Calcular la mediana y el IQR por isla y especie
-  * asdf
+  * Agrupar por isla y por especia (**group_by()**)
+  * Calcular la mediana e IQR por grupo (**summarise()**)
   
 * Armar una columna con los límites para poder comparar (**mutate()**)
 
