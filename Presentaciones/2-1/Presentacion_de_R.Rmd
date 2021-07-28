@@ -92,7 +92,7 @@ Pablo Etchemendy
 ---
 class: center, middle, inverse
 
-Como un anticipo del curso, les cuento que esta presentación ha sido preparada enteramente en **R** `r emo::ji("tada")` usando los paquete **Rmarkdown**`r emo::ji("package")` y **Xaringan**`r emo::ji("package")`
+Como un anticipo del curso, les cuento que esta presentación ha sido preparada enteramente en **R** `r emo::ji("tada")` usando los paquetes **Rmarkdown**`r emo::ji("package")` y **Xaringan**`r emo::ji("package")`
 
 ```{r image_grobs, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png")
@@ -103,7 +103,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 class: left, top, highlight-last-item
 # Gratis y Open-source
 
-El hecho de que **R** se gratís es especialmente beneficiosos para estudiantes e investigadors en países en desarrollo
+El hecho de que **R** sea gratis es especialmente beneficioso para estudiantes e investigadores en países en desarrollo
 
 Además, **R** es muy utilizado tanto en la academia como en la industria y su popularidad ha crecido en los años recientes
 
@@ -186,7 +186,7 @@ Existen miles de **paquetes** disponibles online para agregarle funcionalidades 
 **R** nos permite configurar los parámetros de la gran mayoría de los métodos y funciones de una manera mucho más directa que los sofware propietarios
 
 ???
-La adaptabilidad de **R** significa que los métodos estadísticao más modernos están disponibles en R años antes que en los software propietarios.
+La adaptabilidad de **R** significa que los métodos estadísticao más modernos están disponibles en R años antes que en los softwares propietarios.
 
 Suponga que desea realizar un procedimiento estadístico pero modificarlo ligeramente. En un lenguaje propietario, esto suele ser difícil: el código utilizado para ejecutar el procedimiento se mantiene oculto y los únicos parámetros que puede cambiar son los que se incluyen como opciones y se muestran al usuario. En R, es mucho más fácil realizar cambios.
 
@@ -277,7 +277,7 @@ data <- data %>%
 
 Esto nos permite **probar** cosas y **equivocarnos** sin necesidad de modificar los datos originales
 
-Esto se contrapone a los software **point and click** en los cuales hay que tener una versión del archivo de datos para cada paso
+Esto se contrapone a los softwares **point and click** en los cuales hay que tener una versión del archivo de datos para cada paso
 
 ---
 class: left, top, highlight-last-item
@@ -296,7 +296,7 @@ class: left, top, highlight-last-item
 class: left, top, highlight-last-item
 # Cómo olvidar gráficas tan lindas `r emo::ji("fuji")`
 
-Aunque no lo crean esta infografía está hecha 100% utilizando **R**
+Aunque no lo crean, estas infografías están hechas 100% utilizando **R**
 
 .center.mid[
 ![:scale 80%](https://tacosdedatos.com/assets/blogposts/002_bbplot_ejemplo.png)
