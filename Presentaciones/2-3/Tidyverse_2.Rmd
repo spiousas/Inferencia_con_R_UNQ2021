@@ -272,7 +272,7 @@ Pasamos de **334** filas a **222**
 class: left, top, highlight-last-item
 # Por último, ordenarlos
 
-Vamos a urdenar los casos de menos a mayor **sum_bill**
+Vamos a ordenar los casos de menos a mayor **sum_bill**
 
 El último verbo de  **dplyr** que nos queda es **arrange()**
 

@@ -175,7 +175,7 @@ Una observación contiene todos los valores medidos para la misma **unidad** (co
 
 ---
 class: left, top, highlight-last-item
-# El problemas más comun
+# El problemas más común
 
 Los encabezados de **columnas** son **valores**
 
@@ -208,7 +208,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 ]
 
 .pull-right-wide[
-El Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
+Tidyverse es una colección de paquetes de R diseñados para el análisis de datos.
 
 Todos los paquetes comparten una filosofía de diseño, gramática y estructura de datos.
 ] 
@@ -277,8 +277,8 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 Provee una conjunto de **verbos** que ayudan a resolver los problemas más comunes de manipulación de datos.
 
 - **mutate()** agrega una nueva variable (columna) que es función de las existentes
-- **select()** elige variables basadas en su nombre.
-- **filter()** filtra observaciones basadas en su valor
+- **select()** elige variables basadas en su nombre
+- **filter()** filtra observaciones (filas) basadas en su valor
 - **summarise()** reduce múltiples observaciones a un valor sumarizado
 - **arrange()** cambia el orden de las filas
 
@@ -302,7 +302,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 
 No es sólo una librería sino toda una forma de crear los gráficos
 
-Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+Los inputs son los **datos**, la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
 
 .pull-left[
 Podés pasar de esto:
