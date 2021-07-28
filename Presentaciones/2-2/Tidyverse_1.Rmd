@@ -273,7 +273,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 
 Provee una conjunto de **verbos** que ayudan a resolver los problemas más comunes de manipulación de datos.
 
-- **mutate()** agrega una nueva variables (columna) que es función de las existentes
+- **mutate()** agrega una nueva variable (columna) que es función de las existentes
 - **select()** elige variables basadas en su nombre.
 - **filter()** filtra observaciones basadas en su valor
 - **summarise()** reduce múltiples observaciones a un valor sumarizado
@@ -297,7 +297,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 .pull-right-wide[
 **ggplot2** de *grammar of graphics* es un sistema declarativo de creación de gráficos
 
-No es sólo una librería sino toda una forma de crear los gáficas
+No es sólo una librería sino toda una forma de crear los gráficos
 
 Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
 
@@ -392,7 +392,7 @@ knitr::include_graphics("https://allisonhorst.github.io/palmerpenguins/reference
 ]
 
 .pull-right-wide[
-Una librería con datos de **pinguinos** que vamos a usar mucho!
+Una librería con datos de **pingüinos** que vamos a usar mucho!
 
 ```{r, eval = FALSE}
 install.packages("palmerpenguins")
