@@ -13,4 +13,4 @@
 | Fecha | Contenido | Video | Presentación |
 | ------------- | ------------- | ------------- | ------------- |
 | Content Cell  | Content Cell  | Video | [link](./Presentaciones/2-1/presentacion_de_R.html) |
-| Content Cell  | Content Cell  | Video | Presentación |
+| Content Cell  | Content Cell  | Video | svx |
