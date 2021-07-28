@@ -410,7 +410,7 @@ head(penguins) %>% #<<
 ```
 
 No se preocupen por los **%>%** en el código, ya vamos a entender perfectamente qué significa...
-]
+]Mirate
 
 ???
 El objetivo de Palmer Penguins es proveer un dataset para **exploración** y **visualización** alternativo al clásico **iris**.
