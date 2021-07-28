@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 
@@ -107,12 +108,14 @@ El hecho de que **R** se gratís es especialmente beneficiosos para estudiantes 
 Además, **R** es muy utilizado tanto en la academia como en la industria y su popularidad ha crecido en los años recientes
 
 .pull-left.center[
-![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/plot_tags_time-1-768x768.png)
+![:scale 75%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/plot_tags_time-1-768x768.png)
+
 .caption[*fuente:* Robinson(2017)]
 ]
 
 .pull-right.center[
-![:scale 90%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/by_industry_graph-1-768x768.png)
+![:scale 75%](https://149351115.v2.pressablecdn.com/wp-content/uploads/2017/10/by_industry_graph-1-768x768.png)
+
 .caption[*fuente:* Robinson(2017)]
 ]
 
@@ -126,10 +129,12 @@ Una comunidad diversa en términos de expertise, identidad, ubicación, afilizac
 
 Hay una gan cantidad de recursos gratuitos incluidos **tutoriales** y **libros**
 
+<br>
+<br>
 .center[
-![:scale 20%](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png)´
-![:scale 20%](https://images.routledge.com/common/jackets/crclarge/978081538/9780815384571.jpg)
-![:scale 20%](https://bookdown.org/yihui/rmarkdown/images/cover.png)
+![:scale 17%](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png)´
+![:scale 17%](https://images.routledge.com/common/jackets/crclarge/978081538/9780815384571.jpg)
+![:scale 17%](https://bookdown.org/yihui/rmarkdown/images/cover.png)
 ]
 
 ???
@@ -144,8 +149,9 @@ class: left, top, highlight-last-item
 Muchos de los métodos estadísticos "de moda" tienen implementaciones en **R**
 
 .center[
-![:scale 50%](https://wrathematics.github.io/assets/marketshare.png)
-.caption.center[[Fuente](https://librestats.com/2012/04/12/statistical-software-popularity-on-google-scholar/)]
+![:scale 40%](https://wrathematics.github.io/assets/marketshare.png)
+.caption.center[
+[Fuente](https://librestats.com/2012/04/12/statistical-software-popularity-on-google-scholar/)
 ]
 
 
@@ -188,11 +194,11 @@ library(paquete_ejemplo)
 ```
 
 .center[
-```{r image_tidyverse, fig.show = "hold", out.width = "20%", fig.align = "default", echo=FALSE}
+```{r image_tidyverse, fig.show = "hold", out.width = "15%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
 ```
 
-```{r image_packages, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+```{r image_packages, fig.show = "hold", out.width = "8%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png")
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyr.png")
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tibble.png")
