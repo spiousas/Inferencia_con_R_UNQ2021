@@ -12,5 +12,5 @@
 
 | Fecha | Contenido | Video | Presentación |
 | ------------- | ------------- | ------------- | ------------- |
-| Content Cell  | Content Cell  | Video | [link](./Presentaciones/2-1/presentacion_de_R.html) |
+| Content Cell  | Content Cell  | Video | [link](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/ggplot_2.html) |
 | Content Cell  | Content Cell  | Video | svx |
