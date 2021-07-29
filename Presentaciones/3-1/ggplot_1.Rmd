@@ -273,7 +273,7 @@ Una buena analogía son las viejas películas de Disney en las que los artistas 
 
 ---
 class: left, top, highlight-last-item
-# geom_point()
+# geom_point
 
 ```{r ggplot_point, eval = FALSE}
 ggplot(data = penguins, 
@@ -299,7 +299,7 @@ Y la geometría, o la forma en la que vamos a representar esos datos utilizando 
 
 ---
 class: left, top, highlight-last-item
-# geom_line()
+# geom_line
 
 .small[
 ```{r ggplot_line, eval = FALSE}
@@ -344,7 +344,7 @@ penguins %>% #<<
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_line
 
 Y si agregamos la dimensión **color** en **island**
 
@@ -364,12 +364,12 @@ penguins %>%
 ```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "30%", echo=FALSE}
 ```
 
-??? 
+???
 Por qué hay sólo dos líneas?
 
 ---
 class: left, top, highlight-last-item
-# geom_col()
+# geom_col
 
 .small[
 ```{r ggplot_col1, eval = FALSE}
@@ -399,7 +399,7 @@ Hablar de que en el eje x también puede haber una variable categorica
 
 ---
 class: left, top, highlight-last-item
-# Exploremos las geometrías
+# geom_col
 
 .small[
 ```{r ggplot_col2, eval = FALSE}
@@ -425,7 +425,7 @@ penguins %>%
 
 ---
 class: left, top, highlight-last-item
-# geom_col()
+# geom_col
 
 .small[
 ```{r ggplot_col3, eval = FALSE}
@@ -453,7 +453,7 @@ Ahora que agrupamos podemos entender por qué acá hay dos líneas:
 
 ---
 class: left, top, highlight-last-item
-# geom_col()
+# geom_histogram
 
 
 .small[
@@ -601,23 +601,23 @@ class: left, top, highlight-last-item
 # Resumiendo
 
 .pull-left-narrow[**geom_point()**]
-.pull-right-wide[Mapeo dos columnas de los datos a las posiciones *x* e *y*]
+.pull-right-wide[Mapeo dos variables de los datos a las posiciones *x* e *y*]
 
 <br><br>
 .pull-left-narrow[**geom_line()**]
-.pull-right-wide[Mapeo dos columnas de los datos a las posiciones *x* e *y* y las une con una línea]
+.pull-right-wide[Mapeo dos variables de los datos a las posiciones *x* e *y* y las une con una línea]
 
 <br><br>
 .pull-left-narrow[**geom_col()**]
-.pull-right-wide[A cada columna categórica le asigna una barra de otra columna dad]
+.pull-right-wide[A cada variables categórica le asigna una barra de otra variables dada]
 
 <br><br>
 .pull-left-narrow[**geom_histogram()**]
-.pull-right-wide[Plotea el histograma de una columna]
+.pull-right-wide[Plotea el histograma de una variables]
 
 <br><br>
 .pull-left-narrow[**geom_density()**]
-.pull-right-wide[Plotea la densidad de probabilidades de una columna]
+.pull-right-wide[Plotea la densidad de probabilidades de una variables]
 
 --
 <br><br>	
