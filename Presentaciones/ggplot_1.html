@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Visualización de datos: A New Hope</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ignacio Spiousas y Pablo Etchemendy" />
+    <script src="ggplot_1_files/header-attrs-2.9/header-attrs.js"></script>
+    <script src="ggplot_1_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="ggplot_1_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="ggplot_1_files/tile-view-0.2.6/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+
+
+
+
+<style>.xe__progress-bar__container {
+  bottom:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 0.25em;
+  background-color: #A42339;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
+
+# Visualización de datos:&lt;br&gt;*A New Hope*
+### Análisis estadístico utilizando R
+
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="10%" /&gt;
+
+UNQ UNTreF CONICET
+
+Ignacio Spiousas
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/spiousas) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/https://github.com/petcheme) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/petcheme)
+
+**Agosto 2021**
+
+---
+class: left, top, highlight-last-item
+# ggplot2 📈
+
+.pull-left-narrow[
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-wide[
+Como les conté antes **ggplot2** es un sistema declarativo de creación de gráficos basado en la **grammar of graphics**
+
+No es sólo una librería sino toda una forma de crear los gáficas
+
+Los inputs son los **datos** y la **estética** y qué primitivas gráficas usar (**geoms_** o **stats_**)
+]
+
+???
+Estas visualizaciones no solo se ven atractivas, sino que pueden aumentar la transparencia sobre la distribución de los datos subyacentes en lugar de depender de visualizaciones de agregaciones de uso común, como gráficos de barras de medias (Newman &amp; Scholl, 2012).
+
+La visualización de datos se beneficia de las mismas ventajas que el análisis estadístico al escribir código en lugar de usar software de apuntar y hacer clic: reproducibilidad y transparencia
+
+Sin embargo, hay un beneficio adicional para la reproducibilidad que se reconoce con menos frecuencia en comparación con los objetivos más elevados de mejorar la ciencia psicológica: si escribe código para producir sus gráficos, puede reutilizar y adaptar ese código en el futuro en lugar de comenzar desde cero cada vez. . 
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+El concepto de **grammar of graphics** es la forma en la que una cualidad del gráfico se relaciona con un dato de mi dataset.
+
+Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
+
+.pull-left[
+
+```r
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_1_files/figure-html/ggplot_1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+Y **ggplot2** se encarga del resto!
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+Por ejemplo, le podemos decír que el **color** mapée la especie
+
+.pull-left[
+
+```r
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = species)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_1_files/figure-html/ggplot_2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Nociones básicas
+
+O que el **color** sea una variable continua como el peso
+
+.pull-left[
+
+```r
+ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+]
+
+.pull-right[
+&lt;img src="ggplot_1_files/figure-html/ggplot_3-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+Esto es, en su forma más básica, como funciona la **grammar of graphics** y **ggplot2**
+
+---
+class: left, top, highlight-last-item
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Los datos:
+
+
+```r
+*ggplot(data = penguins,
+       aes(x = bill_length_mm,
+           y = bill_depth_mm,
+           color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+
+---
+class: left, top, highlight-last-item
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+La estética, o el mapeo enter variables y cualidades de la gráfica:
+
+
+```r
+ggplot(data = penguins, 
+*      aes(x = bill_length_mm,
+*          y = bill_depth_mm,
+*          color = body_mass_g)) +
+  geom_point(alpha = 0.5)
+```
+
+---
+class: left, top, highlight-last-item
+# The grammar of graphics
+
+Un gráfico de **ggplot2** tiene, sin contar las opciones de "estilo", tres partes
+
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+
+```r
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm, 
+           color = body_mass_g)) + 
+* geom_point(alpha = 0.5)
+```
+
+Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
+
+También vamos a ver que estas geometrías a veces puden hacer alguna cuenta (**stat_**)
+
+--
+
+Lo último que queda por definir es la estética, o el **tema**, de la figura, pero para eso va a haber tiempo...
+
+---
+class: left, top, highlight-last-item
+# Una GoG por capas
+
+&lt;img src="ggplot_1_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+???
+Una buena analogía son las viejas películas de Disney en las que los artistas creaban un fondo y luego agregaban elementos móviles sobre el fondo mediante transparencias.
+
+---
+class: left, top, highlight-last-item
+# geom_point
+
+
+```r
+ggplot(data = penguins, 
+       aes(x = bill_length_mm,
+           y = bill_depth_mm)) + 
+* geom_point()
+```
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_point-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+**geom_point()** mapea coordenadas x e y en un punto
+
+Puede ser usado con variables tanto continuas como categóricas
+]
+
+???
+Y la geometría, o la forma en la que vamos a representar esos datos utilizando esa estética:
+
+---
+class: left, top, highlight-last-item
+# geom_line
+
+.small[
+
+```r
+penguins %&gt;%
+  group_by(species) %&gt;%
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %&gt;%
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm)) +
+* geom_line()
+```
+]
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_line-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right.center[
+![:scale 80%](./figs/sorcery.jpg)
+]
+
+---
+class: left, top, highlight-last-item
+# Pipe en acción ![:scale 5%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/pipe.png)
+
+Podemos usar **%&gt;%** para hacer cálculos con los datos y después usarlos para plotear
+
+.small[
+
+```r
+*penguins %&gt;%
+* group_by(species) %&gt;%
+* summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+*           mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %&gt;%
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm)) +
+  geom_line() 
+```
+]
+
+&lt;img src="ggplot_1_files/figure-html/ggplot_line-out2-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+class: left, top, highlight-last-item
+# geom_line
+
+Y si agregamos la dimensión **color** en **island**
+
+.tiny[
+
+```r
+penguins %&gt;%
+  group_by(species, island) %&gt;%
+  summarise(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_bill_depth_mm  = mean(bill_depth_mm, na.rm = TRUE)) %&gt;%
+  ggplot(aes(x = mean_bill_length_mm,
+             y = mean_bill_depth_mm,
+*            color = island)) +
+  geom_line() 
+```
+]
+
+&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+???
+Por qué hay sólo dos líneas?
+
+---
+class: left, top, highlight-last-item
+# geom_col
+
+.small[
+
+```r
+penguins %&gt;%
+    group_by(species) %&gt;%
+    summarise(N = n()) %&gt;%
+    ggplot(aes(x = species,
+               y = N)) +
+*   geom_col()
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_col1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+**geom_col()** 
+
+Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
+]
+
+???
+Hablar de que en el eje x también puede haber una variable categorica
+
+---
+class: left, top, highlight-last-item
+# geom_col
+
+.small[
+
+```r
+penguins %&gt;%
+    group_by(species, island) %&gt;%
+    summarise(N = n()) %&gt;%
+    ggplot(aes(x = species,
+               y = N,
+               fill = island)) +
+*   geom_col()
+```
+]
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_col2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+¿Por qué están apilados?
+
+¿Podemos hacer algo para verlo mejor?
+]
+
+---
+class: left, top, highlight-last-item
+# geom_col
+
+.small[
+
+```r
+penguins %&gt;%
+    group_by(species, island) %&gt;%
+    summarise(N = n()) %&gt;%
+    ggplot(aes(x = species,
+               y = N,
+               fill = island)) +
+*   geom_col(position = "dodge2")
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_col3-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Ahora que agrupamos podemos entender por qué acá hay dos líneas:
+&lt;br&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# geom_histogram
+
+
+.small[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = bill_length_mm)) +
+*   geom_histogram()
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+**geom_histogram** permite visualizar la distribución de una sola variable continua dividiendo el eje **x** en bines y contando el número de observaciones en cada bin
+]
+
+---
+class: left, top, highlight-last-item
+# geom_histogram
+
+¿Y si queremos ver el histograma por **especie**?
+
+.small[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = bill_length_mm,
+*            fill = species)) +
+    geom_histogram() 
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+¿Se ve bien?
+
+¿Cómo podemos mejorarlo?
+]
+
+---
+class: left, top, highlight-last-item
+# geom_histogram
+
+.small[
+
+```r
+penguins %&gt;%
+  ggplot(aes(x = bill_length_mm,
+             fill = species)) +
+  geom_histogram() +
+* facet_grid(species ~ .)
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist3-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+![:scale 60%](./figs/fort.png)
+]
+
+---
+class: left, top, highlight-last-item
+# geom_freqpoly
+
+.small[
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = bill_length_mm,
+*              color = species)) +
+*   geom_freqpoly() +
+    facet_grid(species ~ .) 
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist4-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+También se puede usar **geom_freqpoly** que es una curva que une los centros de los bines del histograma
+
+Cambiamos el mapeo de la columna **species** de **fill** a **color**
+]
+
+---
+class: left, top, highlight-last-item
+# geom_density
+
+.small[
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = bill_length_mm,
+               fill = species)) +
+*   geom_density() +
+    facet_grid(species ~ .) 
+```
+]
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_density-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+**geom_density** computa y dibuja la densidad de probabilidades estimada, que es una versión suavizada del histograma
+
+Es una alternativa al histograma útil para datos continuos que provienen de una distribución *suave* subyacente
+]
+
+---
+class: left, top, highlight-last-item
+# geom_density
+
+
+```r
+penguins %&gt;%
+    ggplot(aes(x = bill_length_mm,
+               fill = species)) +
+    geom_density() +
+*   geom_histogram(aes(y = ..density..),
+                   color = "black",
+                   alpha = 0.5) +
+    facet_grid(species ~ .)
+```
+
+.pull-left[
+&lt;img src="ggplot_1_files/figure-html/ggplot_density2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+De hecho, podemos juntar **geom_density** y **geom_histogram** en la misma figura.
+]
+
+---
+class: left, top, highlight-last-item
+# Resumiendo
+
+.pull-left-narrow[**geom_point()**]
+.pull-right-wide[Mapeo dos variables de los datos a las posiciones *x* e *y*]
+
+&lt;br&gt;&lt;br&gt;
+.pull-left-narrow[**geom_line()**]
+.pull-right-wide[Mapeo dos variables de los datos a las posiciones *x* e *y* y las une con una línea]
+
+&lt;br&gt;&lt;br&gt;
+.pull-left-narrow[**geom_col()**]
+.pull-right-wide[A cada variables categórica le asigna una barra de otra variables dada]
+
+&lt;br&gt;&lt;br&gt;
+.pull-left-narrow[**geom_histogram()**]
+.pull-right-wide[Plotea el histograma de una variables]
+
+&lt;br&gt;&lt;br&gt;
+.pull-left-narrow[**geom_density()**]
+.pull-right-wide[Plotea la densidad de probabilidades de una variables]
+
+--
+&lt;br&gt;&lt;br&gt;	
+Y más ...
+&lt;br&gt;&lt;br&gt;
+**geom_abline() geom_hline() geom_vline() geom_bar() geom_col() stat_count() geom_bin_2d() stat_bin_2d() geom_blank() geom_boxplot() stat_boxplot() geom_contour() geom_contour_filled() stat_contour() stat_contour_filled() geom_count() stat_sum() geom_density() stat_density() geom_density_2d() geom_density_2d_filled() stat_density_2d() stat_density_2d_filled() geom_dotplot() geom_errorbarh() geom_function() stat_function() geom_hex() stat_bin_hex() geom_freqpoly() geom_histogram() stat_bin() geom_jitter() geom_crossbar() geom_errorbar() geom_linerange() geom_pointrange() geom_map() geom_path() geom_line() geom_step() geom_point() geom_polygon() geom_qq_line() stat_qq_line() geom_qq() stat_qq() geom_quantile() stat_quantile() geom_ribbon() geom_area() geom_rug() geom_segment() geom_curve() geom_smooth() stat_smooth() geom_spoke() geom_label() geom_text() geom_raster() geom_rect() geom_tile() geom_violin() stat_ydensity() geom_sf() geom_sf_label() geom_sf_text() stat_sf()**
+
+
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., &amp; DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
+
+- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+
+- https://psyteachr.github.io/introdataviz/
+
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"countIncrementalSlides": false,
+"navigation": {
+"scroll": false
+},
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
