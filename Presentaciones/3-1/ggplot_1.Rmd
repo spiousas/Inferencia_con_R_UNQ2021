@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 
@@ -34,7 +35,8 @@ style_mono_accent(base_color = "#A42339",
                   base_font_size = "18px",
                   text_font_size = "1rem",
                   text_slide_number_font_size = "0.8rem",
-                  code_font_size = "0.8rem",
+                  code_font_size = "0.7rem",
+                  code_inline_font_size = "0.7rem",
                   header_h1_font_size = "2.5rem",
                   header_h2_font_size = "2rem",
                   header_h3_font_size = "1.5rem",
@@ -121,7 +123,7 @@ Sin embargo, hay un beneficio adicional para la reproducibilidad que se reconoce
 class: left, top, highlight-last-item
 # Nociones básicas
 
-El concepto de **grammar of graphics** es la forma en que una cualidad del gráfico se relaciona con un dato de mi dataset.
+El concepto de **grammar of graphics** es la forma en la que una cualidad del gráfico se relaciona con un dato de mi dataset.
 
 Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
 
@@ -135,7 +137,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-```{r ggplot_1-out, ref.label="ggplot_1", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_1-out, ref.label="ggplot_1", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
@@ -158,7 +160,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-```{r ggplot_2-out, ref.label="ggplot_2", fig.align = "center", out.width = "100%", echo=FALSE}
+```{r ggplot_2-out, ref.label="ggplot_2", fig.align = "center", out.width = "80%", echo=FALSE}
 ```
 ]
 
@@ -179,7 +181,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-```{r ggplot_3-out, ref.label="ggplot_3", fig.align = "center", out.width = "100%", echo=FALSE}
+```{r ggplot_3-out, ref.label="ggplot_3", fig.align = "center", out.width = "80%", echo=FALSE}
 ```
 ]
 
@@ -235,7 +237,7 @@ ggplot(data = penguins,
 
 Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
 
-También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
+También vamos a ver que estas geometrías a veces puden hacer alguna cuenta (**stat_**)
 
 --
 
@@ -245,7 +247,7 @@ Lo último que queda por definir es la estética, o el **tema**, de la figura, p
 class: left, top, highlight-last-item
 # Una GoG por capas
 
-```{r, fig.align = "center", dpi=300, fig.width = 10, fig.height = 6.5, echo=FALSE}
+```{r, fig.align = "center", dpi=300, fig.width = 10, fig.height = 6.5, out.width = "70%", echo=FALSE}
 p1 <- ggplot()
 
 p2 <- ggplot(data = penguins,
@@ -289,7 +291,7 @@ ggplot(data = penguins,
 .pull-right[
 **geom_point()** mapea coordenadas x e y en un punto
 
-Puede ser usado con variables tanto continuas como catagóricas
+Puede ser usado con variables tanto continuas como categóricas
 ]
 
 ???
@@ -311,7 +313,7 @@ penguins %>%
 ```
 ]
 .pull-left[
-```{r ggplot_line-out, ref.label="ggplot_line", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_line-out, ref.label="ggplot_line", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
@@ -337,14 +339,14 @@ penguins %>% #<<
 ```
 ]
 
-```{r ggplot_line-out2, ref.label="ggplot_line2", fig.align = "center", out.width = "40%", echo=FALSE}
+```{r ggplot_line-out2, ref.label="ggplot_line2", fig.align = "center", out.width = "30%", echo=FALSE}
 ```
 
 ---
 class: left, top, highlight-last-item
 # Exploremos las geometrías
 
-* Y si agregamos la dimensión **color** en **island**
+Y si agregamos la dimensión **color** en **island**
 
 .tiny[
 ```{r ggplot_line_island, eval = FALSE}
@@ -359,7 +361,7 @@ penguins %>%
 ```
 ]
 
-```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "40%", echo=FALSE}
+```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "30%", echo=FALSE}
 ```
 
 ??? 
@@ -381,7 +383,7 @@ penguins %>%
 ]
 
 .pull-left[
-```{r ggplot_col1-out, ref.label="ggplot_col1", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_col1-out, ref.label="ggplot_col1", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
@@ -389,11 +391,11 @@ penguins %>%
 
 **geom_col()** 
 
-
-Hablar de que en el eje x también puede haber una variable categorica
-
 Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
 ]
+
+???
+Hablar de que en el eje x también puede haber una variable categorica
 
 ---
 class: left, top, highlight-last-item
@@ -411,7 +413,7 @@ penguins %>%
 ```
 ]
 .pull-left[
-```{r ggplot_col2-out, ref.label="ggplot_col2", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_col2-out, ref.label="ggplot_col2", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
@@ -438,14 +440,14 @@ penguins %>%
 ]
 
 .pull-left[
-```{r ggplot_col3-out, ref.label="ggplot_col3", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_col3-out, ref.label="ggplot_col3", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
 .pull-right[
 Ahora que agrupamos podemos entender por qué acá hay dos líneas:
 <br>
-```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_line_island-out, ref.label="ggplot_line_island", fig.align = "center", out.width = "60%", echo=FALSE}
 ```
 ]
 
@@ -463,12 +465,12 @@ penguins %>%
 ]
 
 .pull-left[
-```{r ggplot_hist1-out, ref.label="ggplot_hist1", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_hist1-out, ref.label="ggplot_hist1", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
 .pull-right[
-**geom_histogram** permite visuzlizar la distribución de una sola variable continua dividiendo el eje x en bines y contando el número de observaciones en cada bin
+**geom_histogram** permite visualizar la distribución de una sola variable continua dividiendo el eje **x** en bines y contando el número de observaciones en cada bin
 ]
 
 ---
@@ -487,7 +489,7 @@ penguins %>%
 ]
 
 .pull-left[
-```{r ggplot_hist2-out, ref.label="ggplot_hist2", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_hist2-out, ref.label="ggplot_hist2", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 
@@ -540,7 +542,7 @@ penguins %>%
 ]
 
 .pull-right[
-También se puede usar **geom_freqpoly** que es una curva que uno los centros de los bines del histograma
+También se puede usar **geom_freqpoly** que es una curva que une los centros de los bines del histograma
 
 Cambiamos el mapeo de la columna **species** de **fill** a **color**
 ]
@@ -565,9 +567,9 @@ penguins %>%
 ]
 
 .pull-right[
-**geom_density** computa y dibuja la densidad de probabilidades estimada, que es uan versión suavizada del histograma. 
+**geom_density** computa y dibuja la densidad de probabilidades estimada, que es una versión suavizada del histograma
 
-Es una alternativa al histograma útil para datos continuos que provienen de una distribución "suave" subyacente.
+Es una alternativa al histograma útil para datos continuos que provienen de una distribución *suave* subyacente
 ]
 
 ---
@@ -584,10 +586,9 @@ penguins %>%
                    alpha = 0.5) +
     facet_grid(species ~ .)
 ```
-]
 
 .pull-left[
-```{r ggplot_density2-out, ref.label="ggplot_density2", fig.align = "center", out.width = "80%", echo=FALSE}
+```{r ggplot_density2-out, ref.label="ggplot_density2", fig.align = "center", out.width = "70%", echo=FALSE}
 ```
 ]
 

@@ -83,7 +83,7 @@ Sin embargo, hay un beneficio adicional para la reproducibilidad que se reconoce
 class: left, top, highlight-last-item
 # Nociones básicas
 
-El concepto de **grammar of graphics** es la forma en que una cualidad del gráfico se relaciona con un dato de mi dataset.
+El concepto de **grammar of graphics** es la forma en la que una cualidad del gráfico se relaciona con un dato de mi dataset.
 
 Por ejemplo, podemos usar los datos de los pinguinos y decirle a **ggplot2** que mapée al eje **x** la longitud del pico y al **y** el ancho del pico
 
@@ -98,7 +98,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-&lt;img src="ggplot_1_files/figure-html/ggplot_1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 Y **ggplot2** se encarga del resto!
@@ -121,7 +121,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-&lt;img src="ggplot_1_files/figure-html/ggplot_2-out-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -142,7 +142,7 @@ ggplot(data = penguins,
 ]
 
 .pull-right[
-&lt;img src="ggplot_1_files/figure-html/ggplot_3-out-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_3-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
 
 Esto es, en su forma más básica, como funciona la **grammar of graphics** y **ggplot2**
@@ -200,7 +200,7 @@ ggplot(data = penguins,
 
 Vamos a ver que existen muchos tipos de **geometrías** y con ellas muchos parámetros **estéticos**
 
-También vamos a ver que estas geometrías a vece puden hacer alguna cuenta (**stat_**)
+También vamos a ver que estas geometrías a veces puden hacer alguna cuenta (**stat_**)
 
 --
 
@@ -210,7 +210,7 @@ Lo último que queda por definir es la estética, o el **tema**, de la figura, p
 class: left, top, highlight-last-item
 # Una GoG por capas
 
-&lt;img src="ggplot_1_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ???
 Una buena analogía son las viejas películas de Disney en las que los artistas creaban un fondo y luego agregaban elementos móviles sobre el fondo mediante transparencias.
@@ -234,7 +234,7 @@ ggplot(data = penguins,
 .pull-right[
 **geom_point()** mapea coordenadas x e y en un punto
 
-Puede ser usado con variables tanto continuas como catagóricas
+Puede ser usado con variables tanto continuas como categóricas
 ]
 
 ???
@@ -257,7 +257,7 @@ penguins %&gt;%
 ```
 ]
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_line-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_line-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right.center[
@@ -283,13 +283,13 @@ Podemos usar **%&gt;%** para hacer cálculos con los datos y después usarlos pa
 ```
 ]
 
-&lt;img src="ggplot_1_files/figure-html/ggplot_line-out2-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_line-out2-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: left, top, highlight-last-item
 # Exploremos las geometrías
 
-* Y si agregamos la dimensión **color** en **island**
+Y si agregamos la dimensión **color** en **island**
 
 .tiny[
 
@@ -305,7 +305,7 @@ penguins %&gt;%
 ```
 ]
 
-&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 ??? 
 Por qué hay sólo dos líneas?
@@ -327,18 +327,18 @@ penguins %&gt;%
 ]
 
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_col1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_col1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
 
 **geom_col()** 
 
-
-Hablar de que en el eje x también puede haber una variable categorica
-
 Ya vamos a ver la diferencia entre **geom_bar** y **geom_col**
 ]
+
+???
+Hablar de que en el eje x también puede haber una variable categorica
 
 ---
 class: left, top, highlight-last-item
@@ -357,7 +357,7 @@ penguins %&gt;%
 ```
 ]
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_col2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_col2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -384,13 +384,13 @@ penguins %&gt;%
 ]
 
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_col3-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_col3-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
 Ahora que agrupamos podemos entender por qué acá hay dos líneas:
 &lt;br&gt;
-&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_line_island-out-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -408,11 +408,11 @@ penguins %&gt;%
 ]
 
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_hist1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist1-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-**geom_histogram** permite visuzlizar la distribución de una sola variable continua dividiendo el eje x en bines y contando el número de observaciones en cada bin
+**geom_histogram** permite visualizar la distribución de una sola variable continua dividiendo el eje **x** en bines y contando el número de observaciones en cada bin
 ]
 
 ---
@@ -432,7 +432,7 @@ penguins %&gt;%
 ]
 
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_hist2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_hist2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -484,7 +484,7 @@ penguins %&gt;%
 ]
 
 .pull-right[
-También se puede usar **geom_freqpoly** que es una curva que uno los centros de los bines del histograma
+También se puede usar **geom_freqpoly** que es una curva que une los centros de los bines del histograma
 
 Cambiamos el mapeo de la columna **species** de **fill** a **color**
 ]
@@ -509,9 +509,9 @@ penguins %&gt;%
 ]
 
 .pull-right[
-**geom_density** computa y dibuja la densidad de probabilidades estimada, que es uan versión suavizada del histograma. 
+**geom_density** computa y dibuja la densidad de probabilidades estimada, que es una versión suavizada del histograma
 
-Es una alternativa al histograma útil para datos continuos que provienen de una distribución "suave" subyacente.
+Es una alternativa al histograma útil para datos continuos que provienen de una distribución *suave* subyacente
 ]
 
 ---
@@ -529,10 +529,9 @@ penguins %&gt;%
                    alpha = 0.5) +
     facet_grid(species ~ .)
 ```
-]
 
 .pull-left[
-&lt;img src="ggplot_1_files/figure-html/ggplot_density2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ggplot_1_files/figure-html/ggplot_density2-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -592,7 +591,8 @@ class: center, top
 "countIncrementalSlides": false,
 "navigation": {
 "scroll": false
-}
+},
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

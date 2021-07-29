@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 
@@ -34,8 +35,8 @@ style_mono_accent(base_color = "#A42339",
                   base_font_size = "18px",
                   text_font_size = "1rem",
                   text_slide_number_font_size = "0.8rem",
-                  code_font_size = "0.6rem",
-                  code_inline_font_size = "0.6rem",
+                  code_font_size = "0.7rem",
+                  code_inline_font_size = "0.7rem",
                   header_h1_font_size = "2.5rem",
                   header_h2_font_size = "2rem",
                   header_h3_font_size = "1.5rem",
@@ -123,7 +124,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r bar1-out, ref.label="bar1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "80%", echo=FALSE}
+```{r bar1-out, ref.label="bar1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "60%", echo=FALSE}
 ```
 ]
 
@@ -141,7 +142,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r bar2-out, ref.label="bar2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "80%", echo=FALSE}
+```{r bar2-out, ref.label="bar2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "60%", echo=FALSE}
 ```
 ]
 
@@ -164,7 +165,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r count1-out, ref.label="count1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "80%", echo=FALSE}
+```{r count1-out, ref.label="count1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "60%", echo=FALSE}
 ```
 ]
 
@@ -180,7 +181,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r count-out, ref.label="count", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "80%", echo=FALSE}
+```{r count-out, ref.label="count", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "60%", echo=FALSE}
 ```
 ]   
 
@@ -203,7 +204,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r summary1-out, ref.label="summary1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "75%", echo=FALSE}
+```{r summary1-out, ref.label="summary1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -223,7 +224,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r summary2-out, ref.label="summary2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "75%", echo=FALSE}
+```{r summary2-out, ref.label="summary2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -246,7 +247,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r boxplot1-out, ref.label="boxplot1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "75%", echo=FALSE}
+```{r boxplot1-out, ref.label="boxplot1", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -264,7 +265,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r boxplot2-out, ref.label="boxplot2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "75%", echo=FALSE}
+```{r boxplot2-out, ref.label="boxplot2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -291,7 +292,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r violin-out, ref.label="violin", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "100%", echo=FALSE}
+```{r violin-out, ref.label="violin", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "80%", echo=FALSE}
 ```
 ]
 
@@ -315,7 +316,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r smooth1-out, ref.label="smooth1", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "75%", echo=FALSE}
+```{r smooth1-out, ref.label="smooth1", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -334,7 +335,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r smooth2-out, ref.label="smooth2", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "75%", echo=FALSE}
+```{r smooth2-out, ref.label="smooth2", fig.align = "center", dpi=300, fig.width = 8, fig.height = 6, out.width = "55%", echo=FALSE}
 ```
 ]
 
@@ -364,7 +365,7 @@ class: left, top, highlight-last-item
 
 Pueden seguir investigando más **geoms**, capas y escalas [acá](https://ggplot2.tidyverse.org/reference/)
 
-![](figs/referencia.png)
+![:scale 60%](figs/referencia.png)
 ---
 class: center, top
 # Referencias

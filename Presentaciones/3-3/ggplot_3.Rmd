@@ -16,6 +16,7 @@ output:
       countIncrementalSlides: false
       navigation: 
         scroll: false
+      ratio: '16:9'
 ---
 class: center, middle
 
@@ -35,8 +36,8 @@ style_mono_accent(base_color = "#A42339",
                   base_font_size = "18px",
                   text_font_size = "1rem",
                   text_slide_number_font_size = "0.8rem",
-                  code_font_size = "0.6rem",
-                  code_inline_font_size = "0.6rem",
+                  code_font_size = "0.7rem",
+                  code_inline_font_size = "0.7rem",
                   header_h1_font_size = "2.5rem",
                   header_h2_font_size = "2rem",
                   header_h3_font_size = "1.5rem",
@@ -151,7 +152,7 @@ penguins_base <- penguins %>%
        y = "Longitud de la aleta en mm") 
 ```
 
-```{r penguins_base_plot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="60%", echo=FALSE}
+```{r penguins_base_plot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="45%", echo=FALSE}
 penguins_base
 ```
 
@@ -162,7 +163,7 @@ class: left, top, highlight-last-itemMe
 
 **ggdist()** es un paquete especialmente pensado para la visualización de incertezas
 
-No permite tanto graficar las distribuciones de los datos como el ajuste de alguna distribución típica a partir de sus parámetros
+Nos permite tanto graficar las distribuciones de los datos como el ajuste de alguna distribución típica a partir de sus parámetros
 
 .pull-left[
 ```{r ggdist, eval = FALSE}
@@ -178,7 +179,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r ggdist-out, ref.label="ggdist", fig.align = "center", dpi=300, fig.width = 6, fig.height = 2, out.width = "100%", echo=FALSE}
+```{r ggdist-out, ref.label="ggdist", fig.align = "center", dpi=300, fig.width = 6, fig.height = 2, out.width = "90%", echo=FALSE}
 ```
 ]
 
@@ -196,7 +197,7 @@ penguins %>%
 ]
 
 .pull-right[
-```{r ggdist2-out, ref.label="ggdist2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```{r ggdist2-out, ref.label="ggdist2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "75%", echo=FALSE}
 ```
 ]
 
@@ -204,7 +205,7 @@ penguins %>%
 class: left, top, highlight-last-item
 # ggforce `r emo::ji("package")`
 
-**ggforce()** es un paquete que permite hacer anotaciones y agrupamiento de forma simple y eficiente
+**ggforce()** es un paquete que permite hacer anotaciones y agrupamientos de forma simple y eficiente
 
 .pull-left[
 ```{r ggforce, eval = FALSE}
@@ -226,7 +227,7 @@ class: left, top, highlight-last-item
 # ggtext `r emo::ji("package")`
 
 **ggtext()**
-```{r ggtext, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="60%"}
+```{r ggtext, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="45%"}
 penguins_base + 
   labs(title = "Dimensiones del pico y aleta del pingüino <i style='color:#28A87D;'>Pygoscelis</i>",
        caption = "Fuente: Gorman, Williams & Fraser (2014) *PLoS ONE*",
@@ -265,7 +266,7 @@ ggdensity(penguins,
 ]
 
 .pull-right[
-```{r ggpubr_2-out, ref.label="ggpubr_2", fig.align = "center", out.width = "100%", echo=FALSE}
+```{r ggpubr_2-out, ref.label="ggpubr_2", fig.align = "center", out.width = "80%", echo=FALSE}
 ```
 ]
 
@@ -295,7 +296,6 @@ class: left, top, highlight-last-item
 # Y que las figuras queden lindas `r emo::ji("frame")`
 
 El paquete [ggthemes](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) ofrece alternativas de *themes*
-gghtemer
 
 ```{r ggthemes, eval=FALSE}
 install.packages("ggthemes")
@@ -304,14 +304,14 @@ library(ggthemes)
 
 .pull-left[
 **Wall Street Journal**
-```{r ggthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+```{r ggthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="90%"}
 penguins_base + theme_wsj()
 ```
 ]
 
 .pull-right[
 **Five Thirty Eight**
-```{r ggthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+```{r ggthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="90%"}
 penguins_base + theme_fivethirtyeight()
 ```
 ]
@@ -328,7 +328,7 @@ library(tvthemes)
 
 .pull-left[
 **Parks and Recreation** 
-```{r tvthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+```{r tvthemes1, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="90%"}
 penguins_base + 
   scale_color_parksAndRec() + 
   theme_parksAndRecLight()
@@ -337,7 +337,7 @@ penguins_base +
 
 .pull-right[
 **Bob Esponja**
-```{r tvthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="100%"}
+```{r tvthemes2, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width="90%"}
 penguins_base + 
   scale_color_spongeBob() +
   theme_spongeBob()
@@ -381,7 +381,7 @@ penguins_base +
 ]
 
 .pull-right[
-```{r wesanderson-out, ref.label="wesanderson", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```{r wesanderson-out, ref.label="wesanderson", fig.align = "center", dpi=300, fig.width = 8, fig.height = 4, out.width = "90%", echo=FALSE}
 ```
 ]
 
@@ -422,21 +422,22 @@ penguins_base +
 ]
 
 .pull-right[
-```{r ghibli2-out, ref.label="ghibli2", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```{r ghibli2-out, ref.label="ghibli2", fig.align = "center", dpi=300, fig.width = 8, fig.height = 4, out.width = "90%", echo=FALSE}
 ```
 ]
 ---
 class: left, top, highlight-last-item
 # Combinar varias subfiguras
 
-![:scale 5%](https://patchwork.data-imaginist.com/reference/figures/logo.png) El paquete [patchwork](https://patchwork.data-imaginist.com/)
+.pull-left[
+![:scale 10%](https://patchwork.data-imaginist.com/reference/figures/logo.png) El paquete [patchwork](https://patchwork.data-imaginist.com/)
 
 ```{r patchwork_install, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("thomasp85/patchwork")
 ```
 
-```{r patchwork, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 10, fig.height = 6.5, out.width="50%"}
+```{r patchwork, eval=FALSE}
 library(ggplot2)
 library(patchwork)
 
@@ -445,8 +446,14 @@ p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
 p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
 p4 <- ggplot(mtcars) + geom_bar(aes(carb))
 
-(p1 | p2 | p3) / p4 #<<
+(p1 | p2 ) /p3 / p4 #<<
 ```
+]
+
+.pull-right[
+```{r patchwork-out, ref.label="patchwork", fig.align = "center", dpi=300, fig.width = 8, fig.height = 8, out.width = "90%", echo=FALSE}
+```
+]
 
 ---
 class: left, top, highlight-last-item
@@ -476,7 +483,7 @@ rnaturalearthdata::countries50 %>%
 ]
 
 .pull-right[
-```{r geo-out, fig.show = "hold", ref.label="geo", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="80%", echo=FALSE}
+```{r geo-out, fig.show = "hold", ref.label="geo", fig.align = "center", dpi=300, fig.width = 5, fig.height = 7, out.width="60%", echo=FALSE}
 ```
 ]
 
@@ -490,7 +497,7 @@ class: left, top, highlight-last-item
 install.packages("ggstatsplot")
 ```
 
-```{r ggstatsplot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 8, fig.height = 5, out.width="60%", warning=FALSE}
+```{r ggstatsplot, fig.show = "hold",fig.align = "center", dpi=300, fig.width = 8, fig.height = 5, out.width="45%", warning=FALSE}
 library(ggstatsplot)
 
 ggbetweenstats( #<<
@@ -510,7 +517,7 @@ class: left, top, highlight-last-item
 
 .center[![:scale 60%](figs/data-science-explore.png)]
 
-El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de resultados es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. 
+El campo de la visualización de datos (**Data viz**) es muy amplio y excede un poco este curso, pero como comunicadores de datos es **MUY** recomendable que, además de conocer las herramientas para generar las figuras, reflexionemos sobre el tipo de representación que queremos utilizar. 
 
 Aún cuando esto vaya en contra de la *tradición* en nuestro área de estudio.
 
@@ -522,7 +529,7 @@ class: left, top, highlight-last-item
 
 El viejo y conocido **barplot** o **dynamite plot**
 
-```{r dynamite_plot, fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="50%", echo=FALSE}
+```{r dynamite_plot, fig.align = "center", dpi=300, fig.width = 5, fig.height = 5, out.width="40%", echo=FALSE}
 set.seed(0)
 n <- 20
 cases <- rnorm(n, log2(64), 0.25)
@@ -560,8 +567,6 @@ Si hiciéramos un t-test vale la pena mencionar que la diferencia entre ambas po
 class: left, top, highlight-last-item
 # Una oda al *raincloud plot*
 
-El viejo y conocido **barplot** o **dynamite plot**
-
 La información que nos muestra la gráfica es, de hecho, esta:
 
 ```{r dynamite_table, echo=FALSE}
@@ -577,9 +582,9 @@ dat %>%
 class: left, top, highlight-last-item
 # Una oda al *raincloud plot*
 
-El viejo y conocido **barplot** o **dynamite plot**
+Pero si vemos los datos que generan esa figura...
 
-```{r dynamite_plot_2, fig.align = "center", dpi=300, fig.width = 10, fig.height = 5, out.width="100%", echo=FALSE}
+```{r dynamite_plot_2, fig.align = "center", dpi=300, fig.width = 10, fig.height = 5, out.width="80%", echo=FALSE}
 p2 <- dat %>% ggplot(aes(x = x,
                          y = Outcome,
                          fill = x)) +
@@ -611,7 +616,7 @@ class: left, top, highlight-last-item
 Ante la duda, háganle caso a Cedric...
 
 .center[
-```{r tweet-from-CedScherer, dpi=300, out.width="50%", echo=FALSE}
+```{r tweet-from-CedScherer, dpi=300, out.width="36%", echo=FALSE}
 tweet_screenshot(
   tweet_url("CedScherer", "1375438100298674179"),
   maxwidth = 600,
@@ -727,7 +732,7 @@ dat %>% ggplot(aes(x = x, y = Outcome,
 class: left, top, highlight-last-item
 # Una oda al *raincloud plot*
 
-Más información sobre los **raincloud plots** se puede encontrar acá:
+Se puede encontrar más información sobre los **raincloud plots** acá:
 
 .big[
 - [Raincloud plots: a multi-platform tool for robust data visualization](https://wellcomeopenresearch.org/articles/4-63)
