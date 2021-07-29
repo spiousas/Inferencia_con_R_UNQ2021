@@ -1,5 +1,5 @@
 ---
-title: "Visualización de datos:<br>*return of the ggplot2*"
+title: "Visualización de datos:<br>*Return of the ggplot2*"
 subtitle: "Análisis estadístico utilizando R"
 author: "Ignacio Spiousas y Pablo Etchemendy"
 institute: "UNQ UNTreF CONICET"
@@ -114,7 +114,7 @@ Hay una **infinidad** de paquetes que agregan funcionalidades a **ggplot2** vamo
 
 ### Extras
 
-`r emo::ji("package")`**leaflet**: Mapas y goecosas
+`r emo::ji("package")`**sf**: Mapas y goecosas
 
 `r emo::ji("package")`**ggstatsplot**: Figuras + estadística
 ]
@@ -128,11 +128,9 @@ Hay una **infinidad** de paquetes que agregan funcionalidades a **ggplot2** vamo
 
 `r emo::ji("package")`**tvthemes**: Temás inspirados en TV
 
-`r emo::ji("package")`**wesanderson**: Paletas inspiradas en películas de Wes Anderson
+`r emo::ji("package")`**wesanderson**: Paletas inspiradas en películas de Wes Anderson `r emo::ji("paint")`
 
-`r emo::ji("package")`**ghibli**: Paletas inspiradas en películas de Estudio Ghibli
-
-`r emo::ji("package")`**paleteer**: Colección de las paletas más populares `r emo::ji("paint")`
+`r emo::ji("package")`**ghibli**: Paletas inspiradas en películas de Estudio Ghibli `r emo::ji("paint")`
 ]
 ---
 class: left, top, highlight-last-item
@@ -218,7 +216,7 @@ penguins_base +
 ]
 
 .pull-right[
-```{r ggforce-out, ref.label="ggforce", fig.align = "center", dpi=300, fig.width = 6, fig.height = 4, out.width = "100%", echo=FALSE}
+```{r ggforce-out, ref.label="ggforce", fig.align = "center", dpi=300, fig.width = 6, fig.height = 6, out.width = "80%", echo=FALSE}
 ```
 ]
 
