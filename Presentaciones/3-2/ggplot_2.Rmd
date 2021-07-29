@@ -106,7 +106,7 @@ En esta breve presentación vamos a hablar un poco de geometrías más complejas
 
 ---
 class: left, top, highlight-last-item
-# geom_bar()
+# geom_bar
 
 Con **geom_col()** hay que calcular la media antes.
 
