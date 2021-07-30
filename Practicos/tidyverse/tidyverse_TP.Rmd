@@ -35,7 +35,7 @@ summer_tbl <- read.csv("summer.csv")
 winter_tbl <- read.csv("winter.csv")
 ```
 
-Otra opción es leer directamente los datos del repositorio de **github**`r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete `Rcurl`.
+Otra opción es leer directamente los datos del repositorio de **github** `r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete `Rcurl`.
 
 ```{r, eval=FALSE}
 install.packages("RCurl")
