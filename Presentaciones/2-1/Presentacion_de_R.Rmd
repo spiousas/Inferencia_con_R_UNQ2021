@@ -323,7 +323,7 @@ class: left, top, highlight-last-item
 
 **Aplicaciones interactivas**
 
-![:scale 30%](http://hexb.in/hexagons/shiny.png)
+![:scale 30%](https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/shiny.png)
 ]
 ???
 Hay una infinidad de paquetes y funcionalidades increíbles como las presentaciones de esta materia, que las hicimos con Xaringan y los reportes con RMarkdown o libros con Bookdown y las aplicaciones intercativas con ShinyApps.
