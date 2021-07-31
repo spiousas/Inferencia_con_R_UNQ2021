@@ -1,0 +1,38 @@
+---
+title: "TP2 - *ggplot2* olímpico"
+author: "Spiousas - Etchemendy"
+date: "`r Sys.Date()`"
+output: rmdformats::robobook
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r image_ggplot2, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
+```
+```{r image_rings, fig.show = "hold", out.width = "20%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://www.seekpng.com/png/full/85-856819_olympic-rings-png-anillos-de-los-juegos-olimpicos.png")
+```
+
+En este práctico vamos a usar los paquetes del `tidyverse`  junto con `ggplot2` para explorar y generar **visualizaciones informativas** a partit de los datos históricos de los Juegos olímpicos.
+
+Para saber *cómo cargar los datos* o *qué estructura tienen* les recomendamos volver al [**TP1 - *tidyverse* olímpico**]()
+
+## Las consignas
+
+Si bien existen formas alternativas de generar visualizaciones utilizando R, el objetivo del presente práctico es que lo hagan utilizando el paquete del `tidyverse` `ggplot2`.
+
+1.
+2.
+3.
+
+

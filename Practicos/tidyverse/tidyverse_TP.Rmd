@@ -1,5 +1,5 @@
 ---
-title: "TP1 - *Tidyverse* FTW"
+title: "TP1 - *tidyverse* olímpico"
 author: "Spiousas - Etchemendy"
 date: "`r Sys.Date()`"
 output: rmdformats::robobook
@@ -16,7 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-En este práctico vamos a usar los paquetes del `tidyverse` para explorar los datos históricos de los Juegos olímpicos y prepararlos par.
+```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```
+```{r image_rings, fig.show = "hold", out.width = "20%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://www.seekpng.com/png/full/85-856819_olympic-rings-png-anillos-de-los-juegos-olimpicos.png")
+```
+
+En este práctico vamos a usar los paquetes del `tidyverse` para explorar los datos históricos de los Juegos olímpicos.
 
 Antes de empezar les recordamos que tienen que instalar los paquetes del `tidyverse` y adjuntarlo a la sesión de r ejecutando las dos líneas a continuación (si ya instalaron los paquetes del `tidyverse` no hace falta que corran la primera línea):
 
@@ -27,7 +34,7 @@ library(tidyverse)
 
 ## Cómo cargar los datos
 
-Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas `Practicos/tidyverse/data`, copiarlos en su carpeta de trabajo y leerlos utilizando la función `read_csv()` del paquete **readr**.
+Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas `Practicos/tidyverse/data`, copiarlos en su carpeta de trabajo y leerlos utilizando la función `read_csv()` del paquete `readr`.
 
 ```{r, eval=FALSE}
 dictionary_tbl <- read_csv("dictionary.csv")
@@ -54,44 +61,22 @@ dictionary_tbl <- as_tibble(read.csv(text = x))
 
 Las dos formas de leer los archivos pueden tener ligeras diferencias en los nombres de las variables.
 
-## Vignette Info
+## Los datos
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+`dictionary_tbl`, `winter_tbl` y `summer_tbl` son tres (tristes) `tibbles` que contienen información sobre los países participantes de los juegos olímpicos y resultados de los juegos de invierno y de verano, respectivamente. 
 
-## Styles
+Les dejamos la exploración de las observaciones y las variables a ustedes. Recuerden que tienen funciones como `str()`, `summary()`, `head()` o `View()` que pueden resultar muy útiles para empezar a entender el contenido de cada `tibble`.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Las consignas
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+La idea es que pongan en práctica todas las funcionalidades del tidyverse que vimos en las clases, cosas como el `piping` o los verbos de `dplyr`. Es por eso que les recomendamos que, aunque existan métodos alternativos para obtener las respuestas a estas consignas, intenten utilizar las herramientas que les acabamos de mencionar. 
 
-## Figures
+Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolver las consignas, pero para todo lo que no está en las clases existe [**google**](https://www.google.com/).
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+Vamos a ver qué jugo`r emo::ji("juice")`les podemos sacar a estos datos...
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
+1.
+2.
+3.
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
