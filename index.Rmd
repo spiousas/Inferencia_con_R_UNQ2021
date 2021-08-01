@@ -25,8 +25,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Docentes `r ji("computer")`
 
-* Dr. Pablo Etchemendy (UNTreF/Conicet) 
-* Dr. Ignacio Spiousas (UNQ/Conicet)
+* Dr. Pablo Etchemendy (UNTreF/Conicet) [`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
+* Dr. Ignacio Spiousas (UNQ/Conicet) [`r icons::icon_style(icons::fontawesome("github"), fill = "#A42339")`](https://github.com/spiousas) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#A42339")`](https://twitter.com/Spiousas)
 
 ## Cronograma 📆
 
