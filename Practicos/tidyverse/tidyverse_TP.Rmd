@@ -75,8 +75,43 @@ Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolv
 
 Vamos a ver qué jugo`r emo::ji("juice")`les podemos sacar a estos datos...
 
-1.
-2.
-3.
+1. Empecemos con algo sencillo. Usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (`summer_tbl`).
 
+```{r echo=FALSE, eval=FALSE}
+# Solución
+gold_by_country <- summer_tbl %>% 
+  filter(Medal=="Gold") %>% 
+  group_by(Country) %>% 
+  summarise(N = n()) %>% 
+  arrange(desc(N))
+```
 
+2. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el `pipe` de análisis?
+```{r echo=FALSE, eval=FALSE}
+# Solución
+medal_by_country <- summer_tbl %>% 
+  group_by(Country, Medal) %>% 
+  summarise(N = n())
+```
+
+3. ¿Y para quedarnos con los países en `oro_por_pais` con más de 5 medallas de oro? ¿Está Argentina`r emo::ji("Argentina")` (`ARG`) en ese grupo?
+```{r echo=FALSE, eval=FALSE}
+# Solución
+gold_by_country <- summer_tbl %>% 
+  filter(Medal=="Gold") %>% 
+  group_by(Country) %>% 
+  summarise(N = n()) %>% 
+  filter(N>5)
+```
+
+4. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
+
+```{r echo=FALSE, eval=FALSE}
+winter_tbl %>% 
+  filter(Country %in% c("URS", "CAN")) %>% 
+  filter(Discipline == "Ice Hockey") %>% 
+  filter(Medal == "Gold") %>% 
+  filter(Gender == "Male") %>%
+  group_by(Country) %>% 
+  summarise(N = n())
+```
