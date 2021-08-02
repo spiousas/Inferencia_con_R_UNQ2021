@@ -2,7 +2,8 @@
 title: "TP1 - *tidyverse* olímpico"
 author: "Spiousas - Etchemendy"
 date: "`r Sys.Date()`"
-output: rmdformats::robobook
+output: 
+  rmdformats::robobook
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -38,8 +39,8 @@ Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Par
 
 ```{r, eval=FALSE}
 dictionary_tbl <- read_csv("dictionary.csv")
-summer_tbl <- read.csv("summer.csv")
-winter_tbl <- read.csv("winter.csv")
+summer_tbl <- read_csv("summer.csv")
+winter_tbl <- read_csv("winter.csv")
 ```
 
 Otra opción es leer directamente los datos del repositorio de **github** `r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete `Rcurl`.
@@ -75,14 +76,29 @@ Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolv
 
 Vamos a ver qué jugo`r emo::ji("juice")`les podemos sacar a estos datos...
 
-1. Empecemos con algo sencillo. 
+1. Empecemos con algo sencillo. Usemos `View()` para visualizar `summer_tbl`. En la columna `Athlete` ¿Qué pasa en los deportes de equipo? ¿Esta bien si sumamos las medallas tal cual están en el tibble? ¿Cómo podemos hacer para solucionarlo?
 
+    Acá una propuesta (hagan lo mismo para `winter_tbl`):
 
-2. Ahora que ya tenemos las medallas por país (y no por atleta `r emo::ji("wink")`), usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (`summer_tbl`).
+```{r eval=FALSE}
+# Acomodemos el tibble
+summer_por_disciplina_tbl <- summer_tbl %>% 
+    group_by(Year, City, Sport, Country, Discipline, Event, Gender, Medal) %>%
+    summarise() # No hace ninguna operación
+```
+
+```{r echo=FALSE, eval=FALSE}
+# Acomodemos el tibble
+winter_por_disciplina_tbl <- winter_tbl %>% 
+    group_by(Year, Country, Discipline, Event, Gender, Medal) %>%
+    summarise() # No hace ninguna operación
+```
+
+2. Ahora que ya tenemos las medallas por país (y no por atleta `r emo::ji("wink")`) para cada disciplina, usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (`summer_tbl`).
 
 ```{r echo=FALSE, eval=FALSE}
 # Solución
-gold_by_country <- summer_tbl %>% 
+gold_by_country <- summer_por_disciplina_tbl %>% 
   filter(Medal=="Gold") %>% 
   group_by(Country) %>% 
   summarise(N = n()) %>% 
@@ -92,7 +108,7 @@ gold_by_country <- summer_tbl %>%
 2. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el `pipe` de análisis?
 ```{r echo=FALSE, eval=FALSE}
 # Solución
-medal_by_country <- summer_tbl %>% 
+medal_by_country <- summer_por_disciplina_tbl %>% 
   group_by(Country, Medal) %>% 
   summarise(N = n())
 ```
@@ -100,7 +116,7 @@ medal_by_country <- summer_tbl %>%
 3. ¿Y para quedarnos con los países en `oro_por_pais` con más de 5 medallas de oro? ¿Está Argentina`r emo::ji("Argentina")` (`ARG`) en ese grupo?
 ```{r echo=FALSE, eval=FALSE}
 # Solución
-gold_by_country <- summer_tbl %>% 
+gold_by_country <- summer_por_disciplina_tbl %>% 
   filter(Medal=="Gold") %>% 
   group_by(Country) %>% 
   summarise(N = n()) %>% 
@@ -110,7 +126,8 @@ gold_by_country <- summer_tbl %>%
 4. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
 
 ```{r echo=FALSE, eval=FALSE}
-winter_tbl %>% 
+# Solución
+winter_por_disciplina_tbl %>% 
   filter(Country %in% c("URS", "CAN")) %>% 
   filter(Discipline == "Ice Hockey") %>% 
   filter(Medal == "Gold") %>% 
@@ -118,3 +135,25 @@ winter_tbl %>%
   group_by(Country) %>% 
   summarise(N = n())
 ```
+
+5. Armemos un `tibble` con los nombres de los medallistas olímpicos argentinos en deportes acuáticos y la disciplina, evento y medalla que ganaron. Para seleccionar m'as de una columna hay que hacer una lista usando `c()` y se recomienda utilizar `all_of()`.
+
+```{r echo=FALSE, eval=FALSE}
+# Solución
+nombres_natacion_tbl <- summer_tbl %>%
+  filter(Sport == "Aquatics") %>%
+  filter(Country == "ARG") %>% 
+  select(all_of(c("Athlete", "Discipline", "Event", "Medal")))
+```
+
+6. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
+
+7. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
+
+8. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
+
+### Para complicarse la existencia
+
+9. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.
+
+10. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador `%in%`.

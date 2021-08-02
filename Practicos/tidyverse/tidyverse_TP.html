@@ -226,8 +226,8 @@
 <h2>Cómo cargar los datos</h2>
 <p>Los datos históricos de los Juegos Olímpicos son un dataset de <strong>Kaggle</strong>. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas <code>Practicos/tidyverse/data</code>, copiarlos en su carpeta de trabajo y leerlos utilizando la función <code>read_csv()</code> del paquete <code>readr</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dictionary_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;dictionary.csv&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>summer_tbl <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;summer.csv&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>winter_tbl <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;winter.csv&quot;</span>)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>summer_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;summer.csv&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>winter_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;winter.csv&quot;</span>)</span></code></pre></div>
 <p>Otra opción es leer directamente los datos del repositorio de <strong>github</strong> <svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>. Para esto necesitamos instalar y adjuntar el paquete <code>Rcurl</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;RCurl&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RCurl)</span></code></pre></div>
@@ -250,12 +250,30 @@
 <p>Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolver las consignas, pero para todo lo que no está en las clases existe <a href="https://www.google.com/"><strong>google</strong></a>.</p>
 <p>Vamos a ver qué jugo🥤les podemos sacar a estos datos…</p>
 <ol style="list-style-type: decimal">
-<li><p>Empecemos con algo sencillo.</p></li>
-<li><p>Ahora que ya tenemos las medallas por país (y no por atleta 😉), usando <code>group_by()</code> y los verbos de <code>dplyr</code>, creen un nuevo tibble (<code>oro_por_pais</code>) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (<code>summer_tbl</code>).</p></li>
+<li><p>Empecemos con algo sencillo. Usemos <code>View()</code> para visualizar <code>summer_tbl</code>. En la columna <code>Athlete</code> ¿Qué pasa en los deportes de equipo? ¿Esta bien si sumamos las medallas tal cual están en el tibble? ¿Cómo podemos hacer para solucionarlo?</p>
+<p>Acá una propuesta (hagan lo mismo para <code>winter_tbl</code>):</p></li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Acomodemos el tibble</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>summer_por_disciplina_tbl <span class="ot">&lt;-</span> summer_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Year, City, Sport, Country, Discipline, Event, Gender, Medal) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>() <span class="co"># No hace ninguna operación</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Ahora que ya tenemos las medallas por país (y no por atleta 😉) para cada disciplina, usando <code>group_by()</code> y los verbos de <code>dplyr</code>, creen un nuevo tibble (<code>oro_por_pais</code>) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (<code>summer_tbl</code>).</p></li>
 <li><p>¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el <code>pipe</code> de análisis?</p></li>
 <li><p>¿Y para quedarnos con los países en <code>oro_por_pais</code> con más de 5 medallas de oro? ¿Está Argentina🇦🇷 (<code>ARG</code>) en ese grupo?</p></li>
 <li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
+<li><p>Armemos un <code>tibble</code> con los nombres de los medallistas olímpicos argentinos en deportes acuáticos y la disciplina, evento y medalla que ganaron. Para seleccionar m’as de una columna hay que hacer una lista usando <code>c()</code> y se recomienda utilizar <code>all_of()</code>.</p></li>
+<li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
+<li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
+<li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
 </ol>
+<div id="para-complicarse-la-existencia" class="section level3">
+<h3>Para complicarse la existencia</h3>
+<ol start="9" style="list-style-type: decimal">
+<li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
+<li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)? Consejo: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <code>%in%</code>.</p></li>
+</ol>
+</div>
 </div>
 
    

@@ -101,7 +101,7 @@ class: left, top, highlight-last-item
 ]
 ```{r, echo=FALSE} 
 tibble(sujetos = rep(c("Jerry", "Elaine", "George"), each = 2),
-       trial = rep(c(1, 2), each = 3),
+       trial = rep(c(1, 2), times = 3),
        tiempo_respuesta = runif(6)) %>%
   kbl() %>%
   kable_styling(font_size = 14)
@@ -152,7 +152,7 @@ class: left, top, highlight-last-item
 
 ```{r, echo=FALSE} 
 tibble(sujetos = rep(c("Jerry", "Elaine", "George"), each = 2),
-       trial = rep(c(1, 2), each = 3),
+       trial = rep(c(1, 2), times = 3),
        tiempo_respuesta = runif(6)) %>%
   kbl() %>%
   kable_styling(font_size = 14)
