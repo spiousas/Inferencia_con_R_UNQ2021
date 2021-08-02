@@ -75,7 +75,10 @@ Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolv
 
 Vamos a ver qué jugo`r emo::ji("juice")`les podemos sacar a estos datos...
 
-1. Empecemos con algo sencillo. Usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (`summer_tbl`).
+1. Empecemos con algo sencillo. 
+
+
+2. Ahora que ya tenemos las medallas por país (y no por atleta `r emo::ji("wink")`), usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano (`summer_tbl`).
 
 ```{r echo=FALSE, eval=FALSE}
 # Solución
@@ -111,7 +114,7 @@ winter_tbl %>%
   filter(Country %in% c("URS", "CAN")) %>% 
   filter(Discipline == "Ice Hockey") %>% 
   filter(Medal == "Gold") %>% 
-  filter(Gender == "Male") %>%
+  filter(Gender == "Men") %>%
   group_by(Country) %>% 
   summarise(N = n())
 ```
