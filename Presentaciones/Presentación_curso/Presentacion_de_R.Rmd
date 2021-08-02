@@ -1,0 +1,200 @@
+---
+title: "Presentación del curso 2021"
+subtitle: "Análisis estadístico utilizando R"
+author: "Ignacio Spiousas y Pablo Etchemendy"
+institute: "UNQ UNTreF CONICET"
+date: "(updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: 
+      - xaringan-themer.css
+      - custom.css
+    nature:
+      highlightLines: true
+      beforeInit: "macros.js"
+      countIncrementalSlides: false
+      navigation: 
+        scroll: false
+      ratio: '16:9'
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, palmerpenguins)
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE, 
+                      comment = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+
+style_duo_accent(primary_color = "#A42339",
+                 secondary_color = "#BADEFC",
+                 code_highlight_color = "#BADEFC",
+                 base_font_size = "18px",
+                 text_font_size = "1rem",
+                 text_slide_number_font_size = "0.8rem",
+                 code_font_size = "0.6rem",
+                 code_inline_font_size = "0.6rem",
+                 header_h1_font_size = "2.5rem",
+                 header_h2_font_size = "2rem",
+                 header_h3_font_size = "1.5rem",
+                 header_font_google = google_font("Work Sans", "600"),
+                 text_font_google = google_font("Work Sans", "300", "300i"),
+                 code_font_google = google_font("Fira Mono")
+)
+```
+
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center"),
+  ".caption" = list("text-align" = "center",
+                    "font-size"  = ".6rem")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
+
+# `r rmarkdown::metadata$title`
+### `r rmarkdown::metadata$subtitle`
+
+`r rmarkdown::metadata$institute`
+
+Ignacio Spiousas
+[`r icons::icon_style(icons::fontawesome("github"), fill = "#A42339")`](https://github.com/spiousas) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#A42339")`](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
+
+`r Sys.Date()`
+
+---
+class: left, top, highlight-last-item
+# Cursada
+
+La cursada cuenta de tres partes
+
+.pull-left.right[
+### Las clases asincrónicas
+
+a.k.a las *teóricas*
+]
+
+.pull-right[
+Como el amor clasificado que buscaba![:scale 25%](https://fotos.perfil.com/2020/05/22/trim/950/534/rodrigo-bueno-el-potro-961082.jpg?webp), no tienen día ni horario.
+
+Vamos a ver los temas del curso en pequeños vídeos de no más de 30 minutos subidos a **YouTube**.
+]
+
+--
+
+.pull-left.right[
+### Las clases sincrónicas
+
+a.k.a los *prácticos*
+]
+
+.pull-right[
+Serán encuentros vía Zoom los lunes y jueves de 14 a 17 hs.
+
+Vamos a resolver los prácticos (ejercicios) entre todxs y vamos a aprovechar para que puedan despejar todas sus dudas (también pueden usar **Slack**).
+]
+
+--
+
+.pull-left.right[
+### El trabajo final
+
+a.k.a lo que hay que hacer para aprobar el curso
+]
+
+.pull-right[
+El objetivo del curso es que hagan un análisis estadístico utilizando **R**.
+
+La idea es que generen un notebook de RMarkdown (ya van a ver qué es) que simule el documento que adjuntarían a un paper para que se puedan replicar todos los análisis y figuras del mismo.
+
+Debe contener **Análisis previo y pre-procesado**, **visualización de datos** y **modelado o testeo de hipótesis** de algún tipo.
+
+En caso de que no cuenten con datos propios lxs podemos ayudar a encontrar algún dataset abierto online para que trabajen.
+]
+
+---
+class: left, top, highlight-last-item
+# Cronograma 📆
+
+.small[
+| Semana | Fecha     | Unidad                                |
+| --- | --------- | ------------------------------------- | 
+| 0   | pre 1/8   | Introducción a R y Rstudio |
+| 1   | 2-5/8     | Bienvenidx al Tidyverse! |
+| 1   | 2-5/8     | Visualización de datos con R: Como hacer gráficos que sean la envidia de tus colegas. |
+| 1   | 5-9/8     | Revisando conceptos de probabilidad y estadística: Aleatoriedad y otros temas aleatorios. |
+| 1   | 5-9/8     | Revisando conceptos de probabilidad y estadística: Distribuciones estadísticas. |
+| 2   | 9-12/8    | Análisis exploratorio de datos. |
+| 2   | 9-12/8    | Prueba de hipótesis y control de errores: Potencia estadística, qué es y qué NO ES un p-value, y por qué es saludable reportar effect sizes. |
+| 2-3 | 12-19/8  | Modelos jerárquicos: Qué son y para qué sirven los famosos modelos lineales de efectos mixtos. |
+| 3-4 | 12-19/8  | Ciencia Abierta: Por qué y para qué. |
+| 3-4 | 12-19/8  | Ciencia Abierta: Cómo. |
+| 4   | 26 y 31/8  | Presentación del trabajo final. |
+]
+
+
+---
+class: left, top, highlight-last-item
+# El trabajo de cierre
+
+- El objetivo del curso es que hagan un análisis estadístico utilizando **R**.
+
+- La idea es que generen un notebook de **Rmarkdown** (ya van a ver qué es) que simule el documento que adjuntarían a un paper para que se puedan replicar todos los análisis y figuras del mismo.
+
+- Debe contener **Análisis previo y pre-procesado**, **visualización de datos** y **modelado o testeo de hipótesis** de algún tipo.
+
+- En caso de que no cuenten con datos propios lxs podemos ayudar a encontrar algún dataset abierto online para que trabajen.
+
+- Lo van a poder hacer individualmente o en grupos de **2**.
+
+- El último jueves y el sieguiente lunes robado (**26 y 31 de agosto**) van a tener que hacer una presentación de **15** minutos contando el trabajo.
+
+- Para el viernes **27 de agosto** tienen que enviarnos el Rmarkdown que vamos a corregir en los siguientes 15 días.
+
+---
+class: left, top, highlight-last-item
+# Y los oyentes
+
+Una de las ideas del curso es que **nadie que quisiera cursar se quedara afuera** peeeero, tiene limitaciones.
+
+Somos sólo dos docentes y muchos estudiantes así a los oyentes les proponemos dos cosas:
+
+- No presentar el trabajo, esto es obvio, no?
+
+- Presentar el trabajo sólo en **Rmarkdown**
+
+- Organizar, entre los oyentes que quieran presentar, una juntada la semana siguiente a que finalice el curso y hacer las presentaciones
+
+---
+class: center, middle, inverse
+
+.big[
+**¡Suerte `r emo::ji("tada")`!**
+]
