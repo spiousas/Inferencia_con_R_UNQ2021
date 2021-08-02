@@ -111,7 +111,8 @@ test
 Están en formato tidy?
 
 
-.right.tiny[`*` Para leerlo en sus computadoras no hace falta que usena la función `here()`.]
+.right.tiny[`*` Para leerlo en sus computadoras no deben usar la función `here()`.]
+.right.tiny[Ya vamos a ver por qué la usamos acá.]
 ---
 class: left, top, highlight-last-item
 # Leamos unos datos
