@@ -12,6 +12,10 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
   comment = "#>"
 )
 
@@ -20,6 +24,24 @@ library(bbplot)
 library(patchwork)
 library(ggpubr)
 library(ggflags)
+library(countrycode)
+```
+
+```{r load, include = FALSE}
+setwd("~/Dropbox/Estadistica/Inferencia_con_R_UNQ2021/Practicos/tidyverse/")
+
+dictionary_tbl <- read_csv("./data/dictionary.csv")
+summer_tbl <- read_csv("./data/summer.csv")
+
+summer_por_disciplina_tbl <- summer_tbl %>% 
+    group_by(Year, City, Sport, Country, Discipline, Event, Gender, Medal) %>%
+    summarise() # No hace ninguna operación
+
+winter_tbl <- read_csv("./data/winter.csv")
+
+winter_por_disciplina_tbl <- winter_tbl %>% 
+    group_by(Year, City, Sport, Country, Discipline, Event, Gender, Medal) %>%
+    summarise() # No hace ninguna operación
 ```
 
 ```{r image_ggplot2, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
@@ -41,7 +63,7 @@ En este práctico vamos a utilizar muchos de los `tibbles` que creamos en el **T
 
 1. Retomemos `summer_por_disciplina_tbl` y ploteemos la cantidad de medallas de oro de los 10 países con más medallas usando barras.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Con geom_col()
 summer_por_disciplina_tbl %>%
   group_by(Country) %>%
@@ -62,7 +84,7 @@ summer_por_disciplina_tbl %>%
 
 2. Ahora veamos la distribución de las medallas de oro acumuladas por país ¿Qué podemos decir al respecto?
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Con geom_histogram()
 labels_outliers <- tibble(x = c(979, 396),
                           y = c(2, 2),
@@ -90,7 +112,7 @@ summer_por_disciplina_tbl %>%
 
     *Pista*: Podemos codificar el tipo de medalla utilizando la estética `fill`.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Con geom_histogram()
 summer_por_disciplina_tbl %>%
   group_by(Country, Medal) %>%
@@ -110,7 +132,7 @@ summer_por_disciplina_tbl %>%
 
 4. Tratemos de hacer algo más informativo utilizando utilizando `facet_grid()`.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Con geom_histogram()
 summer_por_disciplina_tbl %>%
   group_by(Country, Medal) %>%
@@ -133,7 +155,7 @@ summer_por_disciplina_tbl %>%
 
     *Pista*: Cuando tenemos muchos paneles, es conveniente usar la funcion facet_wrap()
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Con geom_histogram()
 winter_por_disciplina_tbl %>%
   filter(Medal == "Gold") %>%
@@ -153,7 +175,7 @@ winter_por_disciplina_tbl %>%
 
 6. Vayamos de nuevo a algo un poquito más complicado. Usemos `dictionary_tbl` para hacer una figura que nos muestre la relación entre las medallas de oro acumuladas por país entre juegos de invierno y de verano y su **PBI**.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   rbind(winter_por_disciplina_tbl) %>% 
@@ -175,7 +197,7 @@ summer_por_disciplina_tbl %>%
 
 7. ¿Y si queremos ver si hay diferencias enter juegos de invierno y de verano?
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   mutate(Season = "Summer") %>%
@@ -203,7 +225,7 @@ summer_por_disciplina_tbl %>%
 
 7. Ahora veamos los tres tipos de medallas acumuladas para los juegos de verano vs. el **PBI** y agreguemos una capa de geom_smooth ¿Qué pasa si sacamos a `USA`?
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   group_by(Country, Medal) %>%
@@ -233,7 +255,7 @@ summer_por_disciplina_tbl %>%
 
 8. Ahora concentrémonos en Argentina`r emo::ji("Argentina")`. Veamos el histórico de medallas de Argentina en los juegos olímpicos de verano.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   filter(Country == "ARG") %>%
@@ -262,7 +284,7 @@ summer_por_disciplina_tbl %>%
 ```
 9. Bueno
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   mutate(Juego = paste0(Year, " - ", City),
@@ -298,7 +320,7 @@ summer_por_disciplina_tbl %>%
 
     *Pista*: Investigar el paquete *{ggflags}*`r emo::ji("package")`.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 summer_por_disciplina_tbl %>% 
   mutate(Juego = paste0(Year, " - ", City),
@@ -323,7 +345,7 @@ summer_por_disciplina_tbl %>%
              y = Posicion,
              color = factor(Posicion))) +
   geom_flag(aes(country = country_id),
-            size = 8) +
+            size = 5) +
   labs(x = NULL,
        y = NULL,
        color = NULL,
