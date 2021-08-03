@@ -263,10 +263,10 @@
 <li><p>¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el <code>pipe</code> de análisis?</p></li>
 <li><p>¿Y para quedarnos con los países en <code>oro_por_pais</code> con más de 5 medallas de oro? ¿Está Argentina🇦🇷 (<code>ARG</code>) en ese grupo?</p></li>
 <li><p>¿Quién ganó más medallas de oro en Hockey sobre hielo (<code>Ice Hockey</code>) masculino, Canadá (<code>CAN</code>) o la Unión Soviética (<code>URS</code>)?</p>
-<p><em>Pista</em>: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <a href="https://dplyr.tidyverse.org/"><code>%in%</code></a>.</p></li>
+<p><em>Pista</em>: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador <a href="https://dplyr.tidyverse.org/">%in%</a>.</p></li>
 <li><p>Armemos un <code>tibble</code> con los nombres de los medallistas olímpicos argentinos en deportes acuáticos y la disciplina, evento y medalla que ganaron.</p>
 <p><em>Pista</em>: Para seleccionar más de una columna hay que hacer una lista usando <code>c()</code> y se recomienda utilizar <a href="https://www.rdocumentation.org/packages/tidyselect/versions/1.1.1/topics/all_of">all_of()</a>.</p></li>
-<li><p>¿Cuáles son los tres países con más medallas de oro en total?</p>
+<li><p>¿Cuáles son los tres países con más medallas de oro en total (juegos de invierno y verano)?</p>
 <p><em>Pista 1</em>: para combinar dos <code>tibbles</code> con las mismas columnas pueden usar <a href="https://rpubs.com/dku850/597154#:~:text=The%20name%20of%20the%20rbind,code%20for%20rbind%20in%20R.">rbind()</a>.</p>
 <p><em>Pista 2</em>: Para quedarse con los tres primeros valores pueden usar la función <a href="https://dplyr.tidyverse.org/reference/slice.html">slice_head()</a> con <code>n = 3</code>.</p></li>
 <li><p>Aprovechemos los datos de <code>dictionary_tbl</code> para pensar un poco en la cantidad de medallas por millón de habitantes. Armemos un <code>tibble</code> que contenga la cantidad de medallas <em>per cápita</em> por país. ¿Qué pasó con la Unión Soviética (<code>URS</code>)?</p>
