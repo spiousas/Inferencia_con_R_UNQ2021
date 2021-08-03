@@ -31,6 +31,7 @@ Para saber *cómo cargar los datos* o *qué estructura tienen* les recomendamos 
 
 Si bien existen formas alternativas de generar visualizaciones utilizando R, el objetivo del presente práctico es que lo hagan utilizando el paquete del `tidyverse` `ggplot2`.
 
+En este práctico vamos a utilizar muchos de los `tibbles` que creamos en el **TP1: *tidyverse* olímpico**
 1.
 2.
 3.
