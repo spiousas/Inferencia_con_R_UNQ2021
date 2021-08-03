@@ -164,8 +164,7 @@ nombres_natacion_tbl <- summer_tbl %>%
 # Solución
 top_3_tbl <- winter_por_disciplina_tbl %>%
   rbind(summer_por_disciplina_tbl) %>%
-  filter(Medal == "Gold") %>%dale
-
+  filter(Medal == "Gold") %>%
   group_by(Country) %>%
   summarise(N = n()) %>%
   arrange(desc(N)) %>%

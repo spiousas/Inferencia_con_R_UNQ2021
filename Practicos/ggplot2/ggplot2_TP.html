@@ -7,7 +7,7 @@
 
         <meta name="author" content="Spiousas - Etchemendy" />
     
-        <meta name="date" content="2021-08-02" />
+        <meta name="date" content="2021-08-03" />
     
     <title>TP2 - ggplot2 olímpico</title>
 
@@ -125,7 +125,7 @@
         <ul class="authors">
           <li class="divider"></li>
                                 <li><span><i class="glyphicon glyphicon-user"></i> Spiousas - Etchemendy</span></li>
-                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-02</span></li>
+                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-03</span></li>
                   </ul>     
       </div>
       <div class="book-body fixed">
@@ -152,7 +152,23 @@
 <div id="las-consignas" class="section level2">
 <h2>Las consignas</h2>
 <p>Si bien existen formas alternativas de generar visualizaciones utilizando R, el objetivo del presente práctico es que lo hagan utilizando el paquete del <code>tidyverse</code> <code>ggplot2</code>.</p>
-<p>En este práctico vamos a utilizar muchos de los <code>tibbles</code> que creamos en el <strong>TP1: <em>tidyverse</em> olímpico</strong> 1. 2. 3.</p>
+<p>En este práctico vamos a utilizar muchos de los <code>tibbles</code> que creamos en el <strong>TP1: <em>tidyverse</em> olímpico</strong>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Retomemos <code>summer_por_disciplina_tbl</code> y ploteemos la cantidad de medallas de oro de los 10 países con más medallas usando barras.</p></li>
+<li><p>Ahora veamos la distribución de las medallas de oro acumuladas por país ¿Qué podemos decir al respecto?</p></li>
+<li><p>¿Y si queremos ver las distribuciones de todas las medallas, no sólo las de oro?</p>
+<p><em>Pista</em>: Podemos codificar el tipo de medalla utilizando la estética <code>fill</code>.</p></li>
+<li><p>Tratemos de hacer algo más informativo utilizando utilizando <code>facet_grid()</code>.</p></li>
+<li><p>¿Y si queremos ver la distribución de medallas de oro entre países a lo largo de la historia de los juegos de invierno?</p>
+<p><em>Pista</em>: Cuando tenemos muchos paneles, es conveniente usar la funcion facet_wrap()</p></li>
+<li><p>Vayamos de nuevo a algo un poquito más complicado. Usemos <code>dictionary_tbl</code> para hacer una figura que nos muestre la relación entre las medallas de oro acumuladas por país entre juegos de invierno y de verano y su <strong>PBI</strong>.</p></li>
+<li><p>¿Y si queremos ver si hay diferencias enter juegos de invierno y de verano?</p></li>
+<li><p>Ahora veamos los tres tipos de medallas acumuladas para los juegos de verano vs. el <strong>PBI</strong> y agreguemos una capa de geom_smooth ¿Qué pasa si sacamos a <code>USA</code>?</p></li>
+<li><p>Ahora concentrémonos en Argentina🇦🇷. Veamos el histórico de medallas de Argentina en los juegos olímpicos de verano.</p></li>
+<li><p>Bueno</p></li>
+<li><p>¿Le podremos agregar banderas a los puntos en el medallero?</p>
+<p><em>Pista</em>: Investigar el paquete <em>{ggflags}</em>📦.</p></li>
+</ol>
 </div>
 
    
