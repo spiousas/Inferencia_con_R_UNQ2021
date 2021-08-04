@@ -40,9 +40,14 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 1      | CA-5  | Visualización de datos: *Ggplot2 Strikes Back*  | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/3-2/ggplot_2.html) | [YouTube](https://www.youtube.com/watch?v=TMhZML7JqsM&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=6) |
 | 1      | CA-6  | Visualización de datos: *Return of the Ggplot2* | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/3-3/ggplot_3.html) | [YouTube](https://www.youtube.com/watch?v=j0vwd7w_Kok&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=7) |
 | 1      | CS-1  | Presentación del curso | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/Presentacion_curso/Presentacion_de_R.html) | [YouTube](https://www.youtube.com/watch?v=EfR9VmDnDIg&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=9) |
-| 1      | TP-1  | *Tidyverse*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tidyverse/tidyverse_TP.html) | No hay | 
+| 1      | TP-1  | *tidyverse*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tidyverse/tidyverse_TP.html) | No hay |
+| 1      | TP-2  | *ggplot2*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/ggplot2/ggplot2_TP.html) | No hay |
 
-(**CS**) Clase Sincrónica - (**CA**) Clase Asincrónica - (**TP**) Trabajo Práctico
+(**CS**) Clase Sincrónica 
+
+(**CA**) Clase Asincrónica
+
+(**TP**) Trabajo Práctico
 
 ## Bienvenidxs
 
