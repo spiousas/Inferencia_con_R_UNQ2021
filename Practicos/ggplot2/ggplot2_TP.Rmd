@@ -51,17 +51,17 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 knitr::include_graphics("https://www.seekpng.com/png/full/85-856819_olympic-rings-png-anillos-de-los-juegos-olimpicos.png")
 ```
 
-En este práctico vamos a usar los paquetes del `tidyverse`  junto con `ggplot2` para explorar y generar **visualizaciones informativas** a partit de los datos históricos de los Juegos olímpicos.
+En este práctico vamos a usar los paquetes del *{tidyverse}*  (en especial *{ggplot2}*) para explorar y generar **visualizaciones informativas** a partir de los datos históricos de los Juegos Olímpicos.
 
-Para saber *cómo cargar los datos* o *qué estructura tienen* les recomendamos volver al [**TP1 - *tidyverse* olímpico**]()
+Para saber *cómo cargar los datos* o *qué estructura tienen* les recomendamos volver al [**TP1 - *tidyverse* olímpico**](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tidyverse/tidyverse_TP.html)
 
 ## Las consignas
 
-Si bien existen formas alternativas de generar visualizaciones utilizando R, el objetivo del presente práctico es que lo hagan utilizando el paquete del `tidyverse` `ggplot2`.
+Si bien existen formas alternativas de generar visualizaciones utilizando **R**, el objetivo del presente práctico es que lo hagan utilizando el paquete del *{ggplot2}*.
 
 En este práctico vamos a utilizar muchos de los `tibbles` que creamos en el **TP1: *tidyverse* olímpico**.
 
-1. Retomemos `summer_por_disciplina_tbl` y ploteemos la cantidad de medallas de oro de los 10 países con más medallas usando barras.
+1. Retomemos `summer_por_disciplina_tbl` y grafiquemos la cantidad de medallas de oro de los 10 países con más medallas usando barras.
 
 ```{r}
 # Con geom_col()
@@ -108,7 +108,7 @@ summer_por_disciplina_tbl %>%
   theme_minimal()
 ```
 
-3. ¿Y si queremos ver las distribuciones de todas las medallas, no sólo las de oro?
+3. ¿Y si queremos ver las distribuciones de los tres tipos de medallas?
 
     *Pista*: Podemos codificar el tipo de medalla utilizando la estética `fill`.
 
@@ -153,7 +153,7 @@ summer_por_disciplina_tbl %>%
 
 5. ¿Y si queremos ver la distribución de medallas de oro entre países a lo largo de la historia de los juegos de invierno?
 
-    *Pista*: Cuando tenemos muchos paneles, es conveniente usar la funcion facet_wrap()
+    *Pista*: Cuando tenemos muchos paneles, es conveniente usar la funcion [facet_wrap()](http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/).
 
 ```{r}
 # Con geom_histogram()
@@ -173,7 +173,7 @@ winter_por_disciplina_tbl %>%
   theme(legend.position = "top")
 ```
 
-6. Vayamos de nuevo a algo un poquito más complicado. Usemos `dictionary_tbl` para hacer una figura que nos muestre la relación entre las medallas de oro acumuladas por país entre juegos de invierno y de verano y su **PBI**.
+6. Vayamos de nuevo a algo un poquito más complicado. Usemos `dictionary_tbl` para hacer una figura que nos muestre la relación entre las medallas de oro acumuladas por país entre juegos de invierno y de verano y su **PBI per cápita**.
 
 ```{r}
 # Solución
@@ -195,7 +195,7 @@ summer_por_disciplina_tbl %>%
 
 ```
 
-7. ¿Y si queremos ver si hay diferencias enter juegos de invierno y de verano?
+7. ¿Y si queremos ver si hay diferencias entre juegos de invierno y de verano?
 
 ```{r}
 # Solución
@@ -223,7 +223,7 @@ summer_por_disciplina_tbl %>%
 
 ```
 
-7. Ahora veamos los tres tipos de medallas acumuladas para los juegos de verano vs. el **PBI** y agreguemos una capa de geom_smooth ¿Qué pasa si sacamos a `USA`?
+7. Ahora veamos los tres tipos de medallas acumuladas para los juegos de verano vs. el **PBI per cápita** y agreguemos una capa de `geom_smooth()` ¿Qué pasa si sacamos a `USA`?
 
 ```{r}
 # Solución
@@ -253,7 +253,7 @@ summer_por_disciplina_tbl %>%
 
 ```
 
-8. Ahora concentrémonos en Argentina`r emo::ji("Argentina")`. Veamos el histórico de medallas de Argentina en los juegos olímpicos de verano.
+8. Ahora concentrémonos en Argentina`r emo::ji("Argentina")`. Veamos el histórico de medallas de Argentina en los Juegos Olímpicos de verano.
 
 ```{r}
 # Solución
@@ -282,7 +282,9 @@ summer_por_disciplina_tbl %>%
   theme(legend.position = "top",
         plot.title.position = "plot")
 ```
-9. Bueno
+9. Grafiquemos el nombre de los paises que forman el podio del medallero para todos los Juegos Olímpicos de Verano.
+
+    *Pista*: Para graficar un texto podemos usar la geometría [`geom_text()`](https://ggplot2.tidyverse.org/reference/geom_text.html).
 
 ```{r}
 # Solución
@@ -316,9 +318,9 @@ summer_por_disciplina_tbl %>%
         axis.ticks.y = element_blank())
 ```
 
-10. ¿Le podremos agregar banderas a los puntos en el medallero?
+10. ¿Podremos reemplazar los nombres en el medallero por sus banderas?
 
-    *Pista*: Investigar el paquete *{ggflags}*`r emo::ji("package")`.
+    *Pista*: Investigar el paquete [*{ggflags}*`r emo::ji("package")`](https://github.com/rensa/ggflags).
 
 ```{r}
 # Solución

@@ -24,9 +24,9 @@ knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/
 knitr::include_graphics("https://www.seekpng.com/png/full/85-856819_olympic-rings-png-anillos-de-los-juegos-olimpicos.png")
 ```
 
-En este práctico vamos a usar los paquetes del `tidyverse` para explorar los datos históricos de los Juegos Olímpicos.
+En este práctico vamos a usar los paquetes del *{tidyverse}* para explorar los datos históricos de los Juegos Olímpicos.
 
-Antes de empezar les recordamos que tienen que instalar los paquetes del `tidyverse` y adjuntarlo a la sesión de **r** ejecutando las dos líneas a continuación (si ya instalaron los paquetes del `tidyverse` no hace falta que corran la primera línea):
+Antes de empezar les recordamos que tienen que instalar los paquetes del *{tidyverse}* y adjuntarlo a la sesión de **R** ejecutando las dos líneas a continuación (si ya instalaron los paquetes del *{tidyverse}* no hace falta que corran la primera línea):
 
 ```{r, eval=FALSE}
 install.packages("tidyverse")
@@ -35,7 +35,7 @@ library(tidyverse)
 
 ## Cómo cargar los datos
 
-Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas `Practicos/tidyverse/data`, copiarlos en su carpeta de trabajo y leerlos utilizando la función `read_csv()` del paquete `readr`.
+Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas `Practicos/tidyverse/data`, copiarlos en su carpeta de trabajo y leerlos utilizando la función `read_csv()` del paquete *{readr}*.
 
 ```{r, eval=FALSE}
 dictionary_tbl <- read_csv("dictionary.csv")
@@ -43,7 +43,7 @@ summer_tbl <- read_csv("summer.csv")
 winter_tbl <- read_csv("winter.csv")
 ```
 
-Otra opción es leer directamente los datos del repositorio de **github** `r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete `Rcurl`.
+Otra opción es leer directamente los datos del repositorio de **github** `r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete *{Rcurl}*.
 
 ```{r, eval=FALSE}
 install.packages("RCurl")
@@ -70,7 +70,7 @@ Les dejamos la exploración de las observaciones y las variables a ustedes. Recu
 
 ## Las consignas
 
-La idea es que pongan en práctica todas las funcionalidades del tidyverse que vimos en las clases, cosas como el `piping` o los verbos de `dplyr`. Es por eso que les recomendamos que, aunque existan métodos alternativos para obtener las respuestas a estas consignas, intenten utilizar las herramientas que les acabamos de mencionar. 
+La idea es que pongan en práctica todas las funcionalidades del tidyverse que vimos en las clases, cosas como el `piping` o los verbos de *{dplyr}*. Es por eso que les recomendamos que, aunque existan métodos alternativos para obtener las respuestas a estas consignas, intenten utilizar las herramientas que les acabamos de mencionar. 
 
 Por supuesto que con lo que vimos en las clases no les va a alcanzar para resolver las consignas, pero para todo lo que no está en las clases existe [**google**](https://www.google.com/).
 
@@ -94,7 +94,7 @@ winter_por_disciplina_tbl <- winter_tbl %>%
     summarise() # No hace ninguna operación
 ```
 
-2. Ahora que ya tenemos las medallas por país (y no por atleta `r emo::ji("wink")`) para cada disciplina, usando `group_by()` y los verbos de `dplyr`, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano.
+2. Ahora que ya tenemos las medallas por país (y no por atleta `r emo::ji("wink")`) para cada disciplina, usando `group_by()` y los verbos de *{dplyr}*, creen un nuevo tibble (`oro_por_pais`) que tenga, de forma ordenada, la cantidad de medallas de oro que ganó cada país en toda la historia de los Juegos Olímpicos de verano.
 
     *Pista*: Si queremos ordenar algo de forma descendente en `dplyr` tenemos que usar `arrange(desc(variable))`.
 
@@ -107,7 +107,7 @@ gold_by_country <- summer_por_disciplina_tbl %>%
   arrange(desc(N))
 ```
 
-2. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el `pipe` de análisis?
+2. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el *pipe* `%>%` de análisis?
 
 ```{r echo=FALSE, eval=FALSE}
 # Solución
@@ -193,9 +193,9 @@ medallas_per_million_tbl <- summer_por_disciplina_tbl %>%
 
 8. ¿Cuántos medallistas olímpicos de invierno que ganaron bronce tienen de nombre **John**? 
     
-    *Opción 1*: La función `str_split()` de [stringr](https://stringr.tidyverse.org/) nos separa un string en base a un separador que les damos. Por ejemplo `str_split("Juan Perez", pattern = " ")` nos de la lista `"Juan"  "Perez"`, y de esta forma accedemos a su primer elemento `str_split("Juan Perez", pattern = " ")[[1]][1]`. 
+    *Opción 1*: La función `str_split()` de [*{stringr}*](https://stringr.tidyverse.org/) nos separa un string en base a un separador que les damos. Por ejemplo `str_split("Juan Perez", pattern = " ")` nos de la lista `"Juan"  "Perez"`, y de esta forma accedemos a su primer elemento `str_split("Juan Perez", pattern = " ")[[1]][1]`. 
     
-    *Opción 2*: La función `str_detect()` de [stringr](https://stringr.tidyverse.org/) nos devuelve un `TRUE` si encuentra un patrón en el texto y un `FALSE` si no. Por ejemplo, `str_detect("Juan Perez", "Juan", negate = FALSE)` devuelve `TRUE` y `str_detect("Pedro Perez", "Juan", negate = FALSE)` devuelve `FALSE`. 
+    *Opción 2*: La función `str_detect()` de [*{stringr}*](https://stringr.tidyverse.org/) nos devuelve un `TRUE` si encuentra un patrón en el texto y un `FALSE` si no. Por ejemplo, `str_detect("Juan Perez", "Juan", negate = FALSE)` devuelve `TRUE` y `str_detect("Pedro Perez", "Juan", negate = FALSE)` devuelve `FALSE`. 
     
     Recuerden también usar el verbo `mutate()`.
     
