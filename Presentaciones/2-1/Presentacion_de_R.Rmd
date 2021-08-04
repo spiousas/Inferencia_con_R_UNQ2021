@@ -299,7 +299,7 @@ class: left, top, highlight-last-item
 Aunque no lo crean, estas infografías están hechas 100% utilizando **R**
 
 .center.mid[
-![:scale 80%](https://tacosdedatos.com/assets/blogposts/002_bbplot_ejemplo.png)
+![:scale 80%](./figs/InfoBBC.png)
 ]
 ---
 class: left, top, highlight-last-item
