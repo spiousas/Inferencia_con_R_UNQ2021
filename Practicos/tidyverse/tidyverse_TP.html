@@ -7,7 +7,7 @@
 
         <meta name="author" content="Spiousas - Etchemendy" />
     
-        <meta name="date" content="2021-08-03" />
+        <meta name="date" content="2021-08-04" />
     
     <title>TP1 - tidyverse olímpico</title>
 
@@ -196,7 +196,7 @@
         <ul class="authors">
           <li class="divider"></li>
                                 <li><span><i class="glyphicon glyphicon-user"></i> Spiousas - Etchemendy</span></li>
-                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-03</span></li>
+                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-04</span></li>
                   </ul>     
       </div>
       <div class="book-body fixed">
@@ -232,11 +232,13 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;RCurl&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RCurl)</span></code></pre></div>
 <p>Luego, podemos asignar una <code>url</code> de la que descargar nuestro archivos <code>.csv</code>. EN nuestro caso el código sería como a continuación:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.github.com/spiousas/Inferencia_con_R_UNQ2021/Practicos/tidyverse/data/dictionary.csv&quot;</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/dictionary.csv&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">getURL</span>(url)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dictionary_tbl <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="at">text =</span> x))</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ídem para summer_tbl y winter_tbl</span></span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ídem para: </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   summer_tbl: https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/summer.csv</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   winter_tbl: https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/winter.csv</span></span></code></pre></div>
 <p>Las dos formas de leer los archivos pueden tener ligeras diferencias en los nombres de las variables.</p>
 </div>
 <div id="los-datos" class="section level2">
