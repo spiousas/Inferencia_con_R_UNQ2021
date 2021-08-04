@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(RCurl)
 ```
 
 ```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
@@ -53,11 +55,13 @@ library(RCurl)
 Luego, podemos asignar una `url` de la que descargar nuestro archivos `.csv`. EN nuestro caso el código sería como a continuación:
 
 ```{r, eval=FALSE}
-url <- "https://raw.github.com/spiousas/Inferencia_con_R_UNQ2021/Practicos/tidyverse/data/dictionary.csv"
+url <- "https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/dictionary.csv"
 x <- getURL(url)
 dictionary_tbl <- as_tibble(read.csv(text = x))
 
-# ídem para summer_tbl y winter_tbl
+# ídem para: 
+#   summer_tbl: https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/summer.csv
+#   winter_tbl: https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/winter.csv
 ```
 
 Las dos formas de leer los archivos pueden tener ligeras diferencias en los nombres de las variables.
