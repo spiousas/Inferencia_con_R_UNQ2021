@@ -30,7 +30,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Cronograma 📆
 
-| Semana | Clase | Título                                | Documento                                              | Vídeo                                                                                      |
+| Semana | Clase | Título                                | Documento                                              | Vídeo                                           |
 | ------ | ----- | ------------------------------------- | :-------------------------------------------------------: | :-------------------------------------------: |
 | 0      | CA-1  | Introducción a R y Rstudio                     | No hay                             | [YouTube](https://www.youtube.com/watch?v=NOwcUHaqlyI&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=1) |
 | 1      | CA-1  | ¿Por qué R?                                    | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/2-1/Presentacion_de_R.html) | [YouTube](https://www.youtube.com/watch?v=SfQ9JF72GvI&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=2) |
@@ -41,7 +41,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 1      | CA-6  | Visualización de datos: *Return of the Ggplot2* | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/3-3/ggplot_3.html) | [YouTube](https://www.youtube.com/watch?v=j0vwd7w_Kok&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=7) |
 | 1      | CS-1  | Presentación del curso | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/Presentacion_curso/Presentacion_de_R.html) | [YouTube](https://www.youtube.com/watch?v=EfR9VmDnDIg&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=8) |
 | 1      | TP-1  | *tidyverse*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tidyverse/tidyverse_TP.html) [Solución](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tidyverse/tidyverse_TP_solved.html) | No hay |
-| 1      | TP-2  | *ggplot2*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/ggplot2/ggplot2_TP.html) [Solución](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/ggplot2/ggplot2_TP?solved.html) | No hay |
+| 1      | TP-2  | *ggplot2*  Olímpico | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/ggplot2/ggplot2_TP.html) [Solución](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/ggplot2/ggplot2_TP_solved.html) | No hay |
 | 1      | CS-2  | Resolución de TPs 1 y 2 | No hay | Mañana |
 | 1      | CA-7  | Variables Aleatorias 1-1: ¿Qué es una variable aleatoria?            | Mañana | [YouTube](https://www.youtube.com/watch?v=x6JxeKelBdc&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=9) |
 | 1      | CA-8  | Variables Aleatorias 1-2: Tipos de variables aleatorias       | Mañana | [YouTube](https://www.youtube.com/watch?v=Q6w_iehCLFs&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=10) |
