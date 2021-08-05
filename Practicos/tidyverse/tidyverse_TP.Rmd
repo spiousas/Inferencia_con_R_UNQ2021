@@ -13,6 +13,10 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
   comment = "#>"
 )
 
@@ -30,7 +34,7 @@ En este práctico vamos a usar los paquetes del *{tidyverse}* para explorar los 
 
 Antes de empezar les recordamos que tienen que instalar los paquetes del *{tidyverse}* y adjuntarlo a la sesión de **R** ejecutando las dos líneas a continuación (si ya instalaron los paquetes del *{tidyverse}* no hace falta que corran la primera línea):
 
-```{r, eval=FALSE}
+```{r}
 install.packages("tidyverse")
 library(tidyverse)
 ```
@@ -39,7 +43,7 @@ library(tidyverse)
 
 Los datos históricos de los Juegos Olímpicos son un dataset de **Kaggle**. Para cargarlos a su sesión de R los pueden encontrar en el repositorio de la materia, en las carpetas `Practicos/tidyverse/data`, copiarlos en su carpeta de trabajo y leerlos utilizando la función `read_csv()` del paquete *{readr}*.
 
-```{r, eval=FALSE}
+```{r}
 dictionary_tbl <- read_csv("dictionary.csv")
 summer_tbl <- read_csv("summer.csv")
 winter_tbl <- read_csv("winter.csv")
@@ -47,14 +51,14 @@ winter_tbl <- read_csv("winter.csv")
 
 Otra opción es leer directamente los datos del repositorio de **github** `r icons::icon_style(icons::fontawesome("github"), fill = "black")`. Para esto necesitamos instalar y adjuntar el paquete *{Rcurl}*.
 
-```{r, eval=FALSE}
+```{r}
 install.packages("RCurl")
 library(RCurl)
 ```
 
 Luego, podemos asignar una `url` de la que descargar nuestro archivos `.csv`. EN nuestro caso el código sería como a continuación:
 
-```{r, eval=FALSE}
+```{r}
 url <- "https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tidyverse/data/dictionary.csv"
 x <- getURL(url)
 dictionary_tbl <- as_tibble(read.csv(text = x))
@@ -84,14 +88,14 @@ Vamos a ver qué jugo`r emo::ji("juice")`les podemos sacar a estos datos...
 
     Acá una propuesta (hagan lo mismo para `winter_tbl`):
 
-```{r eval=FALSE}
+```{r, echo = TRUE}
 # Acomodemos el tibble
 summer_por_disciplina_tbl <- summer_tbl %>% 
     group_by(Year, City, Sport, Country, Discipline, Event, Gender, Medal) %>%
     summarise() # No hace ninguna operación
 ```
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Acomodemos el tibble
 winter_por_disciplina_tbl <- winter_tbl %>% 
     group_by(Year, City, Sport, Country, Discipline, Event, Gender, Medal) %>%
@@ -102,7 +106,7 @@ winter_por_disciplina_tbl <- winter_tbl %>%
 
     *Pista*: Si queremos ordenar algo de forma descendente en `dplyr` tenemos que usar `arrange(desc(variable))`.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 gold_by_country <- summer_por_disciplina_tbl %>% 
   filter(Medal=="Gold") %>% 
@@ -111,18 +115,18 @@ gold_by_country <- summer_por_disciplina_tbl %>%
   arrange(desc(N))
 ```
 
-2. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el *pipe* `%>%` de análisis?
+3. ¿Y si ahora queremos ver cuántas de Oro, de Plata y de Bronce? ¿Cómo deberíamos modificar el *pipe* `%>%` de análisis?
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 medal_by_country <- summer_por_disciplina_tbl %>% 
   group_by(Country, Medal) %>% 
   summarise(N = n())
 ```
 
-3. ¿Y para quedarnos con los países en `oro_por_pais` con más de 5 medallas de oro? ¿Está Argentina`r emo::ji("Argentina")` (`ARG`) en ese grupo?
+4. ¿Y para quedarnos con los países en `oro_por_pais` con más de 5 medallas de oro? ¿Está Argentina`r emo::ji("Argentina")` (`ARG`) en ese grupo?
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 gold_by_country <- summer_por_disciplina_tbl %>% 
   filter(Medal=="Gold") %>% 
@@ -131,11 +135,11 @@ gold_by_country <- summer_por_disciplina_tbl %>%
   filter(N>5)
 ```
 
-4. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? 
+5. ¿Quién ganó más medallas de oro en Hockey sobre hielo (`Ice Hockey`) masculino, Canadá (`CAN`) o la Unión Soviética (`URS`)? 
 
     *Pista*: Para filtrar una columna de acuerdo a varios posibles valores discretos les recomiendo investigar el operador [%in%](https://dplyr.tidyverse.org/).
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 winter_por_disciplina_tbl %>% 
   filter(Country %in% c("URS", "CAN")) %>% 
@@ -146,11 +150,11 @@ winter_por_disciplina_tbl %>%
   summarise(N = n())
 ```
 
-5. Armemos un `tibble` con los nombres de los medallistas olímpicos argentinos en deportes acuáticos y la disciplina, evento y medalla que ganaron. 
+6. Armemos un `tibble` con los nombres de los medallistas olímpicos argentinos en deportes acuáticos y la disciplina, evento y medalla que ganaron. 
 
     *Pista*: Para seleccionar más de una columna hay que hacer una lista usando `c()` y se recomienda utilizar [all_of()](https://www.rdocumentation.org/packages/tidyselect/versions/1.1.1/topics/all_of).
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 nombres_natacion_tbl <- summer_tbl %>%
   filter(Sport == "Aquatics") %>%
@@ -158,13 +162,13 @@ nombres_natacion_tbl <- summer_tbl %>%
   select(all_of(c("Athlete", "Discipline", "Event", "Medal")))
 ```
 
-6. ¿Cuáles son los tres países con más medallas de oro en total (juegos de invierno y verano)? 
+7. ¿Cuáles son los tres países con más medallas de oro en total (juegos de invierno y verano)? 
 
     *Pista 1*: para combinar dos `tibbles` con las mismas columnas pueden usar [rbind()](https://rpubs.com/dku850/597154#:~:text=The%20name%20of%20the%20rbind,code%20for%20rbind%20in%20R.). 
 
     *Pista 2*: Para quedarse con los tres primeros valores pueden usar la función [slice_head()](https://dplyr.tidyverse.org/reference/slice.html) con `n = 3`.
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 top_3_tbl <- winter_por_disciplina_tbl %>%
   rbind(summer_por_disciplina_tbl) %>%
@@ -175,13 +179,13 @@ top_3_tbl <- winter_por_disciplina_tbl %>%
   slice_head(n = 3)
 ```
 
-7. Aprovechemos los datos de `dictionary_tbl` para pensar un poco en la cantidad de medallas por millón de habitantes. Armemos un `tibble` que contenga la cantidad de medallas *per cápita* por país. ¿Qué pasó con la Unión Soviética (`URS`)?
+8. Aprovechemos los datos de `dictionary_tbl` para pensar un poco en la cantidad de medallas por millón de habitantes. Armemos un `tibble` que contenga la cantidad de medallas *per cápita* por país. ¿Qué pasó con la Unión Soviética (`URS`)?
 
     *Pista 1*: Para juntar dos `tibbles` pueden usar la función [inner_join()](https://dplyr.tidyverse.org/reference/join.html)
     
     *Pista 2*: Para descartar las filas con valores `NA` pueden usar la función [drop_na()](https://tidyr.tidyverse.org/reference/drop_na.html)
     
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 medallas_per_million_tbl <- summer_por_disciplina_tbl %>% 
   rbind(winter_por_disciplina_tbl) %>% 
@@ -195,7 +199,7 @@ medallas_per_million_tbl <- summer_por_disciplina_tbl %>%
   arrange(desc(medals_per_million))
 ```
 
-8. ¿Cuántos medallistas olímpicos de invierno que ganaron bronce tienen de nombre **John**? 
+9. ¿Cuántos medallistas olímpicos de invierno que ganaron bronce tienen de nombre **John**? 
     
     *Opción 1*: La función `str_split()` de [*{stringr}*](https://stringr.tidyverse.org/) nos separa un string en base a un separador que les damos. Por ejemplo `str_split("Juan Perez", pattern = " ")` nos de la lista `"Juan"  "Perez"`, y de esta forma accedemos a su primer elemento `str_split("Juan Perez", pattern = " ")[[1]][1]`. 
     
@@ -203,7 +207,7 @@ medallas_per_million_tbl <- summer_por_disciplina_tbl %>%
     
     Recuerden también usar el verbo `mutate()`.
     
-```{r echo=FALSE, eval=FALSE}
+```{r}
 # Solución
 juanes_tbl <- winter_tbl %>% 
   filter(Medal == "Bronze") %>%
