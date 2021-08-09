@@ -1,0 +1,211 @@
+---
+title: "TP3 - Variables discretas"
+author: "Spiousas - Etchemendy"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::robobook
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+
+library(RCurl)
+```
+
+En este práctico vamos a trabajar con variables aleatorias continuas, de manera muy similar a como lo hicimos en el caso discreto.
+
+## Carga de bibliotecas
+
+```{r, echo=TRUE, eval=TRUE}
+library(magrittr)
+library(purrr)
+library(tidyverse)
+```
+
+## Ejercicio 1
+
+Las siguientes líneas de código generan *N* realizaciones de una variable aleatoria continua uniforme cuyos valores posibles se encuentran en el intervalo comprendido entre 0 y 1:
+
+```{r, echo=TRUE, eval=TRUE}
+N = 50
+set.seed(101)
+realizaciones = runif(n=N, min=0, max=1)
+```
+
+Vamos a almacenar los datos de este "experimento" en un `tibble`:
+
+```{r, echo=TRUE, eval=TRUE}
+datos = tibble(id=1:N, value=realizaciones)
+```
+
+a) Graficar los valores obtenidos versus el número de realización. Elegir un geom conveniente: point, line, col?
+
+```{r}
+ggplot(datos, aes(x=id, y=value)) + geom_point()
+```
+
+b) Obtener la frecuencia absoluta para valores menores y mayores al punto intermedio del intervalo (0.5), almacenarla en un ``tibble`` y graficarla
+
+```{r} 
+histograma = datos %>% 
+             with(hist(value, breaks = c(0, 0.5, 1), plot = FALSE)) %$% 
+             #with(hist(value, plot = FALSE)) %$% 
+             tibble(from    = head(breaks, -1),
+                    to      = tail(breaks, -1), 
+                    mids    = mids,
+                    counts  = counts, 
+                    density = density)
+
+histograma
+```
+
+```{r} 
+#, echo=FALSE, eval=FALSE}
+ggplot(histograma, aes(x = mids, y = counts)) + geom_col(color='black', fill='white') #width = 0.5)
+```
+
+c) Obtener la frecuencia relativa y graficarla.
+
+```{r}
+histograma %<>% mutate(f = counts / N)
+ggplot(histograma, aes(x = mids, y = f)) + geom_col(color='black', fill='white') #width = 0.5)
+```
+
+d) Armar un ``tibble`` con la densidad de probabilidad teórica y graficarla junto con el histograma.
+
+    Ayuda: investigar la función dunif()
+
+```{r}
+densidad = tibble(x = seq(from=-1, to=2, by=0.01)) %>% mutate(pdf = dunif(x, min=0, max=1))
+densidad
+```
+
+```{r}
+ggplot() + geom_col(data = histograma, aes(x = mids, y=density), color='black', fill='white') + #width = 0.5,
+           geom_line(data = densidad, aes(x = x, y = pdf), color = 'orange')
+```
+
+e) Obtener la probabilidad acumulada y compararla con el valor teórico
+
+    Ayuda: investigar la función punif()
+
+```{r}
+histograma %<>% mutate(p = cumsum(f))
+histograma
+```
+
+```{r}
+densidad %<>% mutate(p = punif(x, min=0, max=1))
+densidad
+```
+
+```{r}
+ggplot() + 
+  geom_line(data = histograma, aes(x = to, y = p), color = 'black') +
+  #geom_col(data = histograma, aes(x = mids, y = p), color = 'black') +
+  #geom_step(data = histograma, aes(x = mids, y = p), color = 'black') +
+  geom_line(data = densidad, aes(x = x, y = p), color = 'orange')
+```
+
+f) Repetir el ejercicio usando una cantidad mayor de realizaciones (por ejemplo, N = 5000), y usando una mayor cantidad de bines en el histograma. ¿Qué relación conviene tener entre ambas cantidades?
+
+
+## Ejercicio 2
+
+Ahora vamos a hacer lo mismo que en el ejercicio anterior, pero con una variable tomada de una distribución Gaussiana
+
+```{r, echo=TRUE, eval=TRUE}
+N     = 50
+mu    = 100
+sigma = 10
+set.seed(101)
+realizaciones = rnorm(n=N, mean=mu, sd=sigma)
+datos2 = tibble(id = 1:N, value=realizaciones)
+```
+
+a) Graficar los valores obtenidos versus el número de realización. Elegir un geom conveniente: point, line, col?
+
+```{r}
+ggplot(datos2, aes(x=id, y=value)) + geom_point()
+```
+
+b) Obtener un histograma de frecuencia absoluta, almacenarlo en un ``tibble`` y graficarlo
+
+```{r} 
+histograma = datos2 %>% 
+             #with(hist(value, breaks = c(0, 0.5, 1), plot = FALSE)) %$% 
+             with(hist(value, plot = FALSE)) %$% 
+             tibble(from    = head(breaks, -1),
+                    to      = tail(breaks, -1), 
+                    mids    = mids,
+                    counts  = counts, 
+                    density = density)
+
+histograma
+```
+
+```{r} 
+ggplot(histograma, aes(x = mids, y = counts)) + geom_col(color='black', fill='white') #width = 0.5)
+```
+
+c) Obtener la frecuencia relativa y graficarla.
+
+```{r}
+histograma %<>% mutate(f = counts / N)
+ggplot(histograma, aes(x = mids, y = f)) + geom_col(color='black', fill='white') #width = 0.5)
+```
+
+d) Armar un ``tibble`` con la densidad de probabilidad teórica y graficarla junto con el histograma.
+
+    Ayuda: investigar la función dnorm()
+
+```{r}
+densidad = tibble(x = seq(from=50, to=150, by=0.1)) %>% mutate(pdf = dnorm(x, mean=mu, sd=sigma))
+densidad
+```
+
+```{r}
+ggplot() + geom_col(data = histograma, aes(x = mids, y=density), color='black', fill='white') + #width = 0.5,
+           geom_line(data = densidad, aes(x = x, y = pdf), color = 'orange')
+```
+
+e) Obtener la probabilidad acumulada y compararla con el valor teórico
+
+    Ayuda: investigar la función pnorm()
+
+```{r}
+histograma %<>% mutate(p = cumsum(f))
+histograma
+```
+
+```{r}
+densidad %<>% mutate(p = pnorm(x, mean=mu, sd=sigma))
+densidad
+```
+
+```{r}
+ggplot() + 
+  geom_line(data = histograma, aes(x = to, y = p), color = 'black') +
+  #geom_col(data = histograma, aes(x = mids, y = p), color = 'black') +
+  #geom_step(data = histograma, aes(x = mids, y = p), color = 'black') +
+  geom_line(data = densidad, aes(x = x, y = p), color = 'orange')
+```
+
+f) Repetir el ejercicio usando una cantidad mayor de realizaciones (por ejemplo, N = 5000), y usando una mayor cantidad de bines en el histograma. ¿Qué relación conviene tener entre ambas cantidades?
+
+
+## Ejercicio 3
+
+Buscar un dataset real y aplicar los mismos pasos de los ejercicios anteriores. Comparar con las distribuciones teóricas.
+
