@@ -21,29 +21,27 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
-pacman::p_load(xaringanthemer, here, jpeg, tidyverse, kableExtra, ggpubr, ggdist, 
-               palmerpenguins, ggthemes, tvthemes, ggforce, ggtext, leaflet, sf,
-               rcartocolor, wesanderson, ghibli, tweetrmd)
+pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, palmerpenguins)
+options(dplyr.width = Inf)
 knitr::opts_chunk$set(warning = FALSE, 
-                      message = FALSE, 
-                      comment = FALSE)
+                      message = FALSE)
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-
-style_mono_accent(base_color = "#A42339",
-                  code_highlight_color = "#BADEFC",
-                  base_font_size = "18px",
-                  text_font_size = "1rem",
-                  text_slide_number_font_size = "0.8rem",
+style_duo_accent(primary_color = "#A42339",
+                 secondary_color = "#BADEFC",
+                 code_highlight_color = "#BADEFC",
+                 base_font_size = "18px",
+                 text_font_size = "1rem",
+                 text_slide_number_font_size = "0.8rem",
                   code_font_size = "0.7rem",
                   code_inline_font_size = "0.7rem",
-                  header_h1_font_size = "2.5rem",
-                  header_h2_font_size = "2rem",
-                  header_h3_font_size = "1.5rem",
-                  header_font_google = google_font("Work Sans", "600"),
-                  text_font_google = google_font("Work Sans", "300", "300i"),
-                  code_font_google = google_font("Fira Mono")
+                 header_h1_font_size = "2.5rem",
+                 header_h2_font_size = "2rem",
+                 header_h3_font_size = "1.5rem",
+                 header_font_google = google_font("Work Sans", "600"),
+                 text_font_google = google_font("Work Sans", "300", "300i"),
+                 code_font_google = google_font("Fira Mono")
 )
 ```
 
@@ -59,6 +57,7 @@ extra_css <- list(
                              "width" = "75%"),
   ".small" = list("font-size"  = "90%"),
   ".big" = list("font-size"  = "120%"),
+  ".huge" = list("font-size"  = "150%"),
   ".full-width" = list("display" = "flex",
                        "width"   = "100%",
                        "flex"    = "1 1 auto"),
@@ -80,7 +79,6 @@ xaringanExtra::use_tile_view()
 
 ```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -95,17 +93,461 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Funcionalidades extra
+# ¿Qué es EDA? `r emo::ji("search")`
 
-lala
+.big[
+* **EDA** significa *Exploratory Data Analysis* y según nuestro campo de aplicación puede involucrar distintas operaciones
+
+* No es un proceso formal con pasos concretos
+
+* Involucra **explorar**, **visualizar** y, eventualmente **transformar** tus datos 
+
+* No es algo **usual** en la ciencia pero vamos a robarle un poco la terminología a la ciencia de datos para pensar algunas cuestiones.
+]
+
+???
+Su objetivo durante la EDA es desarrollar una comprensión de sus datos.
+
+EDA es fundamentalmente un proceso creativo. Y como la mayoría de los procesos creativos, la clave para hacer preguntas de calidad es generar una gran cantidad de preguntas.
+
+---
+class: center, middle, inverse
+
+.huge[
+`r emo::ji("eye")` **OJO** `r emo::ji("eye")` 
+
+Cuando estamos realizando un **análisis confirmatorio** (tenemos una hipótesis previa) debemos tener cuidado con la influencia que tiene el EDA en el análisis de nuestros datos (hipótesis post-hoc).
+
+Cuando etamos haciendo un **análisis exploratorio**, el EDA es una parte importante del anñalisis inicial y puede permitirnos generar preguntas reveladoras para hacerle a nuestros datos.
+
+**Sin embargo** 
+
+En ambos casos es una excelente herramienta para verificar la **sanidad** de nuestros datos.
+]
+
+---
+class: left, top, highlight-last-item
+# Depende del área de trabajo
+
+### Academia - Datos propios
+* Verificar la **sanidad** de los datos.
+
+* ¿Provienen los datos de alguna **distribución subyacente** conocida?
+
+### Academia - Bases de datos
+* Investigar la *forma* de los datos.
+
+* Identificar datos **faltantes** o **extremos**.
+
+* ¿Existe alguna **relación** entre las variables?
+
+### Ciencia de datos (ML y eso)
+* **Limpiar** los datos
+
+* Generar **preguntas** acerca de los datos.
+
+* Buscar respuestas **visualizando**, **transformando** y **modelando** los datos.
+
+* Usar lo aprendido para refinar las **preguntas** o generar **nuevas preguntas**
+
+---
+class: left, top, highlight-last-item
+# *Mirar*`r emo::ji("telescope")` y *limpiar*`r emo::ji("broom")` los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+Lo más básico:
+
+```{r}
+penguins %>% summary()
+```
+
+
+---
+class: left, top, highlight-last-item
+# *Mirar*`r emo::ji("telescope")` y *limpiar*`r emo::ji("broom")` los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+Lo más básico:
+
+```{r}
+penguins %>% head(10)
+```
+
+---
+class: left, top, highlight-last-item
+# *Mirar*`r emo::ji("telescope")` y *limpiar*`r emo::ji("broom")` los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+usando *str()*:
+
+```{r}
+penguins %>% str()
+```
+
+
+```{r}
+penguins %>% glimpse()
+```
+
+---
+class: left, top, highlight-last-item
+# *Mirar*`r emo::ji("telescope")` y *limpiar*`r emo::ji("broom")` los datos
+
+```{r, skimr_include_summary = FALSE}
+# install.packages("skimr")
+library(skimr)
+penguins %>% 
+  skim()
+```
+
+
+---
+class: left, top, highlight-last-item
+# Los datos están *limpios* ¿Y ahora?
+
+.big[
+Remover los valores extraños puede ser una tarea más compleja de lo que parece, pero de esto vamos a hablar en la siguiente clase...
+<br>
+<br>
+
+**NO** hay reglas respecto a qué preguntas hacerle a los datos, pero es saludable empezar por estas dos:
+
+1. ¿Qué tipo de **variación** ocurre en mis datos?
+
+2. ¿Qué tipo de **covariación** ocurre en mis datos?
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **categóricas**
+
+.pull-left[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = species)) +
+  geom_bar(fill = "#1380A1") +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r}
+penguins %>%
+  count(species)
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 500,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r}
+penguins %>%
+  drop_na() %>%
+  count(cut_width(body_mass_g, 500))%>%
+  kbl() %>%
+  kable_styling(font_size = 10)
+```
+]
+
+???
+Puede establecer el ancho de los intervalos en un histograma con el argumento binwidth, que se mide en las unidades de la variable x. Siempre debe explorar una variedad de anchos de bin cuando trabaje con histogramas, ya que diferentes anchos de bin pueden revelar diferentes patrones. Por ejemplo, así es como se ve el gráfico de arriba cuando hacemos zoom solo en los diamantes con un tamaño de menos de tres quilates y elegimos un ancho de bandeja más pequeño.
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 500,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 100,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = body_mass_g,
+             color = species)) +
+  geom_freqpoly(binwidth = 500) +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r, fig.align = "center", dpi=300, fig.width = 4, fig.height = 3, out.width = "70%"}
+penguins %>% 
+  ggplot(aes(x = body_mass_g,
+             color = species)) +
+  geom_freqpoly(binwidth = 100) +
+  theme_pubclean()
+```
+]
+
+???
+**Valores usuales:** Cuáles son los valores más comunes y por qué?
+Tienen algún tipo de distribución conocida?
+Podemos pensar que en nuestros datos hay subgrupos?
+
+**Valores inusuales:** Esto lo vamos a ver en detalle en la presentación que viene ...
+
+Queda pendiente el tema de qué hcer cuando tenemos valores faltantes. Imputación etc...
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+.big.center[
+<br>
+Si la **variabilidad** describe el comportamiento dentro de una variable, la **covarianza** describe el comportamiento entre variables.
+
+<br>
+La **covarianza** es la tendencia a que los valores de dos o más variables varíen juntos de manera relacionada.
+]
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Una variable **categórica** y una **continua**
+
+Una forma eficiente es utilizando **boxplots**
+
+.pull-left[
+```{r boxplot, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = species,
+             y = body_mass_g,
+             color = species,
+             fill = species)) +
+  geom_boxplot(alpha = .5) +
+  coord_flip() +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r boxplot-out, ref.label="boxplot", fig.align = "center", dpi=300, fig.width = 6, fig.height = 5, out.width = "80%", echo=FALSE}
+```
+]
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **categóricas**
+
+En este caso puede resultar interesante contar los casos para cada combinación. 
+
+Podemos usar **geom_tile()**.
+
+.pull-left[
+```{r tile, eval = FALSE}
+penguins %>% 
+  count(species, island) %>% #<<
+  ggplot(aes(x = species,
+             y = island)) +
+  geom_tile(aes(fill = n)) +
+  theme_pubclean()
+```
+
+Si tienen datasets enormes les recomiendo explorar el paquete *{d3heathmap}*`r emo::ji("package")`
+]
+
+.pull-right[
+```{r tile-out, ref.label="tile", fig.align = "center", dpi=300, fig.width = 4, fig.height = 4, out.width = "70%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **continuas**
+
+Vamos a los simple, usemos **geom_point**
+
+.pull-left[
+```{r points_1, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = body_mass_g,
+             y = bill_depth_mm)) +
+  geom_point() +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+```{r points_1-out, ref.label="points_1", fig.align = "center", dpi=300, fig.width = 4, fig.height = 4, out.width = "80%", echo=FALSE}
+```
+]
+
+???
+Por ejemplo, qué podemos estar viendo ahí?
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **continuas**
+
+Vamos a los simple, usemos **geom_point**
+
+.pull-left[
+```{r points_2, eval = FALSE}
+penguins %>% 
+  ggplot(aes(x = body_mass_g,
+             y = bill_depth_mm,
+             color = species)) + #<<
+  geom_point() +
+  theme_pubclean()
+```
+
+¿Y si queremos estudiar estas relaciones de una forma más sistemática?
+]
+
+.pull-right[
+```{r points_2-out, ref.label="points_2", fig.align = "center", dpi=300, fig.width = 4, fig.height = 4, out.width = "80%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+Hay muchas herramientas y paquetes que nos permiten ver la covarianza de nuestras variables nbuméricas de **TODO** el dataset
+
+### Usando {corrplot}
+
+.pull-left[
+```{r corrplot, eval = FALSE}
+# install.packages("corrplot")
+library(corrplot)
+mtcars_cor <- cor(mtcars)
+corrplot.mixed(mtcars_cor)
+```
+
+**mtcars_cor** es una dataset que viene con **R **base y tiene datos de autos 
+
+```{r}
+head(mtcars)
+```
+]
+
+.pull-right[
+```{r corrplot-out, ref.label="corrplot", fig.align = "center", dpi=300, fig.width = 6, fig.height = 6, out.width = "80%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+### Usando la función *ggcorr()* de {GGally}
+
+.pull-left[
+```{r ggcorr, eval = FALSE}
+# install.packages("GGally")
+library(GGally)
+mtcars %>% 
+  ggcorr(palette = "RdBu", label = TRUE)
+```
+]
+
+.pull-right[
+```{r ggcorr-out, ref.label="ggcorr", fig.align = "center", dpi=300, fig.width = 6, fig.height = 6, out.width = "80%", echo=FALSE}
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+
+### Usando la función *ggpairs()* de {GGally}
+
+.pull-left[
+```{r ggpairs, eval = FALSE}
+# install.packages("GGally")
+# library(GGally)
+penguins %>% 
+  drop_na %>% 
+  select(all_of(c("bill_length_mm",
+                  "bill_depth_mm",
+                  "flipper_length_mm",
+                  "body_mass_g"))) %>% #<<
+  ggpairs() +
+  theme_pubclean() +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust=1))
+```
+]
+
+.pull-right[
+```{r ggpairs-out, ref.label="ggpairs", fig.align = "center", dpi=300, fig.width = 6, fig.height = 5, out.width = "100%", echo=FALSE}
+```
+]
 
 ---
 class: center, top
 # Referencias
 
 .left[.big[
-- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., & DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
-
-- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+- Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
 
 ]]

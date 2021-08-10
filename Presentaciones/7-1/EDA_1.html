@@ -8,6 +8,8 @@
     <script src="EDA_1_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
     <link href="EDA_1_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="EDA_1_files/tile-view-0.2.6/tile-view.js"></script>
+    <script src="EDA_1_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="EDA_1_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -44,7 +46,7 @@ class: center, middle
 # Exploración de datos
 ### Análisis estadístico utilizando R
 
-&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png" width="10%" /&gt;&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" width="10%" /&gt;
+&lt;img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png" width="10%" /&gt;
 
 UNQ UNTreF CONICET
 
@@ -54,22 +56,762 @@ Ignacio Spiousas
 Pablo Etchemendy
 [&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/https://github.com/petcheme) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/petcheme)
 
-2021-08-03
+2021-08-10
 
 ---
 class: left, top, highlight-last-item
-# Funcionalidades extra
+# ¿Qué es EDA? 🔎
 
-lala
+.big[
+* **EDA** significa *Exploratory Data Analysis* y según nuestro campo de aplicación puede involucrar distintas operaciones
+
+* No es un proceso formal con pasos concretos
+
+* Involucra **explorar**, **visualizar** y, eventualmente **transformar** tus datos 
+
+* No es algo **usual** en la ciencia pero vamos a robarle un poco la terminología a la ciencia de datos para pensar algunas cuestiones.
+]
+
+???
+Su objetivo durante la EDA es desarrollar una comprensión de sus datos.
+
+EDA es fundamentalmente un proceso creativo. Y como la mayoría de los procesos creativos, la clave para hacer preguntas de calidad es generar una gran cantidad de preguntas.
+
+---
+class: center, middle, inverse
+
+.huge[
+👁 **OJO** 👁 
+
+Cuando estamos realizando un **análisis confirmatorio** (tenemos una hipótesis previa) debemos tener cuidado con la influencia que tiene el EDA en el análisis de nuestros datos (hipótesis post-hoc).
+
+Cuando etamos haciendo un **análisis exploratorio**, el EDA es una parte importante del anñalisis inicial y puede permitirnos generar preguntas reveladoras para hacerle a nuestros datos.
+
+**Sin embargo** 
+
+En ambos casos es una excelente herramienta para verificar la **sanidad** de nuestros datos.
+]
+
+---
+class: left, top, highlight-last-item
+# Depende del área de trabajo
+
+### Academia - Datos propios
+* Verificar la **sanidad** de los datos.
+
+* ¿Provienen los datos de alguna **distribución subyacente** conocida?
+
+### Academia - Bases de datos
+* Investigar la *forma* de los datos.
+
+* Identificar datos **faltantes** o **extremos**.
+
+* ¿Existe alguna **relación** entre las variables?
+
+### Ciencia de datos (ML y eso)
+* **Limpiar** los datos
+
+* Generar **preguntas** acerca de los datos.
+
+* Buscar respuestas **visualizando**, **transformando** y **modelando** los datos.
+
+* Usar lo aprendido para refinar las **preguntas** o generar **nuevas preguntas**
+
+---
+class: left, top, highlight-last-item
+# *Mirar*🔭 y *limpiar*🧹 los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+Lo más básico:
+
+
+```r
+penguins %&gt;% summary()
+```
+
+```
+##       species          island    bill_length_mm  bill_depth_mm  
+##  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+##  Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+##  Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+##                                  Mean   :43.92   Mean   :17.15  
+##                                  3rd Qu.:48.50   3rd Qu.:18.70  
+##                                  Max.   :59.60   Max.   :21.50  
+##                                  NA's   :2       NA's   :2      
+##  flipper_length_mm  body_mass_g       sex           year     
+##  Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
+##  1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
+##  Median :197.0     Median :4050   NA's  : 11   Median :2008  
+##  Mean   :200.9     Mean   :4202                Mean   :2008  
+##  3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
+##  Max.   :231.0     Max.   :6300                Max.   :2009  
+##  NA's   :2         NA's   :2
+```
+
+
+---
+class: left, top, highlight-last-item
+# *Mirar*🔭 y *limpiar*🧹 los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+Lo más básico:
+
+
+```r
+penguins %&gt;% head(10)
+```
+
+```
+## # A tibble: 10 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+##    sex     year
+##    &lt;fct&gt;  &lt;int&gt;
+##  1 male    2007
+##  2 female  2007
+##  3 female  2007
+##  4 &lt;NA&gt;    2007
+##  5 female  2007
+##  6 male    2007
+##  7 female  2007
+##  8 male    2007
+##  9 &lt;NA&gt;    2007
+## 10 &lt;NA&gt;    2007
+```
+
+---
+class: left, top, highlight-last-item
+# *Mirar*🔭 y *limpiar*🧹 los datos
+
+Existen muchas herramientas en **R** para tener una idea de qué "forma" tienen nuestros datos.
+
+usando *str()*:
+
+
+```r
+penguins %&gt;% str()
+```
+
+```
+## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ island           : Factor w/ 3 levels "Biscoe","Dream",..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: int [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : int [1:344] 3750 3800 3250 NA 3450 3650 3625 4675 3475 4250 ...
+##  $ sex              : Factor w/ 2 levels "female","male": 2 1 1 NA 1 2 1 2 NA NA ...
+##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...
+```
+
+
+
+```r
+penguins %&gt;% glimpse()
+```
+
+```
+## Rows: 344
+## Columns: 8
+## $ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+## $ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+## $ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+## $ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+## $ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+## $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…
+```
+
+---
+class: left, top, highlight-last-item
+# *Mirar*🔭 y *limpiar*🧹 los datos
+
+
+```r
+# install.packages("skimr")
+library(skimr)
+penguins %&gt;% 
+  skim()
+```
+
+
+
+
+**Variable type: factor**
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; skim_variable &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n_missing &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; complete_rate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; ordered &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n_unique &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; top_counts &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; species &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ade: 152, Gen: 124, Chi: 68 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; island &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Bis: 168, Dre: 124, Tor: 52 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; sex &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.97 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mal: 168, fem: 165 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+**Variable type: numeric**
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; skim_variable &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n_missing &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; complete_rate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sd &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p25 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p50 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p75 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p100 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; hist &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bill_length_mm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.92 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.46 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.23 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44.45 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 59.6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ▃▇▇▆▁ &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bill_depth_mm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.15 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.97 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ▅▅▇▇▂ &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; flipper_length_mm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 200.92 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 190.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 197.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 213.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 231.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ▂▇▃▅▂ &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; body_mass_g &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.99 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4201.75 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 801.95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2700.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3550.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4050.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4750.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6300.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ▃▇▆▃▂ &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; year &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2008.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.82 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2008.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2009.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2009.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ▇▁▇▁▇ &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+class: left, top, highlight-last-item
+# Los datos están *limpios* ¿Y ahora?
+
+.big[
+Remover los valores extraños puede ser una tarea más compleja de lo que parece, pero de esto vamos a hablar en la siguiente clase...
+&lt;br&gt;
+&lt;br&gt;
+
+**NO** hay reglas respecto a qué preguntas hacerle a los datos, pero es saludable empezar por estas dos:
+
+1. ¿Qué tipo de **variación** ocurre en mis datos?
+
+2. ¿Qué tipo de **covariación** ocurre en mis datos?
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **categóricas**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = species)) +
+  geom_bar(fill = "#1380A1") +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+penguins %&gt;%
+  count(species)
+```
+
+```
+## # A tibble: 3 × 2
+##   species       n
+##   &lt;fct&gt;     &lt;int&gt;
+## 1 Adelie      152
+## 2 Chinstrap    68
+## 3 Gentoo      124
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 500,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+penguins %&gt;%
+  drop_na() %&gt;%
+  count(cut_width(body_mass_g, 500))%&gt;%
+  kbl() %&gt;%
+  kable_styling(font_size = 10)
+```
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; cut_width(body_mass_g, 500) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; [2.25e+03,2.75e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (2.75e+03,3.25e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (3.25e+03,3.75e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (3.75e+03,4.25e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (4.25e+03,4.75e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 57 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (4.75e+03,5.25e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 38 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (5.25e+03,5.75e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (5.75e+03,6.25e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (6.25e+03,6.75e+03] &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+???
+Puede establecer el ancho de los intervalos en un histograma con el argumento binwidth, que se mide en las unidades de la variable x. Siempre debe explorar una variedad de anchos de bin cuando trabaje con histogramas, ya que diferentes anchos de bin pueden revelar diferentes patrones. Por ejemplo, así es como se ve el gráfico de arriba cuando hacemos zoom solo en los diamantes con un tamaño de menos de tres quilates y elegimos un ancho de bandeja más pequeño.
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 500,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 100,
+                 fill = "#1380A1") +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Variabilidad
+
+La **variabilidad** es la tendencia de los valores de una variable a cambiar entre medición y medición
+
+### Visualizar distribuciones
+
+Variables **continuas**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g,
+             color = species)) +
+  geom_freqpoly(binwidth = 500) +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g,
+             color = species)) +
+  geom_freqpoly(binwidth = 100) +
+  theme_pubclean()
+```
+
+&lt;img src="EDA_1_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+**Valores usuales:** Cuáles son los valores más comunes y por qué?
+Tienen algún tipo de distribución conocida?
+Podemos pensar que en nuestros datos hay subgrupos?
+
+**Valores inusuales:** Esto lo vamos a ver en detalle en la presentación que viene ...
+
+Queda pendiente el tema de qué hcer cuando tenemos valores faltantes. Imputación etc...
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+.big.center[
+&lt;br&gt;
+Si la **variabilidad** describe el comportamiento dentro de una variable, la **covarianza** describe el comportamiento entre variables.
+
+&lt;br&gt;
+La **covarianza** es la tendencia a que los valores de dos o más variables varíen juntos de manera relacionada.
+]
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Una variable **categórica** y una **continua**
+
+Una forma eficiente es utilizando **boxplots**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = species,
+             y = body_mass_g,
+             color = species,
+             fill = species)) +
+  geom_boxplot(alpha = .5) +
+  coord_flip() +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/boxplot-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **categóricas**
+
+En este caso puede resultar interesante contar los casos para cada combinación. 
+
+Podemos usar **geom_tile()**.
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+* count(species, island) %&gt;%
+  ggplot(aes(x = species,
+             y = island)) +
+  geom_tile(aes(fill = n)) +
+  theme_pubclean()
+```
+
+Si tienen datasets enormes les recomiendo explorar el paquete *{d3heathmap}*📦
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/tile-out-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **continuas**
+
+Vamos a los simple, usemos **geom_point**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g,
+             y = bill_depth_mm)) +
+  geom_point() +
+  theme_pubclean()
+```
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/points_1-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+Por ejemplo, qué podemos estar viendo ahí?
+
+---
+class: left, top, highlight-last-item
+# Covarianza
+
+### Dos variables **continuas**
+
+Vamos a los simple, usemos **geom_point**
+
+.pull-left[
+
+```r
+penguins %&gt;% 
+  ggplot(aes(x = body_mass_g,
+             y = bill_depth_mm,
+*            color = species)) +
+  geom_point() +
+  theme_pubclean()
+```
+
+¿Y si queremos estudiar estas relaciones de una forma más sistemática?
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/points_2-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+Hay muchas herramientas y paquetes que nows permiten ver la covarianza de nuestras variables nbuméricas de **TODO** el dataset
+
+### Usando {corrplot}
+
+.pull-left[
+
+```r
+# install.packages("corrplot")
+library(corrplot)
+mtcars_cor &lt;- cor(mtcars)
+corrplot.mixed(mtcars_cor)
+```
+
+**mtcars_cor** es una dataset que viene con **R **base y tiene datos de autos 
+
+
+```r
+head(mtcars)
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/corrplot-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+### Usando la función *ggcorr()* de {GGally}
+
+.pull-left[
+
+```r
+# install.packages("GGally")
+library(GGally)
+mtcars %&gt;% 
+  ggcorr(palette = "RdBu", label = TRUE)
+```
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/ggcorr-out-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: left, top, highlight-last-item
+# Correlaciones
+
+
+### Usando la función *ggpairs()* de {GGally}
+
+.pull-left[
+
+```r
+# install.packages("GGally")
+# library(GGally)
+penguins %&gt;% 
+  drop_na %&gt;% 
+  select(all_of(c("bill_length_mm",
+                  "bill_depth_mm",
+                  "flipper_length_mm",
+*                 "body_mass_g"))) %&gt;%
+  ggpairs() +
+  theme_pubclean() +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust=1))
+```
+]
+
+.pull-right[
+&lt;img src="EDA_1_files/figure-html/ggpairs-out-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 class: center, top
 # Referencias
 
 .left[.big[
-- Nordmann, E., McAleer, P., Toivo, W., Paterson, H., &amp; DeBruine, L. (2021). Data visualisation using R, for researchers who don't use R.
-
-- Wickham, H. (2011). ggplot2. Wiley Interdisciplinary Reviews: Computational Statistics, 3(2), 180-185.
+- Wickham, H., &amp; Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. " O'Reilly Media, Inc.".
 
 ]]
     </textarea>
