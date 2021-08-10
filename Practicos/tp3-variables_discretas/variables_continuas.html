@@ -218,8 +218,7 @@
       
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
-<p>En este práctico vamos a trabajar con variables aleatorias discretas. Vamos a realizar experimentos simulados usando las capacidades de <strong>R</strong> (don’t panic ya que les daremos las líneas para eso), vamos a construir <code>tibbles</code> que almacenen la información generada, y luego vamos a usar los verbos de <strong>tidyverse</strong> para analizar los datos. A partir de esos datos, vamos a graficar histogramas y otras cosas útiles usando <strong>ggplot</strong>. Con todo eso, vamos a discutir algunos conceptos fundamentales de probabilidad y estadística.</p>
-<p>Así que… manos a la obra!!</p>
+<p>En este práctico vamos a trabajar con variables aleatorias continuas, de manera muy similar a como lo hicimos en el caso discreto.</p>
 <div id="carga-de-bibliotecas" class="section level2">
 <h2>Carga de bibliotecas</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
@@ -228,64 +227,46 @@
 </div>
 <div id="ejercicio-1" class="section level2">
 <h2>Ejercicio 1</h2>
-<p>Las siguientes líneas de código generan <em>N</em> realizaciones de una variable aleatoria binaria (por ejemplo, una moneda) cuyos valores posibles son 0 y 1:</p>
+<p>Las siguientes líneas de código generan <em>N</em> realizaciones de una variable aleatoria continua uniforme cuyos valores posibles se encuentran en el intervalo comprendido entre 0 y 1:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">50</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> base<span class="sc">::</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size=</span>N, <span class="at">replace=</span>T, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>))</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n=</span>N, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span></code></pre></div>
 <p>Vamos a almacenar los datos de este “experimento” en un <code>tibble</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id=</span><span class="dv">1</span><span class="sc">:</span>N, <span class="at">value=</span>realizaciones)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li><p>Usar <code>mutate</code> para agregar una nueva columna en la que los valores de la variable se transformen de modo que un 0 corresponda a la palabra “ceca” y un 1 a “cara”.</p>
-<p><em>Ayuda</em>: la función <a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/case_when">case_when()</a> puede ser muy útil dentro del <code>mutate</code>.</p></li>
-<li><p>Obtener el número de apariciones de cada valor posible en el experimento (es decir, la frecuencia absoluta), tomando los valores de la columna que más le guste, y guardar el resultado en un nuevo <code>tibble</code>.</p>
-<p><em>Ayuda</em>: puede ser muy útil la función <a href="https://dplyr.tidyverse.org/reference/count.html">count()</a>.</p>
-<p>Luego, agregar una nueva columna que contenga la frecuencia relativa observada. (Notar que la cantidad de realizaciones está almacenada en la variable <code>N</code>)</p></li>
-<li><p>A partir del <code>tibble</code> obtenido en el ítem anterior, realizar un gráfico de barras que muestre la frecuencia asociada a cada valor. ¿Qué significa el resultado obtenido? ¿Son equiprobables los valores posibles?</p></li>
-<li><p>Repetir los pasos anteriores para un nuevo experimento que tiene muchas más realizaciones que el anterior.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">5001</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> base<span class="sc">::</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size=</span>N, <span class="at">replace=</span>T, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>datos2 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span>N, <span class="at">value=</span>realizaciones)</span></code></pre></div>
-<p>¿Cambian sus conclusiones respecto a la pregunta del ítem anterior?</p></li>
-<li><p>A partir del último <code>tibble</code> generado (el grande), obtener una nueva columna (usando <code>mutate</code>) que contenga la suma parcial sobre las filas de resultados igual a alguno de los dos valores posibles (0 o 1). Por ejemplo, si las primeras filas corresponden a valores (0, 1, 0, 1, 1, 0) las primeras filas de la nueva columna deben valer (0, 1, 1, 2, 3, 3).</p>
-<p><em>Ayuda</em>: Investigar las funciones <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sum">sum()</a> y <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cumsum">cumsum()</a>.</p></li>
-<li><p>Realizar un gráfico que muestre la columna obtenida en el ítem anterior (en el eje y) versus el número de fila (en el eje x). Recordar que el número de fila está contenido en la columna <code>id</code>. ¿Es posible sacar alguna conclusión respecto a la probabilidad de aparición de cada valor a partir de este gráfico?</p></li>
-<li><p><em>Para pensar:</em> Obtener una columna que contenga la frecuencia relativa parcial, es decir, la frecuencia relativa calculada a medida que se consideran nuevas realizaciones de la variable. Luego grafícar y discutir la pregunta de siempre. ¿A partir de qué momento cree que puede concluir con certeza cuál es la probabilidad asociada a cada resultado? (Pensar y explicitar el criterio de certeza!!).</p></li>
+<li><p>Graficar los valores obtenidos versus el número de realización. Elegir un geom conveniente: point, line, col?</p></li>
+<li><p>Obtener la frecuencia absoluta para valores menores y mayores al punto intermedio del intervalo (0.5), almacenarla en un <code>tibble</code> y graficarla</p></li>
+<li><p>Obtener la frecuencia relativa y graficarla.</p></li>
+<li><p>Armar un <code>tibble</code> con la densidad de probabilidad teórica y graficarla junto con el histograma.</p>
+<p>Ayuda: investigar la función dunif()</p></li>
+<li><p>Obtener la probabilidad acumulada y compararla con el valor teórico</p>
+<p>Ayuda: investigar la función punif()</p></li>
+<li><p>Repetir el ejercicio usando una cantidad mayor de realizaciones (por ejemplo, N = 5000), y usando una mayor cantidad de bines en el histograma. ¿Qué relación conviene tener entre ambas cantidades?</p></li>
 </ol>
 </div>
 <div id="ejercicio-2" class="section level2">
 <h2>Ejercicio 2</h2>
-<p>Considerar un experimento similar al anterior pero usando una moneda que no está balanceada (sus dos valores posibles tienen diferentes chances):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">5000</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> base<span class="sc">::</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size=</span>N, <span class="at">replace=</span>T, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>datos2 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span>N, <span class="at">value=</span>realizaciones)</span></code></pre></div>
-<p>Usando las herramientas discutidas en el ejercicio anterior, estimar la probabilidad de cada valor y cuántas realizaciones son necesarias para establecerla con “certeza”.</p>
+<p>Ahora vamos a hacer lo mismo que en el ejercicio anterior, pero con una variable tomada de una distribución Gaussiana</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>N     <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mu    <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n=</span>N, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>datos2 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span>N, <span class="at">value=</span>realizaciones)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>Graficar los valores obtenidos versus el número de realización. Elegir un geom conveniente: point, line, col?</p></li>
+<li><p>Obtener un histograma de frecuencia absoluta, almacenarlo en un <code>tibble</code> y graficarlo</p></li>
+<li><p>Obtener la frecuencia relativa y graficarla.</p></li>
+<li><p>Armar un <code>tibble</code> con la densidad de probabilidad teórica y graficarla junto con el histograma.</p>
+<p>Ayuda: investigar la función dnorm()</p></li>
+<li><p>Obtener la probabilidad acumulada y compararla con el valor teórico</p>
+<p>Ayuda: investigar la función pnorm()</p></li>
+<li><p>Repetir el ejercicio usando una cantidad mayor de realizaciones (por ejemplo, N = 5000), y usando una mayor cantidad de bines en el histograma. ¿Qué relación conviene tener entre ambas cantidades?</p></li>
+</ol>
 </div>
 <div id="ejercicio-3" class="section level2">
 <h2>Ejercicio 3</h2>
-<p>Ahora vamos a hacer un experimento en el cuál se tiran 5 monedas justas (equiprobables) en 10 oportunidades:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># armo la estructura del experimento</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>N_monedas <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>N_tiradas <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> <span class="fu">list</span>(<span class="at">id_tirada =</span> <span class="dv">1</span><span class="sc">:</span>N_tiradas, <span class="at">id_moneda =</span> <span class="dv">1</span><span class="sc">:</span>N_monedas) <span class="sc">%&gt;%</span> <span class="fu">cross_df</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(id_tirada)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># realizo el experimento</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>datos <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">value =</span> base<span class="sc">::</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">size=</span>N_monedas<span class="sc">*</span>N_tiradas, <span class="at">replace=</span>T, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)))</span></code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li><p>Obtener, usando <code>summarize</code> y <code>group_by</code>, un nuevo <code>tibble</code> que contenga la cantidad de caras obtenidas en cada tirada de 5 monedas</p></li>
-<li><p>A partir de ese <code>tibble</code>, armar uno nuevo que contenga la frecuencia de aparición de cada resultado posible. Recuerde que, si se tiran 5 monedas, la cantidad de caras iguales que puede obtener en cada tirada es un número entre 0 y 5 (incluyendo ambos valores, 0 y 5).</p>
-<p>Luego, verificar que la suma de frecuencias absolutas corresponde a la cantidad de tiradas, y obtener la frecuencia relativa para cada valor posible.</p></li>
-<li><p>Grafique el histograma para ambas frecuencias.</p></li>
-<li><p>El resultado de este tipo de experimentos se describe mediante la distribución <em>binomial</em>. Vamos a comparar el resultado del experimento con la distribución. Para esto, vamos a usar una función en <strong>R</strong> que nos da la frecuencia relativa esperada, en función de la cantidad de monedas tiradas en cada oportunidad, y de la probabilidad de cara y ceca:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>frec_relat <span class="ot">=</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>N_monedas, <span class="at">size=</span>N_monedas, <span class="at">prob=</span><span class="fl">0.5</span>)</span></code></pre></div>
-<p>Vamos a construir un <code>tibble</code> que contenga la información correspondiente a nuestro experimento:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>binom <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">n =</span> <span class="dv">0</span><span class="sc">:</span>N_monedas, <span class="at">f =</span> frec_relat)</span></code></pre></div>
-<p>A partir de este <code>tibble</code>, grafique la distribución.</p></li>
-<li><p>Compare la distribución con el histograma obtenido a partir del experimento. ¿Qué podríamos modificar para aumentar la similitud entre ambos?</p></li>
-</ol>
+<p>Buscar un dataset real y aplicar los mismos pasos de los ejercicios anteriores. Comparar con las distribuciones teóricas.</p>
 </div>
 
    

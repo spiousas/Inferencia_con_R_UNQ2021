@@ -51,7 +51,7 @@ Vamos a almacenar los datos de este "experimento" en un `tibble`:
 datos = tibble(id=1:N, value=realizaciones)
 ```
 
-a) Usar `mutate` para agregar una nueva columna en la que los valores de la variable se transformen de modo que un 0 corresponda a la palabra "ceca" y un 0 a "cara".
+a) Usar `mutate` para agregar una nueva columna en la que los valores de la variable se transformen de modo que un 0 corresponda a la palabra "ceca" y un 1 a "cara".
 
       *Ayuda*: la función [case_when()](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/case_when) puede ser muy útil dentro del `mutate`.
 
