@@ -48,7 +48,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 1      | CA-10  | Variables Aleatorias 4-1: Distribución binomial     | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/4/4-Distribuciones_estadisticas.pdf) | [YouTube](https://www.youtube.com/watch?v=ec-HextxRJ8&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=14) |
 | 1      | CA-11  | Variables Aleatorias 4-2: Distribución uniforme                            | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/4/4-Distribuciones_estadisticas.pdf) | [YouTube](https://www.youtube.com/watch?v=7dfvFh-Gdaw&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=15) |
 | 1      | CA-12  | Variables Aleatorias 4-3: La distribución Gaussiana (o normal)              | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/4/4-Distribuciones_estadisticas.pdf) | [YouTube](https://www.youtube.com/watch?v=UdunP_Epfec&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=16) |
-| 1      | TP-3  | Variables discretas | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp3-variables_discretas/variables_discretas.html) | No hay |
+| 1      | TP-3  | Variables discretas | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp3-variables_discretas/variables_discretas.html) | [YouTube](https://www.youtube.com/watch?v=CFOAxG78H3A&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=17) |
 
 (**CS**) Clase Sincrónica 
 
