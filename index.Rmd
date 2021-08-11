@@ -49,6 +49,11 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 1      | CA-11  | Variables Aleatorias 4-2: Distribución uniforme                            | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/4/4-Distribuciones_estadisticas.pdf) | [YouTube](https://www.youtube.com/watch?v=7dfvFh-Gdaw&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=15) |
 | 1      | CA-12  | Variables Aleatorias 4-3: La distribución Gaussiana (o normal)              | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/4/4-Distribuciones_estadisticas.pdf) | [YouTube](https://www.youtube.com/watch?v=UdunP_Epfec&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=16) |
 | 1      | TP-3  | Variables discretas | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp3-variables_discretas/variables_discretas.html) | [YouTube](https://www.youtube.com/watch?v=CFOAxG78H3A&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=17) |
+| 2      | CA-13  | Exploración de datos                           | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/7-1/EDA_1.html) | [YouTube](https://www.youtube.com/watch?v=oPfr0X0qGG4&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=18) |
+| 2      | CA-14  | Cómo detectar outliers y qué hacer con ellos              | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/7-2/EDA_2.html) | Pronto |
+| 2      | TP-4  | Análisis exploratorio de datos | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp4-EDA/EDA_TP.html) | Pronto |
+| 2      | CA-15  | Pruebo de hipótesis 1                           | Pronto  | [YouTube](https://www.youtube.com/watch?v=Yp12ptJ_luY&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=19) |
+
 
 (**CS**) Clase Sincrónica 
 
