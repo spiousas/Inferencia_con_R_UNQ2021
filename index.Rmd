@@ -3,7 +3,11 @@ title: "Análisis estadístico utilizando R"
 subtitle: "Agosto 2021"
 author: "Spiousas - Etchemendy"
 date: "`r Sys.Date()`"
-output: rmdformats::robobook
+output: 
+  rmdformats::robobook:
+    html_document:
+      includes:
+      in_header: header.html
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
