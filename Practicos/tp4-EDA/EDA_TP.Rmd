@@ -1,5 +1,5 @@
 ---
-title: "TP4 - Análisis de datos exploratorio"
+title: "TP4 - Análisis exploratorio de datos"
 author: "Spiousas - Etchemendy"
 date: "`r Sys.Date()`"
 output: 

@@ -1,5 +1,5 @@
 ---
-title: "¿Cómo detectar outliers?"
+title: "Cómo detectar outliers y qué hacer con ellos"
 subtitle: "Análisis estadístico utilizando R"
 author: "Ignacio Spiousas y Pablo Etchemendy"
 institute: "UNQ UNTreF CONICET"
