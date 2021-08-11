@@ -1,0 +1,304 @@
+---
+title: "TP4 - Análisis de datos exploratorio"
+author: "Spiousas - Etchemendy"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::robobook
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+
+```
+
+En el siguiente TP vamos a utilizar las herramientas de análisis exploratorio de datos provistas en el curso para analizar un dataset que nunca antes vimos.
+
+## Los datos
+
+Este *dataset* consta de todas las películas originales de **Netflix** estrenadas hasta del 1 de junio de 2021. Además, también incluye todos los documentales y especiales de **Netflix**. Los datos se bajaron de [esta](https://www.kaggle.com/luiscorter/netflix-original-films-imdb-scores) página de **Kaggle**. Los miembros de la comunidad votan las puntuaciones de **IMDB**, y la mayoría de las películas tienen más de 1.000 reseñas. 
+
+Las columnas del dataset son:
+
+- Título de la película `Title`
+- Género de la película `Genre`
+- Fecha original de estreno`Premiere`
+- Duración en minutos `Runtime`
+- Puntaje en **IMDB** (al 01/06/21) `IMDB Score`
+- Idiomas disponibles (al 01/06/21) `Language`
+
+Para más detalles de los datos pueden consultar [acá](https://en.wikipedia.org/wiki/Lists_of_Netflix_original_films).
+
+Los datos están en la carpeta *Practicos/tp4-EDA/data* del repositorio. Los podemos bajar y cargar con `read_csv()` o cargar directo desde la *url*.
+
+```{r, eval=FALSE, echo=TRUE}
+library(tidyverse)
+
+url <- "https://raw.githubusercontent.com/spiousas/Inferencia_con_R_UNQ2021/main/Practicos/tp4-EDA/data/NetflixOriginals.csv"
+x <- getURL(url)
+netflix <- as_tibble(read.csv(text = x))
+```
+
+## 1 - Mirar los datos
+
+Useamos las funciones `summary()`, `str()` y `glimpse()` para ver qué estructura y qué tipos de variables tiene nuestro dataset 
+
+- ¿Tiene valores `NA`? 
+- ¿Alguna de las variables no es del tipo que corresponde? 
+
+    *Ayuda*: Para convertir una fecha de `chr` a `Date` una de las formas más simples es usando el paquete *{lubridate}*. Por ejemplo, la función `mdy("August 5, 2019")` nos da como resutado una fecha `"2019-08-05"`. La ventaja de tener variables `Date` es que nos permite ordenarlas, realizar operaciones con ellas, etc.
+
+- ¿Hay algún valor sospechoso?
+    
+Una vez corregidos los probelmas del dataset imprimir un resumen usando la función `skim()` del paquete *{skimr}*.
+
+```{r}
+# Solución
+str(netflix)
+summary(netflix)
+# No hay valores NA
+# El mínimo de duración es raro (4 minutos)
+# Los ratings están bien
+glimpse(netflix)
+# Premiere es un tipo de variable date y aparece como <chr>
+
+# Arreglemos la fecha
+library(lubridate)
+netflix <- netflix %>% 
+  mutate(Premiere = mdy(Premiere))
+glimpse(netflix) # Ahora sí
+
+library(skimr)
+skim(netflix)
+# Podemos ver que el valor de duración que parecía raro tal vez no lo sea
+```
+
+¿Cuáles son los tres géneros con más estrenos? 
+
+```{r}
+netflix %>%
+    count(Genre) %>%
+    arrange(desc(n)) %>%
+    slice_head(n = 3)
+```
+
+¿Y los tres idiomas con más estrenos?
+
+```{r}
+netflix %>%
+    count(Language) %>%
+    arrange(desc(n)) %>%
+    slice_head(n = 3)
+```
+
+## 2 - Variación
+
+Exploremos con un simple gráfico de barras la cantidad de películas de cada género. 
+
+- ¿Cuántos géneros hay?
+- ¿Cómo es la distribución por género?
+
+```{r}
+# Solución
+netflix %>% 
+  group_by(Genre) %>%
+  summarise(N = n()) %>%
+  ggplot(aes(x = reorder(Genre, N),
+             y = N)) +
+  geom_col(fill = "#1380A1") +
+  coord_flip() +
+  labs(x = NULL,
+       y = NULL) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7))
+```
+
+Ahora miremos la distribución de duraciones y de rating de **IMDB** ¿Qué podemos decir al respecto?
+
+```{r}
+# Solución
+netflix %>% 
+  ggplot(aes(x = `IMDB Score`)) +
+  geom_histogram(fill = "#1380A1") +
+  labs(x = NULL,
+       y = NULL) +
+  theme_minimal()
+# La distribución es bastante normal pero con cola para abajo
+
+netflix %>% 
+  ggplot(aes(x = Runtime)) +
+  geom_histogram(fill = "#1380A1") +
+  labs(x = NULL,
+       y = NULL) +
+  theme_minimal()
+# pareciera haber un outlier de duración
+```
+
+Veamos cómo se distribuyen los ratings de **IMDB** para los géneros *Drama* y *Comedy*.
+
+```{r}
+# Solución
+netflix %>% 
+  filter(Genre %in% c("Comedy", "Drama")) %>%
+  ggplot(aes(x = `IMDB Score`,
+             color = Genre)) +
+  geom_freqpoly() +
+  labs(x = NULL,
+       y = NULL) +
+  theme_minimal() + 
+  theme(legend.position = "top")
+```
+
+Por último: ¿Qué pasa con las distribuciones de duraciones para *Comedy* y *Documentary*?
+
+```{r}
+# Solución
+netflix %>% 
+  filter(Genre %in% c("Comedy", "Documentary")) %>%
+  ggplot(aes(x = Runtime,
+             color = Genre)) +
+  geom_freqpoly() +
+  labs(x = NULL,
+       y = NULL) +
+  theme_minimal() + 
+  theme(legend.position = "top")
+# Hay un montón de documentales cortos
+```
+
+## 3 - Covariación
+
+Utilizando un boxplot veamos si hay alguna relación entre las películas de los géneros *Comedy*, *Drama* y *Documentary* y su rating de **IMDB**.
+
+```{r}
+# Solución
+netflix %>% 
+  filter(Genre %in% c("Comedy", "Drama", "Documentary")) %>%
+  ggplot(aes(x = Genre,
+             y = `IMDB Score`,
+             color = Genre,
+             fill = Genre)) +
+  geom_boxplot(alpha = .5) +
+  coord_flip() +
+  theme_minimal()
+```
+
+Luego, usando la función `geom_tile()` miremos la cantidad de muestras para las combinaciones de los tres géneros y los tres idiomas con más estrenos.
+
+```{r}
+# Solución
+netflix %>% 
+  filter(Genre %in% c("Comedy", "Drama", "Documentary")) %>%
+  filter(Language %in% c("English", "Spanish", "Hindi")) %>%
+  count(Genre, Language) %>%
+  ggplot(aes(x = Genre,
+             y = Language)) +
+  geom_tile(aes(fill = n)) +
+  theme_minimal()
+```
+
+Ahora vamos a ver la covarianza entre dos variables continuas. Vemos si existe alguna relación entre la fecha de estreno y el rating de **IMDB**.
+
+```{r}
+# Solución
+netflix %>% 
+  ggplot(aes(x = Premiere,
+             y = `IMDB Score`)) +
+  geom_point() +
+  theme_minimal()
+```
+
+¿Y si nos quedamos con los tres géneros más populares y lo vemos por género?
+
+```{r}
+# Solución
+netflix %>% 
+  filter(Genre %in% c("Comedy", "Drama", "Documentary")) %>%
+  ggplot(aes(x = Premiere,
+             y = `IMDB Score`,
+             color = Genre)) +
+  geom_point() +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+Por último, utilicemos la función `ggpairs()` de *{GGally}* para ver las distribuciones y correlaciones de todas las variables numéricas de `netflix`.
+
+```{r}
+# Solución
+library(GGally)
+
+netflix %>% 
+  select(all_of(c("Premiere", "Runtime", "IMDB Score"))) %>% 
+  ggpairs() +
+  theme_minimal()
+```  
+
+## 4 - *Outliers*
+
+Usemos la librería *{Routliers}* para ver si tenemos *outliers* univariados en las variables `Runtime` (duración) y `IMDB Score` (rating de IMDB)
+
+```{r}
+# Solución
+library(Routliers)
+
+outliers_runtime <- outliers_mad(x = netflix$Runtime)
+outliers_runtime
+
+plot_outliers_mad(outliers_runtime, 
+                  x = netflix$Runtime)
+
+netflix %>%
+  filter(Runtime < outliers_runtime$limits[1]) %>%
+  count(Genre) %>% 
+  arrange(desc(n))
+
+netflix %>%
+  filter(Runtime > outliers_runtime$limits[2])
+```
+
+```{r}
+# Solución
+outliers_IMDB <- outliers_mad(x = netflix$`IMDB Score`)
+outliers_IMDB
+
+plot_outliers_mad(outliers_IMDB, 
+                  x = netflix$`IMDB Score`)
+
+netflix %>%
+  filter(`IMDB Score` < outliers_IMDB$limits[1])
+```
+
+¿Qué podemos decir de los *outliers* de `Runtime`? ¿Los podemos categorizar de alguna forma? ¿Nos pueden dar alguna información sobre las producciones de **Netflix**?
+
+¿Y sobre los *outliers* de rating de **IMDB**?
+
+Por último, analicemos si hay outliers multivariados en ambas variables.
+
+```{r}
+# Solución
+outliers_multi <- outliers_mcd(x = cbind(netflix$Runtime,
+                                         netflix$`IMDB Score`))
+outliers_multi
+
+plot_outliers_mcd(outliers_multi, 
+                  x = cbind(netflix$Runtime,
+                            netflix$`IMDB Score`))
+
+netflix[outliers_multi$outliers_pos, ] %>%
+  filter(`IMDB Score` > 8)
+
+netflix[outliers_multi$outliers_pos, ] %>%
+  filter(`IMDB Score` < 5)
+```
