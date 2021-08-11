@@ -118,7 +118,7 @@ class: center, middle, inverse
 
 Cuando estamos realizando un **análisis confirmatorio** (tenemos una hipótesis previa) debemos tener cuidado con la influencia que tiene el EDA en el análisis de nuestros datos (hipótesis post-hoc).
 
-Cuando etamos haciendo un **análisis exploratorio**, el EDA es una parte importante del anñalisis inicial y puede permitirnos generar preguntas reveladoras para hacerle a nuestros datos.
+Cuando etamos haciendo un **análisis exploratorio**, el EDA es una parte importante del análisis inicial y puede permitirnos generar preguntas reveladoras para hacerle a nuestros datos.
 
 **Sin embargo** 
 
