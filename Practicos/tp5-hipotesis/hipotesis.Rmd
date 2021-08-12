@@ -1,0 +1,145 @@
+---
+title: "TP5 - Prueba de hipótesis"
+author: "Spiousas - Etchemendy"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::robobook
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+
+library(RCurl)
+```
+
+En este práctico vamos a trabajar analizando la variabilidad en la generación de muestras a partir de una distribución estadística. Vamos a usar eso como base para entender pruebas de hipótesis.
+
+## Carga de bibliotecas
+
+```{r, echo=TRUE, eval=TRUE}
+library(magrittr)
+library(purrr)
+library(tidyverse)
+```
+
+## Ejercicio 1
+
+El siguiente codigo genera una cantidad de muestras de cierto tamaño, tomadas de una distribución Gaussiana. Vamos a almacenarlas en un tibble que nos permita trabajar con cada muestra:
+
+```{r, echo=TRUE, eval=TRUE}
+# lo primero que hacemos es generar la estructura del "experimento"
+n_muestras = 100
+n_datos    = 5
+
+datos <- list(id_muestra = 1:n_muestras, id_data = 1:n_datos) %>% cross_df() %>% arrange(id_muestra)
+
+mu    = 100
+sigma = 10
+set.seed(101)
+realizaciones = rnorm(n=n_muestras*n_datos, mean=mu, sd=sigma)
+datos %<>% mutate(val=realizaciones)
+```
+
+a) Calcular la media y el desvío estándar muestrales para cada muestra. Para pensar: conviene almacenar esta info en una nueva columna en el tibble datos, o en un nuevo tibble?
+
+```{r}
+estadistica <- datos %>% group_by(id_muestra) %>% summarize (M = mean(val), S = sd(val), n = n())
+```
+
+b) A partir de los datos del item anterior, graficar la distribución de la media muestral. Comparar el histograma obtenido con una función de densidad Gaussiana. ¿Qué media y desvío estándar corresponden al histograma?
+
+```{r} 
+histog_M = estadistica %>% 
+           with(hist(M, breaks = 20, plot = FALSE)) %$% 
+           tibble(from    = head(breaks, -1),
+                  to      = tail(breaks, -1), 
+                  mids    = mids,
+                  counts  = counts, 
+                  density = density)
+```
+
+```{r} 
+density_M <- tibble(x = seq(from=90, to=110, by=0.1)) %>%
+             mutate(density = dnorm(x, mean=mu, sd=sigma/sqrt(n_datos)))
+```
+
+
+
+
+c) Verificar que la distribución de medias muestrales es bien representada por una función gaussiana con media mu y desvío estandar sigma/sqrt(n_datos). Para hacer esto, analizar la distribución correspondiente a muestras de distintos tamaños. ¿A qué corresponde sigma / sqrt(n)?
+
+```{r}
+p1 = ggplot() + geom_col(data=histog_M, aes(x=mids, y=density)) + geom_line(data=density_M, aes(x=x, y=density))
+```
+
+d) Graficar la distribución del desvío estándar muestral para diferentes tamaños de muestra. Discutir si es posible describirlo mediante una distribución gaussiana (Para pensar, ¿es posible obtener S < 0?.
+
+```{r}
+histog_S = estadistica %>% 
+           with(hist(S, breaks = 20, plot = FALSE)) %$% 
+           tibble(from    = head(breaks, -1),
+                  to      = tail(breaks, -1), 
+                  mids    = mids,
+                  counts  = counts, 
+                  density = density)
+```
+
+e) Obtener la estadística t correspondiente a cada muestra. Luego obtener su distribución, graficarla y compararla con la distribución t de Student con los correspondientes grados de libertad. Repetir para diferentes tamaños de muestra, y analizar a partir de qué tamaño de muestra la distribución de t puede ser bien representada por una distribución gaussiana (pensar con qué media y con qué desvío estándar)
+
+```{r}
+estadistica %<>% mutate(t = (M-mu)/S*sqrt(n))
+```
+
+```{r}
+histog_t = estadistica %>% 
+           with(hist(t, breaks = "Freedman-Diaconis", plot = FALSE)) %$% 
+           tibble(from    = head(breaks, -1),
+                  to      = tail(breaks, -1), 
+                  mids    = mids,
+                  counts  = counts, 
+                  density = density) %>%
+           filter(mids > -5, mids < 5)
+```
+
+```{r}
+density_t <- tibble(x = seq(from=-10, to=10, by=0.01)) %>%
+             mutate(density = dt(x, df = n_datos-1), snd = dnorm(x, mean=0, sd=1))
+```
+
+```{r}
+p2 = ggplot() + geom_col(data =histog_t,  aes(x=mids, y=density)) + 
+               geom_line(data=density_t, aes(x=x, y=density), color='red') +
+               geom_line(data=density_t, aes(x=x, y=snd), color='blue')
+```
+
+f) Obtener la función de probabilidad acumulada de la distribucion de t y graficarla. Recordar que para esto es necesario antes calcular la frecuencia relativa en cada intervalo del histograma. ¿En qué intervalo está comprendido el 5% de valores de t más extremos? Comparar para diferentes grados de libertad
+
+```{r}
+histog_t %<>% mutate(f = counts/sum(counts)) %>% mutate(p_acum = cumsum(f))
+```
+
+```{r}
+density_t %<>% mutate(p_acum = pt(x, df = n_datos-1))
+```
+
+```{r}
+p3 = ggplot() + geom_line(data=histog_t, aes(x=to, y=p_acum), color='red') +
+                geom_line(data=density_t, aes(x=x, y=p_acum), color='blue')
+```
+
+g) Calcular el probabilidad de ocurrencia de cada muestra obtenida. Elegir las más extremas (menos probables) y graficar algunas de ellas. Comparar con las menos extremas.
+
+```{r}
+estadistica %<>% mutate(pval = 2*pt(-abs(t), df = n_datos-1)) %>% arrange(-pval)
+```
