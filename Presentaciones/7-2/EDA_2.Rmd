@@ -326,7 +326,7 @@ Usando **MAD** univariado
 data <- c(1, 2, 3, 5, 6, 7, 40) 
 ```
 
-$MAD(X) = 1.48 median(\sum_i |x_i-median(X)|)$
+$MAD(X) = 1.48 * median(|x_i-median(X)|)$
 ```{r}
 # install.packages("Routliers")
 library(Routliers)

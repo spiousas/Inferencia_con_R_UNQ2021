@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Cómo detectar outliers y qué hacer con ellos</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ignacio Spiousas y Pablo Etchemendy" />
+    <script src="EDA_2_files/header-attrs-2.9/header-attrs.js"></script>
+    <script src="EDA_2_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="EDA_2_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="EDA_2_files/tile-view-0.2.6/tile-view.js"></script>
+    <script src="EDA_2_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="EDA_2_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+
+
+
+
+<style>.xe__progress-bar__container {
+  bottom:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 0.25em;
+  background-color: #A42339;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
+
+# Cómo detectar outliers y qué hacer con ellos
+### Análisis estadístico utilizando R
+
+&lt;img src="https://store-images.s-microsoft.com/image/apps.30452.fc69964a-ee5f-42b8-a4c8-991d2de54619.2becd730-7561-4858-a056-a80edf409286.a6d633cc-38c8-4819-984c-890c6a7afd46.png" width="10%" /&gt;
+
+UNQ UNTreF CONICET
+
+Ignacio Spiousas
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/spiousas) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#A42339;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://github.com/https://github.com/petcheme) [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#black;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt;](https://twitter.com/petcheme)
+
+2021-08-13
+
+---
+class: center, top, highlight-last-item
+# ¿Outliers = Valores extremos?
+
+![:scale 70%](https://miro.medium.com/max/2400/1*F_yiILIE954AZPgPADx76A.png)
+
+???
+Los valores atípicos son puntos de datos que están extremadamente distantes de la mayoría de los otros puntos de datos.
+
+"Grados de libertad del investigador"
+
+Por tanto, es importante que los investigadores decidan cómo gestionarán los valores atípicos antes de recopilar los datos y comprometerse con este plan preestablecido.
+
+---
+class: left, top, highlight-last-item
+# ¿Qué es un outlier?
+
+&gt; "Data values that are unusually large or small 
+&gt; compared to the other values of the same construct"
+&gt;
+&gt; Aguinis et al. 2013
+
+--
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+Una posible clasificación de los **Outliers**:
+
+&lt;br&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Tipo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Descripción &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; **Error** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P.ej. Un error de codificación &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; **Interesante** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P.ej. Un Moderador subyacente a un proceso potencialmente interesante &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; **Aleatorio** &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P.ej. Un valor muy grande para una dada distribución &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+.tiny.center[Adaptado de *Leys et al. 2019* y *Aguinis et al. 2013*]
+
+???
+Ejemplo de **error outlier**: Un valor "77" en una escala Likert que va de 1 a 7 es un error atípico, causado por presionar accidentalmente el "7" dos veces al ingresar manualmente los datos.
+
+Ejemplo de **interesting outlier**: Considere una persona que exhibiría un nivel muy alto de identificación dentro del grupo pero un nivel muy bajo de prejuicio hacia un grupo externo específico. Esto contaría como un valor atípico según la teoría de que la identificación de grupo conduce a prejuicios hacia los grupos externos relevantes. Detectar a esta persona y tratar de determinar por qué este es el caso puede ayudar a descubrir posibles moderadores de la suposición un tanto simplista de que la identificación conduce al prejuicio
+
+Ejemplo de **random outlier**: Los valores atípicos de andom son valores que aparecen aleatoriamente por pura (des) suerte, como una moneda perfectamente equilibrada que rinde 100 veces "cara" en 100 lanzamientos.
+
+---
+class: left, top, highlight-last-item
+# Outliers univariados y multivariados
+
+.pull-left[
+.center[![:scale 70%](https://www.researchgate.net/publication/315447148/figure/fig1/AS:613943919788033@1523387045078/Distribution-of-heights-and-weights-of-young-women-from-the-Southampton-Womens-Survey_W640.jpg)
+]]
+
+.pull-left.big[
+Un individuo de esta muestra de **175 cm** de altura no es un outlier
+
+Tampoco uno de **45 Kg** de peso
+
+Pero, uno de **175 cm** de altura **Y 45 Kg** de peso probablemente sí
+
+Eso es, de manera simple, un **outlier multivariado**
+]
+
+---
+class: left, top, highlight-last-item
+# Por qué los outliers son importantes
+
+.big.center[**1**. Detectar los posibles candidatos]
+
+.pull-left[
+.right[![:scale 30%](https://http2.mlstatic.com/D_NQ_NP_2X_678290-MLA25566891986_052017-F.webp)]
+]
+
+.pull-right[
+Una muestra de 10 tiradas de dado con 10 caras puede ser un dado cargado o, simplemente una posibilidad... 
+
+¿Cómo lo identificamos? **Buena pregunta**
+]
+
+--
+&lt;br&gt;
+.big.center[
+**2**. Decidir si conservarlos o removerlos (basados en información **no matemática**)
+]
+
+???
+Discutir el tema de que los valores extremos, si vienen de la distribución (una moneda no alterada) son fuentes "legitimas" de varianza y no habría por qué quitarlos.
+
+Desafortunadamente, la mayoría de las veces, uno no tiene forma de saber de qué distribución proviene una observación.
+
+---
+class: left, top, highlight-last-item
+# Cómo detectar posibles outliers
+
+Los datos que están fuera del intervalo **media +/- 3.29 SD** (te quedas con el 99%)
+
+Todo muy lindo, pero... ¿Qué pasa con la media cuando sumamos outliers?
+
+--
+.pull-left[
+Un pequeño "experimento":
+
+
+```r
+mean(c(1, 2, 3, 5, 6, 7))
+```
+
+```
+## [1] 4
+```
+
+
+```r
+mean(c(1, 2, 3, 5, 6, 7, 1000))
+```
+
+```
+## [1] 146.2857
+```
+
+
+```r
+mean(c(1, 2, 3, 5, 6, 7, 1000, 1000))
+```
+
+```
+## [1] 253
+```
+
+
+```r
+mean(c(1, 2, 3, 5, 6, 7, 1000, 1000, 1000))
+```
+
+```
+## [1] 336
+```
+
+Se entiende ¿No?
+]
+
+--
+.pull-right[
+En cambio, nada le gana a la buena **mediana** para medir la tendencia central
+
+
+```r
+median(c(1, 2, 3, 5, 6, 7))
+```
+
+```
+## [1] 4
+```
+
+
+```r
+median(c(1, 2, 3, 5, 6, 7, 1000))
+```
+
+```
+## [1] 5
+```
+
+
+```r
+median(c(1, 2, 3, 5, 6, 7, 1000, 1000))
+```
+
+```
+## [1] 5.5
+```
+
+
+```r
+median(c(1, 2, 3, 5, 6, 7, 1000, 1000, 1000))
+```
+
+```
+## [1] 6
+```
+]
+
+???
+La mediana, al igual que la media, es una medida de la tendencia central pero ofrece la ventaja de ser muy poco sensible a la presencia de outliers.
+
+El equivalente de la media para multivariados: Distancia de Mahalanobis. Valores muy lejanos a un centroide (te quedas, por ejemplo, con el 99%).
+
+Esta circularidad en la detección de outliers basada en estadísticas que están influenciadas por los outliers puede prevenirse mediante el uso de indicadores sólidos de outliers. 
+
+---
+class: left, top, highlight-last-item
+# Cómo detectar posibles outliers
+
+.big[
+Los métodos basados en la media tienen 3 problemas:
+
+&lt;br&gt;
+
+.center[
+**1**. Al ser métodos que dependen de la media no es ideal yq ue la media puede ser muy influenciada por los outliers mismos
+
+**2**. Además asume que la distribución es normal
+
+**3**. Difícil que detecte outliers en muestras pequeñas (relacionado con 1)
+]]
+
+---
+class: left, top, highlight-last-item
+# Cómo detectar posibles outliers
+
+Veamos un ejemplo:
+
+```r
+data &lt;- c(1, 2, 3, 5, 6, 7, 1000) 
+```
+
+.pull-left[
+Con la **media** y 3 **SD**
+
+```r
+mean(data)
+```
+
+```
+## [1] 146.2857
+```
+
+
+```r
+sd(data)
+```
+
+```
+## [1] 376.4588
+```
+
+
+```r
+limits_mean &lt;- c(mean(data) - 3 * sd(data),
+                 mean(data) + 3 * sd(data))
+limits_mean
+```
+
+```
+## [1] -983.0907 1275.6622
+```
+]
+
+.pull-right[
+Con la **mediana** y 2.225 **IQR**
+
+```r
+median(data)
+```
+
+```
+## [1] 5
+```
+
+
+```r
+quantile(data)
+```
+
+```
+##     0%    25%    50%    75%   100% 
+##    1.0    2.5    5.0    6.5 1000.0
+```
+
+
+```r
+limits_median &lt;- c(median(data) - 2.225 * IQR(data),
+                   median(data) + 2.225 * IQR(data))
+limits_median
+```
+
+```
+## [1] -3.9 13.9
+```
+]
+
+Al ser un dataset pequeño y estar la **media** y la **SD** muy influenciada por el **1000** no lo consideramos outlier
+
+???
+La elección de *2.225* es porque si tenemos una distribución normal es el equivalente a 3 SD
+
+---
+class: left, top, highlight-last-item
+# Un método de detección
+
+Una variante del uso de la mediana y el **IQR** es el uso del **MAD (median absolute deviation)** 
+
+.pull-left[
+Usando **MAD** univariado
+
+```r
+data &lt;- c(1, 2, 3, 5, 6, 7, 40) 
+```
+
+`\(MAD(X) = 1.48 * median(|x_i-median(X)|)\)`
+
+```r
+# install.packages("Routliers")
+library(Routliers)
+outliers &lt;- outliers_mad(data)
+outliers
+```
+
+```
+## Call:
+## outliers_mad.default(x = data)
+## 
+## Median:
+## [1] 5
+## 
+## MAD:
+## [1] 2.9652
+## 
+## Limits of acceptable range of values:
+## [1] -3.8956 13.8956
+## 
+## Number of detected outliers
+##  extremely low extremely high          total 
+##              0              1              1
+```
+]
+
+.pull-right[
+
+```r
+plot_outliers_mad(outliers, x = data)
+```
+
+&lt;img src="EDA_2_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+???
+El MAD Es una especie de mediana de las distancias a la mediana y es MUY robusto,
+
+Es mejor que el intercuartil porque si tuvieramos más del 25% de los datos outliers el IQR se vería afectado por esto mientras que el MAD no.
+
+La detección de valores atípicos es un procedimiento que se aplica solo una vez a un conjunto de datos. Un error común es detectar valores atípicos, administrarlos (por ejemplo, eliminarlos o volver a codificarlos) y luego volver a aplicar el procedimiento de detección de valores atípicos en el nuevo conjunto de datos modificado.
+
+---
+class: left, top, highlight-last-item
+# Un método de detección
+
+También sirve para outliers multivariados (**MCD**)
+
+
+```r
+altura &lt;- c(1.5, 1.7, 1.6, 1.8, 1.6, 1.6, 1.9) # Metros
+peso &lt;- c(60,  72,  72,  79,  70,  63,  47) # Kg
+```
+
+.pull-left[
+
+```r
+outliers_altura &lt;- outliers_mad(altura)
+outliers_altura
+```
+
+```
+## Call:
+## outliers_mad.default(x = altura)
+## 
+## Median:
+## [1] 1.6
+## 
+## MAD:
+## [1] 0.14826
+## 
+## Limits of acceptable range of values:
+## [1] 1.15522 2.04478
+## 
+## Number of detected outliers
+##  extremely low extremely high          total 
+##              0              0              0
+```
+]
+
+.pull-right[
+
+```r
+outliers_peso &lt;- outliers_mad(peso)
+outliers_peso
+```
+
+```
+## Call:
+## outliers_mad.default(x = peso)
+## 
+## Median:
+## [1] 70
+## 
+## MAD:
+## [1] 10.3782
+## 
+## Limits of acceptable range of values:
+## [1]  38.8654 101.1346
+## 
+## Number of detected outliers
+##  extremely low extremely high          total 
+##              0              0              0
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Un método de detección
+
+También sirve para outliers multivariados (**MCD**)
+
+
+```r
+altura &lt;- c(1.5, 1.7, 1.6, 1.8, 1.6, 1.6, 1.9) # Metros
+peso &lt;- c(60,  72,  72,  79,  70,  63,  47) # Kg
+```
+
+.pull-left[
+
+```r
+outliers_multi &lt;- outliers_mcd(cbind(altura,
+                                     peso))
+outliers_multi
+```
+
+```
+## Call:
+## outliers_mcd.default(x = cbind(altura, peso))
+## 
+## Limit distance of acceptable values from the centroid :
+## [1] 9.21034
+## 
+## Number of detected outliers:
+## total 
+##     1
+```
+]
+
+.pull-right[
+
+```r
+plot_outliers_mcd(outliers_multi, x = cbind(altura,
+                                     peso))
+```
+
+&lt;img src="EDA_2_files/figure-html/unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+class: left, top, highlight-last-item
+# Lidiando con outliers
+
+.big[
+Después de detectar los potenciales outliers tenemos que decidir qué hacemos con ellos
+]
+&lt;br&gt;
+&lt;br&gt;
+
+.huge.center[
+**Conservar**  o **Remover** los outliers
+]
+
+&lt;br&gt;
+&lt;br&gt;
+.center.huge.content-box-blue[**Recuerden** que esta decisión no se puede calcular]
+
+
+???
+Los error outliers deben eliminarse cuando se detectan, ya que no son observaciones válidas de la población investigada. Tanto los outliers interesantes como los aleatorios se pueden mantener, recodificar o excluir. Idealmente, los outliers interesantes deben eliminarse y estudiarse en estudios futuros, y deben mantenerse los outliers aleatorios. Desafortunadamente, los datos brutos generalmente no permiten a los investigadores diferenciar fácilmente los outliers interesantes y aleatorios entre sí. En la práctica, recomendamos tratar a ambos de manera similar.
+
+---
+class: left, top, highlight-last-item
+# Recomendaciones prácticas
+
+.huge.center[
+**SIEMPRE** explicitar **cómo** detectamos y **qué** hicimos con los **outliers**
+
+De ser posible, **preregistrar** el plan de análisis de **outliers**
+
+Si compartimos los **datos crudos**, incluir a los **outliers**
+]
+
+
+---
+class: left, top, highlight-last-item
+# Recomendaciones prácticas
+
+.big.pull-left-narrow[
+Y si no estamos seguros...
+]
+
+.pull-right-wide[
+.center[![:scale 80%](./figs/caminos.jpeg)
+.tiny[*Schoedel et al. 2020*]
+]
+]
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Leys, C., Delacre, M., Mora, Y. L., Lakens, D., &amp; Ley, C. (2019). How to classify, detect, and manage univariate and multivariate outliers, with emphasis on pre-registration. International Review of Social Psychology, 32(1).
+
+- Leys, C., Ley, C., Klein, O., Bernard, P., &amp; Licata, L. (2013). Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median. Journal of experimental social psychology, 49(4), 764-766.
+
+- Aguinis, H., Gottfredson, R.-K., &amp; Joo, H. (2013). Best-practice recommendations for defining, identifying, and handling outliers. Organizational Research Methods, 16(2), 270–301. 
+
+- Schoedel, R., Pargent, F., Au, Q., Völkel, S. T., Schuwerk, T., Bühner, M., &amp; Stachl, C. (2020). To challenge the morning lark and the night owl: Using smartphone sensing data to investigate day–night behaviour patterns. European Journal of Personality, 34(5), 733-752.
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"countIncrementalSlides": false,
+"navigation": {
+"scroll": false
+},
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

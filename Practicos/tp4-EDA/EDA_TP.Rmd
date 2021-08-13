@@ -206,7 +206,7 @@ netflix %>%
   theme_minimal()
 ```
 
-Ahora vamos a ver la covarianza entre dos variables continuas. Vemos si existe alguna relación entre la fecha de estreno y el rating de **IMDB**.
+Ahora vamos a ver la covariación entre dos variables continuas. Vemos si existe alguna relación entre la fecha de estreno y el rating de **IMDB**.
 
 ```{r}
 # Solución
