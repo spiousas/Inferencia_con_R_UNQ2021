@@ -7,7 +7,7 @@
 
         <meta name="author" content="Spiousas - Etchemendy" />
     
-        <meta name="date" content="2021-08-12" />
+        <meta name="date" content="2021-08-14" />
     
     <title>TP5 - Prueba de hipótesis</title>
 
@@ -195,7 +195,7 @@
         <ul class="authors">
           <li class="divider"></li>
                                 <li><span><i class="glyphicon glyphicon-user"></i> Spiousas - Etchemendy</span></li>
-                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-12</span></li>
+                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-08-14</span></li>
                   </ul>     
       </div>
       <div class="book-body fixed">
@@ -225,26 +225,38 @@
 </div>
 <div id="ejercicio-1" class="section level2">
 <h2>Ejercicio 1</h2>
-<p>El siguiente codigo genera una cantidad de muestras de cierto tamaño, tomadas de una distribución Gaussiana. Vamos a almacenarlas en un tibble que nos permita trabajar con cada muestra:</p>
+<p>El siguiente código genera una cantidad de muestras de cierto tamaño, tomadas de una distribución Gaussiana con media <span class="math inline">\(\mu\)</span> y desvío estándar <span class="math inline">\(\sigma\)</span>. Vamos a almacenarlas en un <code>tibble</code> que nos permita trabajar con cada muestra:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lo primero que hacemos es generar la estructura del &quot;experimento&quot;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n_muestras <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n_muestras <span class="ot">=</span> <span class="dv">10000</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n_datos    <span class="ot">=</span> <span class="dv">5</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">id_muestra =</span> <span class="dv">1</span><span class="sc">:</span>n_muestras, <span class="at">id_data =</span> <span class="dv">1</span><span class="sc">:</span>n_datos) <span class="sc">%&gt;%</span> <span class="fu">cross_df</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(id_muestra)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mu    <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>realizaciones <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n_muestras<span class="sc">*</span>n_datos, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>datos <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">val=</span>realizaciones)</span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># la guardamos en un tibble</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">id_muestra =</span> <span class="dv">1</span><span class="sc">:</span>n_muestras, <span class="at">id_data =</span> <span class="dv">1</span><span class="sc">:</span>n_datos) <span class="sc">%&gt;%</span> <span class="fu">cross_df</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(id_muestra)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># agregamos al tibble la columna con las realizaciones</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>mu    <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>datos <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">val=</span><span class="fu">rnorm</span>(<span class="at">n=</span>n_muestras<span class="sc">*</span>n_datos, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma))</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li><p>Calcular la media y el desvío estándar muestrales para cada muestra. Para pensar: conviene almacenar esta info en una nueva columna en el tibble datos, o en un nuevo tibble?</p></li>
-<li><p>A partir de los datos del item anterior, graficar la distribución de la media muestral. Comparar el histograma obtenido con una función de densidad Gaussiana. ¿Qué media y desvío estándar corresponden al histograma?</p></li>
-<li><p>Verificar que la distribución de medias muestrales es bien representada por una función gaussiana con media mu y desvío estandar sigma/sqrt(n_datos). Para hacer esto, analizar la distribución correspondiente a muestras de distintos tamaños. ¿A qué corresponde sigma / sqrt(n)?</p></li>
-<li><p>Graficar la distribución del desvío estándar muestral para diferentes tamaños de muestra. Discutir si es posible describirlo mediante una distribución gaussiana (Para pensar, ¿es posible obtener S &lt; 0?.</p></li>
-<li><p>Obtener la estadística t correspondiente a cada muestra. Luego obtener su distribución, graficarla y compararla con la distribución t de Student con los correspondientes grados de libertad. Repetir para diferentes tamaños de muestra, y analizar a partir de qué tamaño de muestra la distribución de t puede ser bien representada por una distribución gaussiana (pensar con qué media y con qué desvío estándar)</p></li>
-<li><p>Obtener la función de probabilidad acumulada de la distribucion de t y graficarla. Recordar que para esto es necesario antes calcular la frecuencia relativa en cada intervalo del histograma. ¿En qué intervalo está comprendido el 5% de valores de t más extremos? Comparar para diferentes grados de libertad</p></li>
+<li><p>Calcular la media (<span class="math inline">\(M\)</span>) y el desvío estándar (<span class="math inline">\(S\)</span>) muestrales para cada muestra. Para pensar: conviene almacenar esta info en una nueva columna en el <code>tibble</code> <code>datos</code>, o en uno nuevo?</p></li>
+<li><p>A partir de los datos del ítem anterior, graficar la distribución de la media muestral. Comparar el histograma obtenido con una función de densidad Gaussiana.</p>
+<p><em>Ayuda</em>: Obtener el histograma usando la función <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/hist">hist()</a>, y almacenarlo en un <code>tibble</code> mediante la sintaxis que vimos en la práctica pasada (con la función <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/with">with()</a>)</p>
+<p><em>Otra ayuda</em>: La densidad se obtiene con la función <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Normal">dnorm()</a>. Puede ser útil agregarla en una columna en el mismo <code>tibble</code> donde almacenó el histograma, o, si no quiere estar limitado a los intervalos del histograma, puede crear un nuevo <code>tibble</code> de dos columnas.</p>
+<p>Luego, analizar qué media y desvío estándar corresponden al histograma. <em>Ayuda</em>: Usar como referencia los parámetros de la distribución que generó los datos y analizar si en este caso son los mismos o diferentes (mayores o menores). Verificar si se producen cambios para diferentes tamaños muestrales.</p></li>
+<li><p>Verificar que la distribución de medias muestrales es bien representada por una función gaussiana con media <span class="math inline">\(\mu\)</span> y desvío estandar <span class="math inline">\(\sigma/\sqrt{n}\)</span>, donde n es el tamaño de cada muestra (almacenado en <code>n_datos</code>). Para hacer esto, analizar la distribución variando el tamaño muestral. ¿A qué corresponde <span class="math inline">\(\sigma/\sqrt{n}\)</span>? ¿Y <span class="math inline">\(S/\sqrt{n}\)</span>?</p></li>
+<li><p>Graficar la distribución del desvío estándar muestral para diferentes tamaños de muestra (una muy pequeña y una suficientemente grande). Discutir si es posible describirla mediante una distribución gaussiana (Para pensar, ¿es posible obtener <span class="math inline">\(S &lt; 0\)</span>?)</p></li>
+<li><p>Obtener la estadística <span class="math inline">\(t\)</span> correspondiente a cada muestra. Luego obtener su distribución, graficarla y compararla con la distribución <span class="math inline">\(t\)</span> de Student con los correspondientes grados de libertad.</p>
+<p>Ayuda: La densidad para la distribución <span class="math inline">\(t\)</span> de Student se calcula con la función <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html">dt()</a>.</p>
+<p>Otra ayuda: Recuerde que en este caso, los grados de libertad corresponden al tamaño muestral menos uno (<span class="math inline">\(n-1\)</span>).</p>
+<p>Repetir para diferentes tamaños de muestra, y analizar a partir de qué tamaño de muestra la distribución de <span class="math inline">\(t\)</span> puede ser bien representada por una distribución Gaussiana (pensar con qué media y con qué desvío estándar)</p></li>
+<li><p>Obtener la función de probabilidad acumulada de la distribucion de <span class="math inline">\(t\)</span> y graficarla. Recordar que para esto es necesario, antes, calcular la frecuencia relativa en cada intervalo del histograma.</p>
+<p>Ayuda: puede comparar con el valor teórico mediante la función <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/TDist.html">pt()</a>.</p>
+<p>¿En qué intervalo está comprendido el 5% de valores de <span class="math inline">\(t\)</span> más extremos? Comparar para diferentes grados de libertad.</p></li>
 <li><p>Calcular el probabilidad de ocurrencia de cada muestra obtenida. Elegir las más extremas (menos probables) y graficar algunas de ellas. Comparar con las menos extremas.</p></li>
+<li><p>Graficar la distribucion de p-values. ¿Qué proporcion de p-values son menores que <span class="math inline">\(\alpha = 0.05\)</span>? ¿y menores que 0.1, 0.2, 0.5, etc.? Pruebe distintos valores</p></li>
+<li><p>Obtenga un dataset generado por una distribucion con diferente media (<span class="math inline">\(\mu_2\)</span>). Obtenga la estadistica <span class="math inline">\(t\)</span> para cada muestra, y los correspondientes p-values, pero haga de cuenta que Ud. no sabe que la media de la distribucion de origen fue modificada. (Esto significa que, para calcular <span class="math inline">\(t\)</span>, debe usar el valor de <span class="math inline">\(\mu\)</span> empleado inicialmente, ya que Ud. no está al tanto de que el mismo fue modificado).</p>
+<p>Analizar la distribucion de p-values en este caso. ¿Qué proporcion de p-values son menores que <span class="math inline">\(\alpha=0.05\)</span> en este caso? ¿Y menores a otros valores de <span class="math inline">\(\alpha\)</span>? ¿Como se modifica todo esto para distintos valores de <span class="math inline">\(\mu_2\)</span>? ¿Se modifican estos resultados al modificar el tamaño de muestra?</p></li>
 </ol>
 </div>
 
