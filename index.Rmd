@@ -60,6 +60,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 2      | CA-16  | Prueba de hipótesis 2 - Para qué sirve? | Pronto  | [YouTube](https://www.youtube.com/watch?v=LHZWAOwJ2gM&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=21) |
 | 2      | CA-17  | Prueba de hipótesis 3 - Relación entre estadística crítica y nivel de significancia (alfa) | Pronto  | [YouTube](https://www.youtube.com/watch?v=hhF9G-2uilQ&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=22) |
 | 2      | CA-18  | Prueba de hipótesis 4 - P-values | Pronto | [YouTube](https://www.youtube.com/watch?v=o4M96nLVn0A&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=23) |
+| 2      | CA-19  | Prueba de hipótesis 5 - Potencia estadística | Pronto | [YouTube](https://www.youtube.com/watch?v=fpO0B7ZlHSE&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=26) |
+| 2      | CA-20  | Prueba de hipótesis 6 - Tamaño del efecto | Pronto | [YouTube](https://www.youtube.com/watch?v=EfL0o20VA-w&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=26) |
 
 (**CS**) Clase Sincrónica 
 
