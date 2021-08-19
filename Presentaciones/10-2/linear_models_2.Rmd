@@ -1,0 +1,358 @@
+---
+title: "Inferencia para regresión lineal"
+subtitle: "Análisis estadístico utilizando R"
+author: "Ignacio Spiousas y Pablo Etchemendy"
+institute: "UNQ UNTreF CONICET"
+date: "(updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: 
+      - xaringan-themer.css
+      - custom.css
+    nature:
+      highlightLines: true
+      beforeInit: "macros.js"
+      countIncrementalSlides: false
+      navigation: 
+        scroll: false
+      ratio: '16:9'
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, 
+               palmerpenguins, openintro, patchwork, ggtext)
+options(dplyr.width = Inf)
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 13))
+ggplot2::theme_update(plot.title = element_markdown())
+ggplot2::update_geom_defaults("point", list(color = "#1380A1",
+                                            fill = "#1380A1",
+                                            size = 3,
+                                            alpha = .7))
+ggplot2::update_geom_defaults("line", list(color = "#ED6A5A"))
+ggplot2::update_geom_defaults("smooth", list(color = "#ED6A5A"))
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+style_duo_accent(primary_color = "#A42339",
+                 secondary_color = "#BADEFC",
+                 code_highlight_color = "#BADEFC",
+                 base_font_size = "18px",
+                 text_font_size = "1rem",
+                 text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.7rem",
+                  code_inline_font_size = "0.7rem",
+                 header_h1_font_size = "2.5rem",
+                 header_h2_font_size = "2rem",
+                 header_h3_font_size = "1.5rem",
+                 header_font_google = google_font("Work Sans", "600"),
+                 text_font_google = google_font("Work Sans", "300", "300i"),
+                 code_font_google = google_font("Fira Mono")
+)
+```
+
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".huge" = list("font-size"  = "150%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
+
+# `r rmarkdown::metadata$title`
+### `r rmarkdown::metadata$subtitle`
+
+```{r image_tidyverse, fig.show = "hold", out.width = "30%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://miro.medium.com/max/1000/1*ZhYNqU2y96_f3QkWq9oiWQ.jpeg")
+```
+
+`r rmarkdown::metadata$institute`
+
+Ignacio Spiousas
+[`r icons::icon_style(icons::fontawesome("github"), fill = "#A42339")`](https://github.com/spiousas) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#A42339")`](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
+
+`r Sys.Date()`
+
+---
+class: left, top, highlight-last-item
+# Peso de los aliens `r emo::ji("alien")`
+
+Imagínense que tenemos datos de los **2000 únicos** individuos de una raza alienígena
+
+```{r, echo=FALSE}
+set.seed(4)
+data <- tibble(Dientes = round(rnorm(2000) * 10+50),
+               Peso = (500 +  .5 * Dientes) + rnorm(2000) * 30)
+```
+.pull-left[
+Podemos decir que existe una relación lineal entre peso y altura de 
+
+```{r}
+m_full <- lm(Peso ~ Dientes, data)
+m_full
+```
+]
+
+.pull-right[
+$$ Peso = \beta_0 + \beta_1 Dientes$$
+Donde $\beta_0$ y $\beta_1$ son los **parámetros poblacionales**
+
+$$ Peso = 499.57 + 0.51 Dientes $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+data %>%
+  ggplot(aes(x = Dientes,
+             y = Peso)) +
+  geom_point(size = 1) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "# Dientes",
+       y = "Peso (g)") 
+  
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Peso de los aliens `r emo::ji("alien")`
+
+Ahora, qué pasa si vemos un grupo de 30 personas...
+
+.pull-left[
+$$ \hat{Peso} = b_0 + b_1 Dientes$$
+Donde $b_0$ y $b_1$ son los **parámetros de la muestra**
+
+Los podemos considerar estimaciones de los **poblacionales**
+
+Los obtenemos con **cuadrados mínimos**
+
+
+```{r}
+# Extraigo la muestra
+set.seed(123)
+data_sample_1 <- data %>%
+  sample_n(size = 30)
+
+# Ajusto el modelos
+lm(Peso ~ Dientes, data_sample_1)
+```
+]
+.pull-right[
+
+$$ \hat{Peso} = 507.83 + 0.60 Dientes $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+data_sample_1 %>%
+  ggplot(aes(x = Dientes,
+             y = Peso)) +
+  geom_point(size = 1) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "# Dientes",
+       y = "Peso (g)") 
+  
+```
+]
+
+
+---
+class: left, top, highlight-last-item
+# Peso de los aliens `r emo::ji("alien")`
+
+Y otro grupo grupo de 30 personas...
+
+.pull-left[
+$$ \hat{Peso} = b_0 + b_1 Dientes$$
+
+```{r}
+# Extraigo la muestra
+set.seed(321)
+data_sample_2 <- data %>%
+  sample_n(size = 30)
+
+# Ajusto el modelos
+lm(Peso ~ Dientes, data_sample_2)
+```
+]
+.pull-right[
+
+$$ \hat{Peso} = 478.27 + 0.93 Dientes $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+data_sample_2 %>%
+  ggplot(aes(x = Dientes,
+             y = Peso)) +
+  geom_point(size = 1) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "# Dientes",
+       y = "Peso (g)") 
+  
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Peso de los aliens `r emo::ji("alien")`
+
+¿Son iguales? ¿Parecidas?
+
+¿Con qué seguridad podemos hablar de los parámetros poblacionales?
+
+.pull-left[
+$$ \hat{Peso} = 507.83 + 0.60 Dientes $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+data_sample_1 %>%
+  ggplot(aes(x = Dientes,
+             y = Peso)) +
+  geom_point(size = 1) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "# Dientes",
+       y = "Peso (g)") 
+  
+```
+]
+.pull-right[
+
+$$ \hat{Peso} = 478.27 + 0.93 Dientes $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+data_sample_2 %>%
+  ggplot(aes(x = Dientes,
+             y = Peso)) +
+  geom_point(size = 1) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "# Dientes",
+       y = "Peso (g)") 
+  
+```
+]
+
+
+---
+class: left, top, highlight-last-item
+# Peso de los aliens `r emo::ji("alien")`
+
+Que pasa si tomamos **200 grupos** de **30 aliens**
+
+.pull-left[
+```{r}
+set.seed(123)
+repeticiones <- tibble(n = 1:200,
+                       ordenada = 0,
+                       pendiente = 0)
+
+for (i in 1:200) {
+  sample <- data %>% sample_n(size = 30)
+  m <- lm(Peso ~ Dientes, sample)
+  repeticiones$ordenada[i] <- m$coefficients[1]
+  repeticiones$pendiente[i] <- m$coefficients[2]
+}
+```
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="70%", fig.width=4, fig.height=3}
+repeticiones %>% ggplot(aes(x = pendiente)) +
+  geom_histogram(color = "white",
+                 fill = "#1380A1")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+data %>% ggplot(aes(x = Dientes,
+                    y = Peso)) +
+  geom_point(size = 1, alpha = .1) +
+  geom_abline(data = repeticiones, 
+              aes(intercept = ordenada, slope = pendiente),
+              color = "#ED6A5A" , alpha = .3)
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Métodos "numéricos"
+
+.pull-left[
+### Aleatorización
+
+Consisten en comparar la pendiente observada con una distribución nula
+]
+
+.pull-right[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=3}
+repeticiones %>% ggplot(aes(x = pendiente)) +
+  geom_histogram(color = "white",
+                 fill = "#1380A1")
+```
+]
+
+.pull-left[
+### Intervalos de confianza y bootstrapping
+
+Consisten en simular la pendiente con muestras y calcular sus intervalos de confianza
+]
+
+.pull-right[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=3}
+repeticiones %>% ggplot(aes(x = pendiente)) +
+  geom_histogram(color = "white",
+                 fill = "#1380A1")
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Modelos matemáticos de la pendiente
+
+---
+class: left, top, highlight-last-item
+# Intervalos de la pendiente
+
+---
+class: left, top, highlight-last-item
+# Effect size
+
+---
+class: left, top, highlight-last-item
+# Condiciones de los modelos
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Mine Çetinkaya-Rundel and Johanna Hardin (2021). Introduction to Modern Statistics. Openintro Project. https://openintro-ims.netlify.app/index.html.
+
+]]
