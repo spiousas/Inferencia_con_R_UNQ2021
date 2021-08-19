@@ -1,0 +1,676 @@
+---
+title: "Regresión lineal"
+subtitle: "Análisis estadístico utilizando R"
+author: "Ignacio Spiousas y Pablo Etchemendy"
+institute: "UNQ UNTreF CONICET"
+date: "(updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: 
+      - xaringan-themer.css
+      - custom.css
+    nature:
+      highlightLines: true
+      beforeInit: "macros.js"
+      countIncrementalSlides: false
+      navigation: 
+        scroll: false
+      ratio: '16:9'
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, 
+               palmerpenguins, openintro, patchwork, ggtext)
+options(dplyr.width = Inf)
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 13))
+ggplot2::theme_update(plot.title = element_markdown())
+ggplot2::update_geom_defaults("point", list(color = "#1380A1",
+                                            fill = "#1380A1",
+                                            size = 3,
+                                            alpha = .7))
+ggplot2::update_geom_defaults("line", list(color = "#ED6A5A"))
+ggplot2::update_geom_defaults("smooth", list(color = "#ED6A5A"))
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+style_duo_accent(primary_color = "#A42339",
+                 secondary_color = "#BADEFC",
+                 code_highlight_color = "#BADEFC",
+                 base_font_size = "18px",
+                 text_font_size = "1rem",
+                 text_slide_number_font_size = "0.8rem",
+                  code_font_size = "0.7rem",
+                  code_inline_font_size = "0.7rem",
+                 header_h1_font_size = "2.5rem",
+                 header_h2_font_size = "2rem",
+                 header_h3_font_size = "1.5rem",
+                 header_font_google = google_font("Work Sans", "600"),
+                 text_font_google = google_font("Work Sans", "300", "300i"),
+                 code_font_google = google_font("Fira Mono")
+)
+```
+
+```{r xaringanExtra, echo = FALSE}
+# Progress bar
+xaringanExtra::use_progress_bar(color = "#A42339", location = "bottom")
+
+# Extra css classes
+extra_css <- list(
+  ".pull-left-narrow" = list("float" = "left",
+                             "width" = "20%"),
+  ".pull-right-wide" = list("float"  = "left",
+                             "width" = "75%"),
+  ".small" = list("font-size"  = "90%"),
+  ".big" = list("font-size"  = "120%"),
+  ".huge" = list("font-size"  = "150%"),
+  ".full-width" = list("display" = "flex",
+                       "width"   = "100%",
+                       "flex"    = "1 1 auto"),
+  ".content" = list("position"   = "relative",
+                    "top"        = "50%",
+                    "transform"  = "translateY(-50%)",
+                    "text-align" = "center")
+)
+
+style_extra_css(css = extra_css, outfile = "custom.css")
+
+# set engines
+knitr::knit_engines$set("markdown")
+xaringanExtra::use_tile_view()
+```
+
+# `r rmarkdown::metadata$title`
+### `r rmarkdown::metadata$subtitle`
+
+```{r image_tidyverse, fig.show = "hold", out.width = "30%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://miro.medium.com/max/1400/1*guak1sQTh5sAf46NMzbQig.jpeg")
+```
+
+`r rmarkdown::metadata$institute`
+
+Ignacio Spiousas
+[`r icons::icon_style(icons::fontawesome("github"), fill = "#A42339")`](https://github.com/spiousas) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#A42339")`](https://twitter.com/Spiousas)
+
+Pablo Etchemendy
+[`r icons::icon_style(icons::fontawesome("github"), fill = "black")`](https://github.com/https://github.com/petcheme) [`r icons::icon_style(icons::fontawesome("twitter"), fill = "#black")`](https://twitter.com/petcheme)
+
+`r Sys.Date()`
+
+---
+class: left, top, highlight-last-item
+# Ajustando una recta
+
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="100%", fig.width=4, fig.height=4}
+tibble(Anios_de_vida = c(18, 24, 25, 39, 41, 44, 46, 56, 61, 70),
+       Dias_de_via = Anios_de_vida*365) %>%
+  ggplot(aes(x = Anios_de_vida,
+             y = Dias_de_via)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "Años de vida",
+       y = "Días de vida") +
+  geom_point()
+```
+]
+
+.pull-right.big[
+La ecuación de esta recta la conocemos:
+<br>
+$$y = 0 + 365 x$$
+
+Y de forma general podemos escribir:
+<br>
+$$y = b_0 + b_1 x + e$$
+Donde $b_0$ es la **ordenada al origen** y $b_1$ la **pendiente** y $e$ es el **error**
+
+O:
+
+$$y = \hat{y} + e$$
+]
+
+???
+Los parámetros se calculan con los datos, es decir, son estimaciones.
+
+Cuando usamos x para predecir y, generalmente llamamos a x la variable predictora y llamamos a y el resultado.
+
+---
+class: left, top, highlight-last-item
+# Ajustando una recta
+
+.pull-left[
+El mundo real se va a parecer un poco más a esto:
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+penguins_adelie <- penguins %>% 
+  drop_na() %>%
+  filter(species == "Adelie")
+
+penguins_adelie %>%
+  ggplot(aes(x = bill_length_mm,
+             y = body_mass_g)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "Largo del pico (mm)",
+       y = "Peso (g)") +
+  geom_point()
+```
+]
+
+--
+
+.pull-right[
+O esto:
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+penguins_adelie %>%
+  ggplot(aes(x = bill_length_mm,
+             y = flipper_length_mm)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "Largo del pico (mm)",
+       y = "largo de la aleta (mm)") +
+  geom_point()
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Ajustando una recta
+
+Cuál es la diferencia entre estos dos ajustes, ambos con la recta
+
+$$y = 10 + 15 x$$
+
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+tibble(x = runif(100) * 20,
+       y = 10 + 15*x + rnorm(100)*10) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  scale_y_continuous(limits = c(-200, 600)) +
+  geom_point()
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+tibble(x = runif(100) * 20,
+       y = 10 + 15*x + rnorm(100)*70) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  scale_y_continuous(limits = c(-200, 600)) +
+  geom_point()
+```
+]
+
+???   
+Hablar del sentido de la ordenada al origen y de los valores que no entran dentro del rango.
+
+La extrapolación es peligrosa.
+
+---
+class: left, top, highlight-last-item
+# Ajustando una recta
+
+Tengamos cuidado de que la recta tenga sentido
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="40%", fig.width=4, fig.height=4}
+tibble(x = 1:100,
+       y = sin(2*pi*x/100)) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  geom_point()
+```
+
+---
+class: left, top, highlight-last-item
+# El peso de los pinguinos
+
+Vamos a predecir el peso de un pinguino  **Adelie** utilizando el largo de su aleta
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)") +
+  geom_point()
+```
+]
+
+.pull-right.big[
+La ecuación de esta recta es:
+
+$$\hat{y} =-2508.09 + 32.69 x$$
+]
+
+---
+class: left, top, highlight-last-item
+# El peso de los pinguinos
+
+Vamos a predecir el peso de un pinguino  **Adelie** utilizando el largo de su aleta
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  geom_segment(x = 198, y = 3964.53, xend = 198, yend = 4400, colour = "#ED6A5A") +
+  geom_point() +
+  geom_point(x = 198, y = 4400, shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)")
+```
+]
+
+.pull-right[
+.big[
+La ecuación de esta recta es:
+
+$$\hat{y} =-2508.09 + 32.69 x$$
+]
+
+Veamos este individuo:
+
+```{r, echo=FALSE}
+penguins_adelie[8,] %>% 
+  select(all_of(c("flipper_length_mm", "body_mass_g"))) %>%
+  kbl() %>%
+  kable_styling()
+```
+
+La aleta del pingüno mide *198 mm* y su peso es *4400 g*
+
+Sin embargo, la predicción del modelo es:
+
+$$\hat{y} =-2508.09 + 32.69 · 198$$
+$$\hat{y} = 3964.53$$
+Es decir:
+
+$$e = y - \hat{y} = 4400 - 3964.53$$
+$$e = 437.47$$
+]
+
+???
+Hablar de que esa predicción la podemos pensar como el promedio
+
+Decir que esa diferencia son los residuos
+
+---
+class: left, top, highlight-last-item
+# Los residuos `r emo::ji("trash")`
+
+Los rediduos son la diferencia entre el ajuste y los datos
+
+$$ Datos = ajuste + residuos $$
+
+$$ y = \hat{y} + e $$
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+m1 <- penguins_adelie %>%
+  lm(body_mass_g ~ flipper_length_mm, .)
+
+sample <- penguins_adelie[c(12, 93, 96),]
+
+penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  geom_segment(data = sample,
+               aes(xend = flipper_length_mm, yend = predict(m1, sample)), colour = "#ED6A5A") +
+  geom_point() +
+  geom_point(data = sample,
+             shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)")
+```
+]
+
+.pull-right[
+
+Cada observación tiene un residuo
+
+$$ y_i = \hat{y}_i + e_i $$
+$$ e_i = y_i - \hat{y}_i $$
+
+Normalmente se considera el **valor absoluto** de los residuos
+
+En estos casos son
+```{r, echo=FALSE}
+abs(resid(m1)[c(12, 93, 96)])
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Los residuos `r emo::ji("trash")`
+
+Los residuos son útiles para evaluar qué tan bien se ajusta un modelo lineal a un conjunto de datos
+
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+sample <- cbind(penguins_adelie, resid(m1))[c(12, 93, 96),] %>%
+  rename("residuals" = "resid(m1)")
+
+cbind(penguins_adelie, resid(m1)) %>%
+  rename("residuals" = "resid(m1)") %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = residuals)) +
+  geom_hline(yintercept = 0, color= "#ED6A5A", linetype = "dashed") +
+  geom_segment(data = sample,
+               aes(xend = flipper_length_mm,
+                   yend = 0),
+               colour = "#ED6A5A") +
+  geom_point() +
+  geom_point(data = sample,
+             shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Residuos (g)")
+```
+]
+
+.pull-right[
+
+Viendo los residuos podemos observar:
+
+- Si la distribución es **normal**
+- Si la **variabilidad** depende del predictor
+
+<br>
+<br>
+.big[¿Cómo nos pueden ayudar los residuos a elegir la mejor recta?]
+]
+
+---
+class: left, top, highlight-last-item
+# Cuadrados mínimos
+
+La forma más comun de encontrar la **mejor recta** es minimizar la suma cuadrática de los residuos
+
+$$ e_1^2 + e_2^2 + e_3^2 + ... + e_n^2 $$
+--
+
+.pull-left[
+Por ejemplo, si dejamos fija la **ordenada al origen** y variamos la **pendiente**
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=4}
+suma_cuadrados <- tibble(slopes = (0:40)*m1$coefficients[2]/20, mean_square = 0)
+
+i=1
+for (sl in suma_cuadrados$slopes) {
+  suma_cuadrados$mean_square[i] = sum((m1$coefficients[1] + penguins_adelie$flipper_length_mm * sl - penguins_adelie$body_mass_g)^2)
+  i = i+1
+}
+
+suma_cuadrados %>% ggplot(aes(x = slopes,
+                              y = mean_square)) +
+  geom_point() + 
+  geom_vline(xintercept = m1$coefficients[2], color= "#ED6A5A", linetype = "dashed", size = 1) +
+  geom_label(x = m1$coefficients[2], y = 2e+9, label = "Pendiente del\najuste") +
+  labs(x = "Pendiente (g/mm)",
+       y = "Suma de cuadrados - SSE")
+
+```
+]
+
+.pull-right.big[
+No vamos a entrar en detalle de cómo se hace computacionalmente este cálculo pero tengamos presente que:
+
+**Cuando ajustamos una regresión estamos minimizando la suma de los cuadrados de los residuos**
+
+Por eso:
+
+- No importa el signo del residuo
+- Residuos el doble de grandes aportan 4 veces ,más a la magnitud a minimizar
+]
+
+---
+class: left, top, highlight-last-item
+# Ajustando un modelo lineal con **R**
+
+Para ajustar una regresión (o modelo lineal, e' lo mismo), usamos la función de **R** Base `lm()`
+
+.pull-left[
+```{r}
+m1 <- penguins_adelie %>%
+  lm(body_mass_g ~ flipper_length_mm, .)
+
+summary(m1)
+```
+]
+
+.pull-right[
+Si lo que queremos ver son los coeficientes debemos mirar la columna **Estimates**
+
+El resto de las cosas las vamos a entender más adelante...
+]
+---
+class: left, top, highlight-last-item
+# Ojo con la extrapolación
+
+.pull-left[
+Si los valores que usamos para ajustar el modelo son muy distintos a los valores en los que vamos a querer predecir tenemos que tener cuidado.
+
+Por ejemplo:
+
+- Para un lago de aleta de 50 mm el peso es negativo
+- Para un largo de aleta de 300 el peso es 7.3 Kg
+]
+
+.pull-right.big[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=4}
+extrapolation <- tibble(flipper_length_mm = c(50, 300))
+
+extrapolation$body_mass_g <- predict(m1, extrapolation)
+  
+penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_point() +
+  coord_cartesian(clip = "off") +
+  geom_abline(slope = m1$coefficients[2], intercept = m1$coefficients[1], color = "#ED6A5A", size = 1) +
+  geom_point(data = extrapolation) +
+  geom_point(data = extrapolation, shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  geom_label(data = extrapolation, 
+             aes(label = paste0("flipper ", round(flipper_length_mm), "\nmass ", round(body_mass_g))),
+             hjust = 1.1) +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)")
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es un **ajuste**?
+
+Lo que nos importa es **cuánta variabilidad explica el ajuste**
+
+Por eso la medida más común es:
+
+$$ R^2 = \frac{sd^2 - sd^2_{residuos}}{sd^2} $$
+
+Es decir, la **variabilidad de la magnitud**, menos la **variabilidad de los residuos**, normalizada.
+
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=3, fig.height=3}
+penguins_adelie %>%
+  ggplot(aes(x = species,
+             y = body_mass_g)) +
+  geom_hline(yintercept = mean(penguins_adelie$body_mass_g), color= "#ED6A5A", linetype = "dashed") +
+  geom_jitter() + 
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), geom="crossbar", color =  "#ED6A5A") +
+  geom_label(x = "Adelie",
+             y = mean(penguins_adelie$body_mass_g),
+             label = paste0("media = ", round(mean(penguins_adelie$body_mass_g), digits = 1), 
+                            "\nvar = ", round(sd(penguins_adelie$body_mass_g)^2, digits = 1))) +
+  labs(x = "Especie",
+       y = "Peso (g)")
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=3, fig.height=3}
+penguins_adelie_res <- cbind(penguins_adelie, resid(m1)) %>%
+  rename("residuals" = "resid(m1)") 
+
+penguins_adelie_res %>%
+  ggplot(aes(x = species,
+             y = residuals)) +
+  geom_hline(yintercept = 0, color= "#ED6A5A", linetype = "dashed") +
+  geom_jitter() + 
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), geom="crossbar", color =  "#ED6A5A") +
+  geom_label(x = "Adelie",
+             y = mean(penguins_adelie_res$residuals),
+             label = paste0("media = ", round(mean(penguins_adelie_res$residuals), digits = 1), 
+                            "\nvar = ", round(sd(penguins_adelie_res$residuals)^2, digits = 1))) +
+  labs(x = "Especie",
+       y = "Rsiduos (g)")
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es un **ajuste**?
+
+**Coeficiente de determinación**
+
+$$ R^2 = \frac{sd^2 - sd^2_{residuos}}{sd^2} $$
+
+En nuestro caso:
+
+$$ R^2 = \frac{210332.4 - 164881.9}{210332.4} = 0.216$$
+Que si vemos en el `summary()` de nuestro modelo:
+
+```{r}
+m1 <- lm(body_mass_g ~ flipper_length_mm, data = penguins_adelie)
+summary(m1)$r.squared
+```
+
+o
+
+```{r}
+r_cor <- cor(penguins_adelie$flipper_length_mm, penguins_adelie$body_mass_g)
+r_cor^2
+```
+
+???
+Hablar de que no es la única forma de ver si un modelo es bueno
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+¿Qué pasa si queremos predecir el peso con una variable categórica como la especie?
+
+.pull-left[
+```{r}
+penguins_adelie_gentoo <- penguins %>%
+  drop_na() %>%
+  filter(species %in% c("Adelie", "Gentoo"))
+
+m2 = lm(body_mass_g ~ species, data = penguins_adelie_gentoo)
+
+summary(m2)
+```
+]
+
+.pull-left[
+En este caso la ecuación que representa el modelo es:
+
+$$ peso = 3706.16 + 1386.27 * species $$
+
+donde **species** vale 0 si es **Adelie** y 1 si es **Gentoo**
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=4, fig.height=4}
+penguins_adelie_gentoo %>%
+  mutate(species = factor(species)) %>%
+  ggplot(aes(x = as.numeric(species) - 1,
+             y = body_mass_g)) +
+  geom_point(position = position_jitter(width = 0.15)) +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  scale_x_continuous(breaks = c(0, 1), 
+    minor_breaks = c(0, 1),
+    limits = c(-0.2, 1.2),
+    labels = c("Adelie", "Gentoo")) +
+  labs(x = "Especies",
+       y = "Peso [g]")
+```
+]
+---
+class: left, top, highlight-last-item
+# *Outliers* en regresión
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=8, fig.height=8}
+data <- tibble(x = runif(100) * 20,
+       y = 10 + 15*x + rnorm(100)*20)
+
+p1 <- data %>%
+  ggplot(aes(x = x,
+               y = y)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  labs(title = "Modelo base")
+
+p2 <- data %>% rbind(tibble(x = 40, y = 610)) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  geom_point() +
+  labs(title = "Outlier alineado")
+
+p3 <- data %>% rbind(tibble(x = 20, y = 500)) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  geom_point() +
+  labs(title = "*Low leverage*") 
+
+p4 <- data %>% rbind(tibble(x = 40, y = 300)) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
+  labs(title = "*High leverage*")
+
+p1 + p2 + p3 + p4
+```
+
+---
+class: left, top, highlight-last-item
+# Resumen
+
+.big[
+Aprendimos a:
+- Ajustar un modelo lineal con un *predictor*
+- evaluar el ajuste
+- Interpretar la salida de `summary()`
+- Su relación con la correlación
+- Modelar e interpretar variables categóricas
+- Tener ciudado con los outliers 
+
+Ahora nos queda ver cómo podemos **inferir** el comportamiento de una población a partir de una muestra.
+]
+
+
+---
+class: center, top
+# Referencias
+
+.left[.big[
+- Mine Çetinkaya-Rundel and Johanna Hardin (2021). Introduction to Modern Statistics. Openintro Project. https://openintro-ims.netlify.app/index.html.
+
+]]
