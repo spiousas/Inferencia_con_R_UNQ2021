@@ -65,8 +65,8 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 3      | TP5  | Prueba de hipótesis | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp5-hipotesis/hipotesis.html)  | [YouTube](https://www.youtube.com/watch?v=bGkpOmXoOto&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=27) |
 | 3      | CA-21  | Modelos lineales 1 - Regresión lineal | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-1/linear_models_1.html) | [YouTube](https://www.youtube.com/watch?v=w6khKjCO1E0&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=28) |
 | 3      | CA-22  | Modelos lineales 2 - Inferencia en regresión lineal | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-2/linear_models_2.html) | [YouTube](https://www.youtube.com/watch?v=_Khk5-_v5u0&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=29) |
-| 3      | CA-23  | Modelos lineales 3 - Regresión múltiple | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-3/linear_models_3.html) | Pronto |
-| 3      | CA-24  | Modelos lineales 4 - Inferencia en regresión múltiple | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-4/linear_models_4.html) | Pronto |
+| 3      | CA-23  | Modelos lineales 3 - Regresión múltiple | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-3/linear_models_3.html) | [YouTube](https://www.youtube.com/watch?v=ipO3seGtsvw&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=30) |
+| 3      | CA-24  | Modelos lineales 4 - Inferencia en regresión múltiple | [Slides](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Presentaciones/10-4/linear_models_4.html) | [YouTube](https://www.youtube.com/watch?v=aHh4AufEd10&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=31) |
 
 (**CS**) Clase Sincrónica 
 
