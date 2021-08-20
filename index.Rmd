@@ -62,7 +62,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 2      | CA-18  | Prueba de hipótesis 4 - P-values | Pronto | [YouTube](https://www.youtube.com/watch?v=o4M96nLVn0A&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=23) |
 | 2      | CA-19  | Prueba de hipótesis 5 - Potencia estadística | Pronto | [YouTube](https://www.youtube.com/watch?v=fpO0B7ZlHSE&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=25) |
 | 2      | CA-20  | Prueba de hipótesis 6 - Tamaño del efecto | Pronto | [YouTube](https://www.youtube.com/watch?v=EfL0o20VA-w&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=26) |
-| 3      | TP5  | Prueba de hipótesis | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp4-hipotesis/hipotesis.html)  | [YouTube](https://www.youtube.com/watch?v=bGkpOmXoOto&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=27) |
+| 3      | TP5  | Prueba de hipótesis | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp5-hipotesis/hipotesis.html)  | [YouTube](https://www.youtube.com/watch?v=bGkpOmXoOto&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=27) |
 | 3      | CA-21  | Modelos lineales 1 - Regresión lineal | Pronto | [YouTube](https://www.youtube.com/watch?v=w6khKjCO1E0&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=28) |
 | 3      | CA-22  | Modelos lineales 2 - Inferencia en regresión lineal | Pronto | Pronto |
 | 3      | CA-23  | Modelos lineales 3 - Regresión múltiple | Pronto | Pronto |
