@@ -1,5 +1,5 @@
 ---
-title: "Inferencia para regresión lineal"
+title: "Inferencia en regresión lineal"
 subtitle: "Análisis estadístico utilizando R"
 author: "Ignacio Spiousas y Pablo Etchemendy"
 institute: "UNQ UNTreF CONICET"
