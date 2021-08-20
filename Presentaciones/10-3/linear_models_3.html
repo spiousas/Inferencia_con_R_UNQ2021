@@ -221,7 +221,7 @@ donde:
 - **n** es el número de observaciones 
 - **k** es el número de predictores 
 
-`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$`
+`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \times \frac{(n-1)}{(n-k-1)}$$`
 
 ---
 class: left, top, highlight-last-item
@@ -476,7 +476,7 @@ m2
 
 Es importante notar qu, si bien agregamos un predictor, agregamos dos parámetros.
 
-`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$`
+`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \times \frac{(n-1)}{(n-k-1)}$$`
 
 ---
 class: left, top, highlight-last-item
@@ -514,13 +514,13 @@ m2
 .pull-right[
 Un pingüino **Adelie** de **ancho de pico 18 mm** va a tener un peso estimado de:
 
-`$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 0 +  13.89 · 18 · 0$$`
+`$$\hat{Peso} = 66.45 + 93.75· 18 -94.35 · 0 +  13.89 · 18 · 0$$`
 
 `$$\hat{Peso} = 1753.95g$$`
 
 Mientras que si el pingüino es **Gentoo**:
 
-`$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 1 +  13.89 · 18 · 1$$`
+`$$\hat{Peso} = 66.45 + 93.75· 18 -94.35 · 1 +  13.89 · 18 · 1$$`
 
 
 `$$\hat{Peso} = 1909.62g$$`
@@ -532,13 +532,14 @@ class: left, top, highlight-last-item
 
 .huge[
 Aprendimos a:
-- Ajustar un modelo con **más de un preditor**
+- Ajustar un modelo con **más de un predictor**
 - Interpretar el efecto de **variables categóricas**
 - Interpretar las **interacciones**
 - Evaluar si un ajuste es "mejor" que otro usando el `\(R^2_{adj}\)`
 
-Ahora nos queda ver cómo seguir cuando tenemos más de un regresor.
+Ahora nos queda ver cómo podemos **inferir** el comportamiento de una población a partir de una muestra para regresiones múltiples.
 ]
+
 ---
 class: center, top
 # Referencias
