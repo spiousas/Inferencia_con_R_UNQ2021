@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Inferencia para regresión lineal</title>
+    <title>Regresión múltiple</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ignacio Spiousas y Pablo Etchemendy" />
-    <script src="linear_models_2_files/header-attrs-2.9/header-attrs.js"></script>
-    <script src="linear_models_2_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
-    <link href="linear_models_2_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
-    <script src="linear_models_2_files/tile-view-0.2.6/tile-view.js"></script>
+    <script src="linear_models_3_files/header-attrs-2.9/header-attrs.js"></script>
+    <script src="linear_models_3_files/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="linear_models_3_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="linear_models_3_files/tile-view-0.2.6/tile-view.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -41,10 +41,10 @@ class: center, middle
   100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
 }</style>
 
-# Inferencia para regresión lineal
+# Regresión múltiple
 ### Análisis estadístico utilizando R
 
-&lt;img src="https://miro.medium.com/max/1000/1*ZhYNqU2y96_f3QkWq9oiWQ.jpeg" width="30%" /&gt;
+&lt;img src="https://miro.medium.com/max/1400/1*guak1sQTh5sAf46NMzbQig.jpeg" width="30%" /&gt;
 
 UNQ UNTreF CONICET
 
@@ -58,393 +58,474 @@ Pablo Etchemendy
 
 ---
 class: left, top, highlight-last-item
-# Peso de los aliens 👽
+# Un ejemplo
 
-Imagínense que tenemos datos de los **2000 únicos** individuos de una raza alienígena
-
-
-.pull-left[
-Podemos decir que existe una relación lineal entre peso y altura de 
+Volvamos a los pingüinos...
 
 
 ```r
-m_full &lt;- lm(Peso ~ Dientes, data)
-m_full
+penguins_adelie &lt;- penguins %&gt;%
+  drop_na() %&gt;%
+  filter(species == "Adelie") 
+```
+
+&lt;img src="linear_models_3_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+class: left, top, highlight-last-item
+# Un ejemplo
+
+Podemos aprovechar que ambas variables tienen una relación lineal con el peso y cambiar nuestro modelo por:
+
+`$$\hat{Peso} = b_0 + b_1 LargoPico + b_2 Aleta$$`
+
+.pull-left[
+Que en **R** lo ajustamos de la siguiente forma:
+
+
+```r
+m2&lt;- penguins_adelie %&gt;%
+  lm(body_mass_g ~ bill_length_mm + flipper_length_mm, .)
+m2
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = data)
+## lm(formula = body_mass_g ~ bill_length_mm + flipper_length_mm, 
+##     data = .)
 ## 
 ## Coefficients:
-## (Intercept)      Dientes  
-##     499.570        1.013
+##       (Intercept)     bill_length_mm  flipper_length_mm  
+##          -3492.00              75.48              22.45
 ```
+
+El ajuste de cuadrados mínimos nos da:
+
+`$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 Aleta$$`
 ]
 
-.pull-right[
-$$ Peso = \beta_0 + \beta_1 Dientes$$
-Donde `\(\beta_0\)` y `\(\beta_1\)` son los **parámetros poblacionales**
-
-$$ Peso = 499.57 + 1.01 Dientes $$
-
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-3-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-]
-
----
-class: left, top, highlight-last-item
-# Peso de los aliens 👽
-
-Ahora, qué pasa si vemos un grupo de 30 personas...
+--
 
 .pull-left[
-$$ \hat{Peso} = b_0 + b_1 Dientes$$
-Donde `\(b_0\)` y `\(b_1\)` son los **parámetros de la muestra**
-
-Los podemos considerar estimaciones de los **poblacionales**
-
-Los obtenemos con **cuadrados mínimos**
-
+¿Es un *mejor* ajuste que con el largo de pico solo?
 
 
 ```r
-# Extraigo la muestra
-set.seed(123)
-data_sample_1 &lt;- data %&gt;%
-  sample_n(size = 30)
-
-# Ajusto el modelos
-lm(Peso ~ Dientes, data_sample_1)
+m1&lt;- penguins_adelie %&gt;%
+  lm(body_mass_g ~ bill_length_mm, .)
+m1
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = data_sample_1)
+## lm(formula = body_mass_g ~ bill_length_mm, data = .)
 ## 
 ## Coefficients:
-## (Intercept)      Dientes  
-##     507.832        1.102
+##    (Intercept)  bill_length_mm  
+##          66.45           93.75
 ```
-]
-.pull-right[
 
-$$ \hat{Peso} = 507.83 + 1.10 Dientes $$
+El ajuste de cuadrados mínimos nos da:
 
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-5-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+`$$\hat{Peso} = -66.45  + 93.75 LargoPico$$`
 ]
 
 
 ---
 class: left, top, highlight-last-item
-# Peso de los aliens 👽
+# ¿Cuán bueno es el ajuste?
 
-Y otro grupo grupo de 30 personas...
+Veamos el `\(R^2\)` de cada modelo
 
 .pull-left[
-$$ \hat{Peso} = b_0 + b_1 Dientes$$
+`$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 LargoAleta$$`
 
 
 ```r
-# Extraigo la muestra
-set.seed(321)
-data_sample_2 &lt;- data %&gt;%
-  sample_n(size = 30)
-
-# Ajusto el modelos
-lm(Peso ~ Dientes, data_sample_2)
+summary(m2)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = data_sample_2)
+## lm(formula = body_mass_g ~ bill_length_mm + flipper_length_mm, 
+##     data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -776.47 -231.80  -42.06  247.72 1007.17 
 ## 
 ## Coefficients:
-## (Intercept)      Dientes  
-##     478.270        1.434
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       -3491.995    889.597  -3.925 0.000134 ***
+## bill_length_mm       75.477     11.958   6.312 3.25e-09 ***
+## flipper_length_mm    22.450      4.882   4.599 9.28e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 361.6 on 143 degrees of freedom
+## Multiple R-squared:  0.3869,	Adjusted R-squared:  0.3783 
+## F-statistic: 45.12 on 2 and 143 DF,  p-value: 6.43e-16
 ```
 ]
-.pull-right[
-
-$$ \hat{Peso} = 478.27 + 1.43 Dientes $$
-
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-7-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-]
-
----
-class: left, top, highlight-last-item
-# Peso de los aliens 👽
-
-¿Son iguales? ¿Parecidas?
-
-¿Con qué seguridad podemos hablar de los parámetros poblacionales?
 
 .pull-left[
-$$ \hat{Peso} = 507.83 + 1.10 Dientes $$
+`$$\hat{Peso} = -66.45  + 93.75 LargoPico$$`
 
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-8-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-]
-.pull-right[
-
-$$ \hat{Peso} = 478.27 + 1.43 Dientes $$
-
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-9-1.png" width="75%" style="display: block; margin: auto;" /&gt;
-]
-
-
----
-class: left, top, highlight-last-item
-# Peso de los aliens 👽
-
-Que pasa si tomamos **200 grupos** de **30 aliens**
-
-.pull-left[
 
 ```r
-set.seed(123)
-repeticiones &lt;- tibble(n = 1:200,
-                       ordenada = 0,
-                       pendiente = 0)
-
-for (i in 1:200) {
-  sample &lt;- data %&gt;% sample_n(size = 30)
-  m &lt;- lm(Peso ~ Dientes, sample)
-  repeticiones$ordenada[i] &lt;- m$coefficients[1]
-  repeticiones$pendiente[i] &lt;- m$coefficients[2]
-}
+summary(m1)
 ```
-
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right[
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-12-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-]
-
----
-class: left, top, highlight-last-item
-# Métodos "numéricos"
-
-.pull-left[
-### Aleatorización
-
-Consisten en comparar la pendiente observada con una distribución nula
-]
-
-.pull-right[
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-left[
-### Intervalos de confianza y bootstrapping
-
-Consisten en simular la pendiente con muestras y calcular sus intervalos de confianza
-]
-
-.pull-right[
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /&gt;
-]
-
----
-class: left, top, highlight-last-item
-# Modelos matemáticos de la pendiente
-
-Tomemos una muestra de **30** aliens y veamos qué podemos decir
-
-.pull-left[
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = sample)
+## lm(formula = body_mass_g ~ bill_length_mm, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -785.17 -259.39   -7.04  250.77 1089.83 
 ## 
 ## Coefficients:
-## (Intercept)      Dientes  
-##     494.822        1.104
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       66.45     468.59   0.142    0.887    
+## bill_length_mm    93.75      12.04   7.786 1.24e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 386.1 on 144 degrees of freedom
+## Multiple R-squared:  0.2962,	Adjusted R-squared:  0.2913 
+## F-statistic: 60.61 on 1 and 144 DF,  p-value: 1.242e-12
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es el ajuste?
+
+Recordemos la deficinión de `\(R^2\)`
+
+`$$R^2 = \frac{sd^2 - sd^2_{residuos}}{sd^2}$$`
+
+`$$R^2 = 1 - \frac{sd^2_{residuos}}{sd^2}$$`
+
+Es esperable que, al agergar predictores, el `\(R^2\)` sea igual o mayor
+
+Para tener en cuenta el agregado de parámetros, existe el `\(R^2\)` ajustado
+
+`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos} / (n-k-1)}{sd^2  / (n-1)}$$`
+
+donde:
+- **n** es el número de observaciones 
+- **k** es el número de predictores 
+
+`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$`
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es el ajuste?
+
+Volvamos a los modelos y miremos el `\(R^2\)` ajustado
+
+.pull-left[
+`$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 LargoAleta$$`
+
+
+```r
+summary(m2)
 ```
 
-$$ \hat{Peso} = 494.82 + 1.10 Dientes $$
-.big[¿Es esta pendiente **real**?]
+```
+## 
+## Call:
+## lm(formula = body_mass_g ~ bill_length_mm + flipper_length_mm, 
+##     data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -776.47 -231.80  -42.06  247.72 1007.17 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       -3491.995    889.597  -3.925 0.000134 ***
+## bill_length_mm       75.477     11.958   6.312 3.25e-09 ***
+## flipper_length_mm    22.450      4.882   4.599 9.28e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 361.6 on 143 degrees of freedom
+## Multiple R-squared:  0.3869,	Adjusted R-squared:  0.3783 
+## F-statistic: 45.12 on 2 and 143 DF,  p-value: 6.43e-16
+```
+]
 
-`\(H_0:\beta_1=0\)` La pendiente del modelo real es cero
-`\(H_A:\beta_1\neq0\)` La pendiente del modelo real es distinta de cero
+.pull-left[
+`$$\hat{Peso} = -66.45  + 93.75 LargoPico$$`
 
-.big[Vamos a tratar de rechazar **H_0**]
+
+```r
+summary(m1)
+```
+
+```
+## 
+## Call:
+## lm(formula = body_mass_g ~ bill_length_mm, data = .)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -785.17 -259.39   -7.04  250.77 1089.83 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       66.45     468.59   0.142    0.887    
+## bill_length_mm    93.75      12.04   7.786 1.24e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 386.1 on 144 degrees of freedom
+## Multiple R-squared:  0.2962,	Adjusted R-squared:  0.2913 
+## F-statistic: 60.61 on 1 and 144 DF,  p-value: 1.242e-12
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+Miremos ahora unos datos ligeramente diferentes:
+
+
+```r
+penguins_adelie_gentoo &lt;- penguins %&gt;%
+  drop_na() %&gt;%
+  filter(species %in% c("Adelie", "Gentoo")) 
+```
+
+.pull-left[
+
+Miremos la relación de largo de pico y peso:
+
+&lt;img src="linear_models_3_files/figure-html/unnamed-chunk-10-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+Pareciera haber dos pendientes ¿No?
 ]
 
 --
 
 .pull-right[
-.big[Las aproximaciones las vamos a construir basados en el **distribución t**]
+
+&lt;img src="linear_models_3_files/figure-html/unnamed-chunk-11-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+Agreguemos el predictor categórico **species** al modelo
+]
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+En este caso la exuación va a ser:
+
+`$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 Especie$$`
+
+Donde especie va a valer 0 para una especie y 1 para otra.
+
+.pull-left[
+
+Miremos la relación de largo de pico y peso:
 
 
 ```r
-summary(m)
+m2&lt;- penguins_adelie_gentoo%&gt;%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+summary(m2)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = sample)
+## lm(formula = body_mass_g ~ bill_depth_mm + species, data = .)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -60.857 -23.873   3.824  21.124  55.359 
+## -849.44 -259.45  -31.32  255.49 1195.69 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 494.8225    25.4709  19.427   &lt;2e-16 ***
-## Dientes       1.1039     0.4971   2.221   0.0346 *  
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -1249.97     375.83  -3.326  0.00101 ** 
+## bill_depth_mm   270.13      20.42  13.231  &lt; 2e-16 ***
+## speciesGentoo  2291.37      82.34  27.829  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 31.74 on 28 degrees of freedom
-## Multiple R-squared:  0.1498,	Adjusted R-squared:  0.1194 
-## F-statistic: 4.932 on 1 and 28 DF,  p-value: 0.03462
+## Residual standard error: 371 on 262 degrees of freedom
+## Multiple R-squared:  0.8062,	Adjusted R-squared:  0.8048 
+## F-statistic: 545.1 on 2 and 262 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
----
-class: left, top, highlight-last-item
-# Modelos matemáticos de la pendiente
-
-Tomemos una muestra de **30** aliens y veamos qué podemos decir
-
-.pull-left[
-La definición del estadístico **T** es:
-
-$$ T = \frac{estimación - valor nulo}{SE} $$
-
-$$ T = \frac{1.104 - 0}{0.497} = 2.221 $$
-
-&lt;img src="linear_models_2_files/figure-html/unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-]
-
 .pull-right[
-.big[Las aproximaciones las vamos a construir basados en el **distribución t**]
+Y si lo comparamos con el modelos sin **species**
 
 
 ```r
-summary(m)
+m1 &lt;- penguins_adelie_gentoo%&gt;%
+  lm(body_mass_g ~ bill_depth_mm, .)
+summary(m1)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Peso ~ Dientes, data = sample)
+## lm(formula = body_mass_g ~ bill_depth_mm, data = .)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -60.857 -23.873   3.824  21.124  55.359 
+##      Min       1Q   Median       3Q      Max 
+## -1578.62  -539.24   -27.63   520.42  1753.09 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 494.8225    25.4709  19.427   &lt;2e-16 ***
-## Dientes       1.1039     0.4971   2.221   0.0346 *  
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    7729.34     382.60  20.202   &lt;2e-16 ***
+## bill_depth_mm  -201.91      22.56  -8.951   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 31.74 on 28 degrees of freedom
-## Multiple R-squared:  0.1498,	Adjusted R-squared:  0.1194 
-## F-statistic: 4.932 on 1 and 28 DF,  p-value: 0.03462
+## Residual standard error: 736.6 on 263 degrees of freedom
+## Multiple R-squared:  0.2335,	Adjusted R-squared:  0.2306 
+## F-statistic: 80.12 on 1 and 263 DF,  p-value: &lt; 2.2e-16
 ```
 ]
 
-???
-Por lo general, confiamos en software estadístico para identificar estimaciones puntuales, errores estándar, estadísticas de prueba y valores p en la práctica. Sin embargo, tenga en cuenta que el software generalmente no verificará si el método es apropiado, lo que significa que aún debemos verificar que se cumplan las condiciones.
 
 ---
 class: left, top, highlight-last-item
-# Intervalos de la pendiente
+# Variables categóricas
 
-.big[Vamos a calcular el **intervalos de confianza** de la pendiente.
+En este caso la ecuación va a ser:
 
-El intervalo de confianza es un intervalo en el que nosotros estamos 95% seguros que contiene al valor poblacional. Ver [esta app](https://rpsychologist.com/d3/ci/)]
+`$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 Especie$$`
+
+Donde especie va a valer 0 para una especie y 1 para otra.
 
 
+```r
+m2&lt;- penguins_adelie_gentoo%&gt;%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+m2
+```
+
+```
+## 
+## Call:
+## lm(formula = body_mass_g ~ bill_depth_mm + species, data = .)
+## 
+## Coefficients:
+##   (Intercept)  bill_depth_mm  speciesGentoo  
+##       -1250.0          270.1         2291.4
+```
+
+`$$\hat{Peso} = -1250.0 + 270.1 AnchoPico + 2291.4 Especie$$`
+Por ejemplo:
 
 .pull-left[
-Para eso volvemos a la distribución **T**
+Un pingüino **Adelie** de **ancho de pico 18 mm** va atener un peso estimado de:
 
-`$$b_i \pm t^*_df \times SE_{b_i}$$`
-
-donde `\(t^*_df\)` es el **t crítico** para el nivel de significancia que queremos y los **dfs** de nuestro modelo.
-
-En nuestro caso `\(\alpha = 0.05\)` y `\(df = 28\)`, por eso:
-
-
-`$$1.104 \pm 2.048 \times 0.497$$`
-
-`$$b_{dientes} = 1.104 [0.086, 2.121]$$`
+`$$\hat{Peso} = -1250.0 + 270.1 · 18 + 2291.4 · 0 = 3611.8 g$$`
 ]
 
 .pull-right[
-No desesperen que lo podemos hacer muy fácil en **R**
+Mientras que si es **Gentoo**:
+
+`$$\hat{Peso} = -1250.0 + 270.1 · 18 + 2291.4 · 1 = 5903.2 g$$`
+]
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+¿Y si tenemos más de dos niveles en la variable **species**?
 
 
 ```r
-#install.packages(parameters)
-#library(parameters)
-
-model_parameters(m)
+m2&lt;- penguins %&gt;%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+m2
 ```
 
 ```
-## Parameter   | Coefficient |    SE |           95% CI | t(28) |      p
-## ---------------------------------------------------------------------
-## (Intercept) |      494.82 | 25.47 | [442.65, 547.00] | 19.43 | &lt; .001
-## Dientes     |        1.10 |  0.50 | [  0.09,   2.12] |  2.22 | 0.035
-```
-
-
-```r
-#install.packages(effectsize)
-#library(effectsize)
-
-effectsize(m)
-```
-
-```
-## # Standardization method: refit
 ## 
-## Parameter   | Coefficient (std.) |        95% CI
-## ------------------------------------------------
-## (Intercept) |           6.55e-18 | [-0.35, 0.35]
-## Dientes     |               0.39 | [ 0.03, 0.74]
+## Call:
+## lm(formula = body_mass_g ~ bill_depth_mm + species, data = .)
+## 
+## Coefficients:
+##      (Intercept)     bill_depth_mm  speciesChinstrap     speciesGentoo  
+##         -1007.28            256.61             13.38           2238.67
+```
+
+`$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 EspecieChinstrap +  b_3 EspecieGentoo$$`
+
+
+`$$\hat{Peso} = -1007.28 + 256.61 AnchoPico +  13.38 EspecieChinstrap +  2238.67 EspecieGentoo$$`
+
+**Adelie** es el nivel de base
+
+*EspecieChinstrap* vale 1 si es **Chinstrap** y 0 si no
+
+*EspecieGentoo* vale 1 si es **Gentoo** y 0 si no
+
+Es importante notar qu, si bien agregamos un predictor, agregamos dos parámetros.
+
+`$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$`
+
+---
+class: left, top, highlight-last-item
+# Interacciones
+
+¿Hasta ahora vimos modelos únicamente con contribuciones aditivas, pero que pasa si tenemos una **interacción**?
+
+Una **interacción** es un efecto que depende de más de una variable, por ejemplo:
+
+`$$\hat{Peso} = b_0 + b_1· AnchoPico + b_2 ·  EspecieGentoo +  b_3 · AnchoPico \times EspecieGentoo$$`
+.pull-left[
+Por ejemplo:
+
+
+```r
+m2&lt;- penguins_adelie_gentoo %&gt;%
+  lm(body_mass_g ~ bill_length_mm + species + bill_length_mm:species, .)
+m2
+```
+
+```
+## 
+## Call:
+## lm(formula = body_mass_g ~ bill_length_mm + species + bill_length_mm:species, 
+##     data = .)
+## 
+## Coefficients:
+##                  (Intercept)                bill_length_mm  
+##                        66.45                         93.75  
+##                speciesGentoo  bill_length_mm:speciesGentoo  
+##                       -94.35                         13.89
 ```
 ]
 
+.pull-right[
+Un pingüino **Adelie** de **ancho de pico 18 mm** va a tener un peso estimado de:
 
----
-class: left, top, highlight-last-item
-# Condiciones de los modelos
+`$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 0 +  13.89 · 18 · 0$$`
 
-.huge[
-❤️ **Linealidad**: Los datos deben mostrar una tendencia lineal.
+`$$\hat{Peso} = 1753.95$$`
 
-❤️ **Observaciones independientes**: Ojo con las mediciones secuenciales, en ellas las observaciones no son independientes.
+Mientras que si el pingüino es **Gentoo**:
 
-💛 **Residuos normales**: Los residuos, luego de quitar outliers, deben ser casi normales.
+`$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 1 +  13.89 · 18 · 1$$`
 
-💛 **Variabilidad constante**: La variabilidad de los residuos debe ser constante para todos los valores de **x**.
+
+`$$\hat{Peso} = 1909.62$$`
 ]
-
----
-class: left, top, highlight-last-item
-# Resumen
-
-.huge[
-Aprendimos a:
-- Hacer **inferencias** sobre los parámetros poblacionales `\(\beta\)` basados en los muestrales `\(b\)`
-- Testear **hipótesis** con los parámetros
-- Calcular e interpretar los **intevalos de confianza** de los parámetros
-- Evaluar las **condiciones** para ajustar un modelo lineal
-
-Ahora nos queda ver cómo seguir cuando tenemos más de un regresor.
-]
-
 ---
 class: center, top
 # Referencias

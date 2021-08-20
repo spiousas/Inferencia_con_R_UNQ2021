@@ -21,10 +21,22 @@ output:
 class: center, middle
 
 ```{r setup, include=FALSE}
-pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, palmerpenguins)
+pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, 
+               palmerpenguins, openintro, patchwork, ggtext,
+               parameters, effectsize)
 options(dplyr.width = Inf)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 13))
+ggplot2::theme_update(plot.title = element_markdown(),
+                      legend.position = "top")
+ggplot2::update_geom_defaults("point", list(color = "#1380A1",
+                                            fill = "#1380A1",
+                                            size = 3,
+                                            alpha = .7))
+ggplot2::update_geom_defaults("line", list(color = "#ED6A5A"))
+ggplot2::update_geom_defaults("smooth", list(color = "#ED6A5A"))
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
@@ -77,8 +89,8 @@ xaringanExtra::use_tile_view()
 # `r rmarkdown::metadata$title`
 ### `r rmarkdown::metadata$subtitle`
 
-```{r image_tidyverse, fig.show = "hold", out.width = "10%", fig.align = "default", echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidyverse.png")
+```{r image_tidyverse, fig.show = "hold", out.width = "30%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("https://miro.medium.com/max/1400/1*guak1sQTh5sAf46NMzbQig.jpeg")
 ```
 
 `r rmarkdown::metadata$institute`
@@ -95,8 +107,215 @@ Pablo Etchemendy
 class: left, top, highlight-last-item
 # Un ejemplo
 
-.big[
-**SI**
+Volvamos a los pingüinos...
+
+```{r}
+penguins_adelie <- penguins %>%
+  drop_na() %>%
+  filter(species == "Adelie") 
+```
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=8, fig.height=4}
+p1 <- penguins_adelie %>%
+  ggplot(aes(x = bill_length_mm,
+             y = body_mass_g)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Largo del pico (mm)",
+       y = "Peso (g)")
+
+p2 <- penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)")
+
+p1 + p2
+```
+
+---
+class: left, top, highlight-last-item
+# Un ejemplo
+
+Podemos aprovechar que ambas variables tienen una relación lineal con el peso y cambiar nuestro modelo por:
+
+$$\hat{Peso} = b_0 + b_1 LargoPico + b_2 Aleta$$
+
+.pull-left[
+Que en **R** lo ajustamos de la siguiente forma:
+
+```{r}
+m2<- penguins_adelie %>%
+  lm(body_mass_g ~ bill_length_mm + flipper_length_mm, .)
+m2
+```
+
+El ajuste de cuadrados mínimos nos da:
+
+$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 Aleta$$
+]
+
+--
+
+.pull-left[
+¿Es un *mejor* ajuste que con el largo de pico solo?
+
+```{r}
+m1<- penguins_adelie %>%
+  lm(body_mass_g ~ bill_length_mm, .)
+m1
+```
+
+El ajuste de cuadrados mínimos nos da:
+
+$$\hat{Peso} = -66.45  + 93.75 LargoPico$$
+]
+
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es el ajuste?
+
+Veamos el $R^2$ de cada modelo
+
+.pull-left[
+$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 LargoAleta$$
+
+```{r}
+summary(m2)
+```
+]
+
+.pull-left[
+$$\hat{Peso} = -66.45  + 93.75 LargoPico$$
+
+```{r}
+summary(m1)
+```
+]
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es el ajuste?
+
+Recordemos la deficinión de $R^2$
+
+$$R^2 = \frac{sd^2 - sd^2_{residuos}}{sd^2}$$
+
+$$R^2 = 1 - \frac{sd^2_{residuos}}{sd^2}$$
+
+Es esperable que, al agergar predictores, el $R^2$ sea igual o mayor
+
+Para tener en cuenta el agregado de parámetros, existe el $R^2$ ajustado
+
+$$R_{adj}^2 = 1 - \frac{sd^2_{residuos} / (n-k-1)}{sd^2  / (n-1)}$$
+
+donde:
+- **n** es el número de observaciones 
+- **k** es el número de predictores 
+
+$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$
+
+---
+class: left, top, highlight-last-item
+# ¿Cuán bueno es el ajuste?
+
+Volvamos a los modelos y miremos el $R^2$ ajustado
+
+.pull-left[
+$$\hat{Peso} = -3492.00 + 75.48 LargoPico + 22.45 LargoAleta$$
+
+```{r}
+summary(m2)
+```
+]
+
+.pull-left[
+$$\hat{Peso} = -66.45  + 93.75 LargoPico$$
+
+```{r}
+summary(m1)
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+Miremos ahora unos datos ligeramente diferentes:
+
+```{r}
+penguins_adelie_gentoo <- penguins %>%
+  drop_na() %>%
+  filter(species %in% c("Adelie", "Gentoo")) 
+```
+
+.pull-left[
+
+Miremos la relación de largo de pico y peso:
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=4}
+penguins_adelie_gentoo %>%
+  ggplot(aes(x = bill_depth_mm,
+             y = body_mass_g)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Largo del pico (mm)",
+       y = "Peso (g)")
+```
+
+Pareciera haber dos pendientes ¿No?
+]
+
+--
+
+.pull-right[
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=4}
+penguins_adelie_gentoo %>%
+  ggplot(aes(x = bill_depth_mm,
+             y = body_mass_g,
+             color = species)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)+
+  labs(x = "Largo del pico (mm)",
+       y = "Peso (g)")
+```
+
+Agreguemos el predictor categórico **species** al modelo
+]
+
+---
+class: left, top, highlight-last-item
+# Variables categóricas
+
+En este caso la exuación va a ser:
+
+$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 Especie$$
+
+Donde especie va a valer 0 para una especie y 1 para otra.
+
+.pull-left[
+
+Miremos la relación de largo de pico y peso:
+
+```{r}
+m2<- penguins_adelie_gentoo%>%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+summary(m2)
+```
+]
+
+.pull-right[
+Y si lo comparamos con el modelos sin **species**
+
+```{r}
+m1 <- penguins_adelie_gentoo%>%
+  lm(body_mass_g ~ bill_depth_mm, .)
+summary(m1)
+```
 ]
 
 
@@ -104,48 +323,91 @@ class: left, top, highlight-last-item
 class: left, top, highlight-last-item
 # Variables categóricas
 
-.big[
-**SI**
+En este caso la ecuación va a ser:
+
+$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 Especie$$
+
+Donde especie va a valer 0 para una especie y 1 para otra.
+
+```{r}
+m2<- penguins_adelie_gentoo%>%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+m2
+```
+
+$$\hat{Peso} = -1250.0 + 270.1 AnchoPico + 2291.4 Especie$$
+Por ejemplo:
+
+.pull-left[
+Un pingüino **Adelie** de **ancho de pico 18 mm** va atener un peso estimado de:
+
+$$\hat{Peso} = -1250.0 + 270.1 · 18 + 2291.4 · 0 = 3611.8 g$$
+]
+
+.pull-right[
+Mientras que si es **Gentoo**:
+
+$$\hat{Peso} = -1250.0 + 270.1 · 18 + 2291.4 · 1 = 5903.2 g$$
 ]
 
 ---
 class: left, top, highlight-last-item
-# Muchos predictores en un modelo
+# Variables categóricas
 
-.big[
-**SI**
-]
+¿Y si tenemos más de dos niveles en la variable **species**?
 
----
-class: left, top, highlight-last-item
-# R^2 ajustado
+```{r}
+m2<- penguins %>%
+  lm(body_mass_g ~ bill_depth_mm + species, .)
+m2
+```
 
-.big[
-**SI**
-]
+$$\hat{Peso} = b_0 + b_1 AnchoPico + b_2 EspecieChinstrap +  b_3 EspecieGentoo$$
 
----
-class: left, top, highlight-last-item
-# Selección de modelos
 
-.big[
-**SI**
-]
+$$\hat{Peso} = -1007.28 + 256.61 AnchoPico +  13.38 EspecieChinstrap +  2238.67 EspecieGentoo$$
 
----
-class: left, top, highlight-last-item
-# Testeo de hipótesis
+**Adelie** es el nivel de base
 
-.big[
-**SI**
-]
+- *EspecieChinstrap* vale 1 si es **Chinstrap** y 0 si no
+- *EspecieGentoo* vale 1 si es **Gentoo** y 0 si no
+
+Es importante notar qu, si bien agregamos un predictor, agregamos dos parámetros.
+
+$$R_{adj}^2 = 1 - \frac{sd^2_{residuos}}{sd^2} \frac{(n-k-1)}{(n-1)}$$
 
 ---
 class: left, top, highlight-last-item
 # Interacciones
 
-.big[
-**SI**
+¿Hasta ahora vimos modelos únicamente con contribuciones aditivas, pero que pasa si tenemos una **interacción**?
+
+Una **interacción** es un efecto que depende de más de una variable, por ejemplo:
+
+$$\hat{Peso} = b_0 + b_1· AnchoPico + b_2 ·  EspecieGentoo +  b_3 · AnchoPico \times EspecieGentoo$$
+.pull-left[
+Por ejemplo:
+
+```{r}
+m2<- penguins_adelie_gentoo %>%
+  lm(body_mass_g ~ bill_length_mm + species + bill_length_mm:species, .)
+m2
+```
+]
+
+.pull-right[
+Un pingüino **Adelie** de **ancho de pico 18 mm** va a tener un peso estimado de:
+
+$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 0 +  13.89 · 18 · 0$$
+
+$$\hat{Peso} = 1753.95g$$
+
+Mientras que si el pingüino es **Gentoo**:
+
+$$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 1 +  13.89 · 18 · 1$$
+
+
+$$\hat{Peso} = 1909.62g$$
 ]
 ---
 class: center, top

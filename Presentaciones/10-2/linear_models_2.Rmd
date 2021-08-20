@@ -22,7 +22,8 @@ class: center, middle
 
 ```{r setup, include=FALSE}
 pacman::p_load(xaringanthemer, tidyverse, kableExtra, ggpubr, 
-               palmerpenguins, openintro, patchwork, ggtext)
+               palmerpenguins, openintro, patchwork, ggtext,
+               parameters, effectsize)
 options(dplyr.width = Inf)
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE)
@@ -110,7 +111,7 @@ Imagínense que tenemos datos de los **2000 únicos** individuos de una raza ali
 ```{r, echo=FALSE}
 set.seed(4)
 data <- tibble(Dientes = round(rnorm(2000) * 10+50),
-               Peso = (500 +  .5 * Dientes) + rnorm(2000) * 30)
+               Peso = (500 +  1 * Dientes) + rnorm(2000) * 30)
 ```
 .pull-left[
 Podemos decir que existe una relación lineal entre peso y altura de 
@@ -125,7 +126,7 @@ m_full
 $$ Peso = \beta_0 + \beta_1 Dientes$$
 Donde $\beta_0$ y $\beta_1$ son los **parámetros poblacionales**
 
-$$ Peso = 499.57 + 0.51 Dientes $$
+$$ Peso = 499.57 + 1.01 Dientes $$
 
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
 data %>%
@@ -134,6 +135,7 @@ data %>%
   geom_point(size = 1) +
   geom_smooth(method = lm,
               se = FALSE) +
+  scale_y_continuous(limits = c(500, 625)) +
   labs(x = "# Dientes",
        y = "Peso (g)") 
   
@@ -167,7 +169,7 @@ lm(Peso ~ Dientes, data_sample_1)
 ]
 .pull-right[
 
-$$ \hat{Peso} = 507.83 + 0.60 Dientes $$
+$$ \hat{Peso} = 507.83 + 1.10 Dientes $$
 
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
 data_sample_1 %>%
@@ -176,6 +178,7 @@ data_sample_1 %>%
   geom_point(size = 1) +
   geom_smooth(method = lm,
               se = FALSE) +
+  scale_y_continuous(limits = c(500, 625)) +
   labs(x = "# Dientes",
        y = "Peso (g)") 
   
@@ -204,7 +207,7 @@ lm(Peso ~ Dientes, data_sample_2)
 ]
 .pull-right[
 
-$$ \hat{Peso} = 478.27 + 0.93 Dientes $$
+$$ \hat{Peso} = 478.27 + 1.43 Dientes $$
 
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
 data_sample_2 %>%
@@ -213,6 +216,7 @@ data_sample_2 %>%
   geom_point(size = 1) +
   geom_smooth(method = lm,
               se = FALSE) +
+  scale_y_continuous(limits = c(500, 625)) +
   labs(x = "# Dientes",
        y = "Peso (g)") 
   
@@ -228,7 +232,7 @@ class: left, top, highlight-last-item
 ¿Con qué seguridad podemos hablar de los parámetros poblacionales?
 
 .pull-left[
-$$ \hat{Peso} = 507.83 + 0.60 Dientes $$
+$$ \hat{Peso} = 507.83 + 1.10 Dientes $$
 
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
 data_sample_1 %>%
@@ -237,6 +241,7 @@ data_sample_1 %>%
   geom_point(size = 1) +
   geom_smooth(method = lm,
               se = FALSE) +
+  scale_y_continuous(limits = c(500, 625)) +
   labs(x = "# Dientes",
        y = "Peso (g)") 
   
@@ -244,15 +249,17 @@ data_sample_1 %>%
 ]
 .pull-right[
 
-$$ \hat{Peso} = 478.27 + 0.93 Dientes $$
+$$ \hat{Peso} = 478.27 + 1.43 Dientes $$
 
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
 data_sample_2 %>%
   ggplot(aes(x = Dientes,
              y = Peso)) +
   geom_point(size = 1) +
+  geom_abline(intercept = 507.83, slope = 1.1, color = "grey", alpha = .5, size = 1) +
   geom_smooth(method = lm,
               se = FALSE) +
+  scale_y_continuous(limits = c(500, 625)) +
   labs(x = "# Dientes",
        y = "Peso (g)") 
   
@@ -311,9 +318,28 @@ Consisten en comparar la pendiente observada con una distribución nula
 
 .pull-right[
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=3}
+set.seed(12)
+sample <- data %>% sample_n(size = 30)
+repeticiones <- tibble(n = 1:500,
+                       ordenada = 0,
+                       pendiente = 0)
+m_real <- lm(Peso ~ Dientes, sample)
+
+for (i in 1:500) {
+  sample$Dientes <- sample$Dientes[sample(1:30)] 
+  m <- lm(Peso ~ Dientes, sample)
+  repeticiones$ordenada[i] <- m$coefficients[1]
+  repeticiones$pendiente[i] <- m$coefficients[2]
+}
+
 repeticiones %>% ggplot(aes(x = pendiente)) +
   geom_histogram(color = "white",
-                 fill = "#1380A1")
+                 fill = "#1380A1") +
+  labs(y = NULL) +
+  geom_vline(xintercept = m_real$coefficients[2], color = "#ED6A5A", size = 2) +
+  coord_cartesian(clip = 'off') +
+  geom_label(x = m_real$coefficients[2], y = 10, 
+             label = paste0("Pendiente\n", round(m_real$coefficients[2], digits = 2)), color = "#ED6A5A")
 ```
 ]
 
@@ -325,9 +351,32 @@ Consisten en simular la pendiente con muestras y calcular sus intervalos de conf
 
 .pull-right[
 ```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=3}
+set.seed(12)
+sample <- data %>% sample_n(size = 30)
+
+repeticiones <- tibble(n = 1:500,
+                       ordenada = 0,
+                       pendiente = 0)
+
+for (i in 1:500) {
+  sample_i <- sample %>% sample_n(size = 20, replace = TRUE)
+  m <- lm(Peso ~ Dientes, sample_i)
+  repeticiones$ordenada[i] <- m$coefficients[1]
+  repeticiones$pendiente[i] <- m$coefficients[2]
+}
+
+limites <- tibble(lims = c(quantile(repeticiones$pendiente, .025), quantile(repeticiones$pendiente, .975)),
+                  y = c(10, 10),
+                  label = c(paste0("2.5%\n", round(quantile(repeticiones$pendiente, .025), digits = 2)),
+                       paste0("97.5%\n", round(quantile(repeticiones$pendiente, .975), digits = 2))))
+
 repeticiones %>% ggplot(aes(x = pendiente)) +
   geom_histogram(color = "white",
-                 fill = "#1380A1")
+                 fill = "#1380A1") +
+  labs(y = NULL) +
+  geom_vline(data = limites, aes(xintercept = lims), color = "#ED6A5A", size = 2) +
+  geom_label(data = limites, aes(x = lims, y = y, label = label), color = "#ED6A5A")
+
 ```
 ]
 
@@ -335,18 +384,148 @@ repeticiones %>% ggplot(aes(x = pendiente)) +
 class: left, top, highlight-last-item
 # Modelos matemáticos de la pendiente
 
+Tomemos una muestra de **30** aliens y veamos qué podemos decir
+
+.pull-left[
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="60%", fig.width=4, fig.height=3}
+set.seed(12)
+sample <- data %>% sample_n(size = 30)
+
+m <- lm(Peso ~ Dientes, sample)
+m
+```
+
+$$ \hat{Peso} = 494.82 + 1.10 Dientes $$
+.big[¿Es esta pendiente **real**?]
+
+$H_0:\beta_1=0$ La pendiente del modelo real es cero
+$H_A:\beta_1\neq0$ La pendiente del modelo real es distinta de cero
+
+.big[Vamos a tratar de rechazar **H_0**]
+]
+
+--
+
+.pull-right[
+.big[Las aproximaciones las vamos a construir basados en el **distribución t**]
+
+```{r}
+summary(m)
+```
+]
+
+---
+class: left, top, highlight-last-item
+# Modelos matemáticos de la pendiente
+
+Tomemos una muestra de **30** aliens y veamos qué podemos decir
+
+.pull-left[
+La definición del estadístico **T** es:
+
+$$ T = \frac{estimación - valor nulo}{SE} $$
+
+$$ T = \frac{1.104 - 0}{0.497} = 2.221 $$
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="80%", fig.width=4, fig.height=3}
+dist_t_28 <- tibble(x = seq(- 4, 4, by = 0.01),
+                    y = dt(x, df = 28))
+
+dist_t_28 %>% ggplot(aes(x = x,
+           y = y)) +
+  geom_line() +
+  geom_vline(xintercept = 2.221, size = 1, linetype = "dashed") +
+  geom_vline(xintercept = -2.221, size = 1, linetype = "dashed") +
+  geom_area(data = dist_t_28 %>% filter(x< -2.221), fill = "#ED6A5A", alpha = .5) +
+  geom_area(data = dist_t_28 %>% filter(x> 2.221), fill = "#ED6A5A", alpha = .5) +
+  geom_text(x = 0, y = 0.05, label = "t=2.221\np=0.0346") +
+  labs(title = "t para df=28")
+
+```
+]
+
+.pull-right[
+.big[Las aproximaciones las vamos a construir basados en el **distribución t**]
+
+```{r}
+summary(m)
+```
+]
+
+???
+Por lo general, confiamos en software estadístico para identificar estimaciones puntuales, errores estándar, estadísticas de prueba y valores p en la práctica. Sin embargo, tenga en cuenta que el software generalmente no verificará si el método es apropiado, lo que significa que aún debemos verificar que se cumplan las condiciones.
+
 ---
 class: left, top, highlight-last-item
 # Intervalos de la pendiente
 
----
-class: left, top, highlight-last-item
-# Effect size
+.big[Vamos a calcular el **intervalos de confianza** de la pendiente.
+
+El intervalo de confianza es un intervalo en el que nosotros estamos 95% seguros que contiene al valor poblacional. Ver [esta app](https://rpsychologist.com/d3/ci/)]
+
+
+
+.pull-left[
+Para eso volvemos a la distribución **T**
+
+$$b_i \pm t^*_df \times SE_{b_i}$$
+
+donde $t^*_df$ es el **t crítico** para el nivel de significancia que queremos y los **dfs** de nuestro modelo.
+
+En nuestro caso $\alpha = 0.05$ y $df = 28$, por eso:
+
+
+$$1.104 \pm 2.048 \times 0.497$$
+
+$$b_{dientes} = 1.104 [0.086, 2.121]$$
+]
+
+.pull-right[
+No desesperen que lo podemos hacer muy fácil en **R**
+
+```{r}
+#install.packages(parameters)
+#library(parameters)
+
+model_parameters(m)
+```
+
+```{r}
+#install.packages(effectsize)
+#library(effectsize)
+
+effectsize(m)
+```
+]
+
 
 ---
 class: left, top, highlight-last-item
 # Condiciones de los modelos
 
+.huge[
+`r emo::ji("heart")` **Linealidad**: Los datos deben mostrar una tendencia lineal.
+
+`r emo::ji("heart")` **Observaciones independientes**: Ojo con las mediciones secuenciales, en ellas las observaciones no son independientes.
+
+`r emo::ji("yellow")` **Residuos normales**: Los residuos, luego de quitar outliers, deben ser casi normales.
+
+`r emo::ji("yellow")` **Variabilidad constante**: La variabilidad de los residuos debe ser constante para todos los valores de **x**.
+]
+
+---
+class: left, top, highlight-last-item
+# Resumen
+
+.huge[
+Aprendimos a:
+- Hacer **inferencias** sobre los parámetros poblacionales $\beta$ basados en los muestrales $b$
+- Testear **hipótesis** con los parámetros
+- Calcular e interpretar los **intevalos de confianza** de los parámetros
+- Evaluar las **condiciones** para ajustar un modelo lineal
+
+Ahora nos queda ver cómo seguir cuando tenemos más de un regresor.
+]
 
 ---
 class: center, top

@@ -653,11 +653,11 @@ p1 + p2 + p3 + p4
 class: left, top, highlight-last-item
 # Resumen
 
-.big[
+.huge[
 Aprendimos a:
 - Ajustar un modelo lineal con un *predictor*
-- evaluar el ajuste
-- Interpretar la salida de `summary()`
+- Evaluar el ajuste
+- Interpretar la salida de *summary()*
 - Su relación con la correlación
 - Modelar e interpretar variables categóricas
 - Tener ciudado con los outliers 
