@@ -187,7 +187,7 @@ p3_der = p3 +
                   ylim=c(0.97, 0.98), default=TRUE)
 ```
 
-g) Calcular el probabilidad de ocurrencia de cada muestra obtenida. Elegir las más extremas (menos probables) y graficar algunas de ellas. Comparar con las menos extremas.
+g) Calcular la probabilidad de ocurrencia de cada muestra obtenida. Elegir las más extremas (menos probables) y graficar algunas de ellas. Comparar con las menos extremas.
 
     *Ayuda*: Recordar que la probabilidad de la muestra se definía a partir de la distribución de $t$, considerando las chances de obtener valores de $t$ iguales o más extremos (más lejanos al 0) que el valor de $t$ muestral.
     
@@ -229,3 +229,139 @@ proporcion <- (estadistica %$% sum(pval < 0.05)) / n_muestras * 100
 i) Obtenga un dataset generado por una distribucion con diferente media ($\mu_2$). Obtenga la estadistica $t$ para cada muestra, y los correspondientes p-values, pero haga de cuenta que Ud. no sabe que la media de la distribucion de origen fue modificada. (Esto significa que, para calcular $t$, debe usar el valor de $\mu$ empleado inicialmente, ya que Ud. no está al tanto de que el mismo fue modificado).
 
     Analizar la distribucion de p-values en este caso. ¿Qué proporcion de p-values son menores que $\alpha=0.05$? ¿Y menores a otros valores de $\alpha$? ¿Como se modifica todo esto para distintos valores de $\mu_2$? ¿Y para distintos tamaños de muestra?
+
+## Ejercicio 2
+
+En este ejercicio vamos a generar datos a partir de una distribución Gaussiana con media $\mu$ y desvío estándar $\sigma$. Pero vamos a hacer un cambio importante respecto al ejercicio anterior: cuando analicemos los datos, vamos a suponer que provienen de una distribución Gaussiana con una media diferente ($\mu_0$). Esta distribución representa una hipótesis formulada sobre los datos obtenidos, la cual vamos a poner a prueba. Para esto, vamos a usar las herramientas vistas en el ejercicio anterior (principalmente, la estadística $t$) para calcular la probabilidad de obtener una dada muestra suponiendo que la misma proviene de una distribución con media $\mu_0$. De este modo, pondremos a prueba la hipótesis de que los datos fueron generados por dicha distribución. El valor $\mu_0$ proviene de la teoría, o representa algún valor de interés para alguna aplicación, y debe ser conocido de antemano a la realización del experimento.
+
+Antes de comenzar, vamos a construir un tibble que defina la estructura de nuestro experimento:
+
+```{r, echo=TRUE, eval=TRUE}
+n_muestras = 5000
+n_datos    = seq(from=2, to=20, by=1)
+datos <- tibble(id_muestra=1:(n_muestras*length(n_datos)),
+                n = rep(n_datos, each=n_muestras))
+```
+
+Luego vamos a expandir ese ``tibble``, obteniendo una cantidad de muestras Gaussianas según el tamaño indicado por la columna n:
+
+```{r, echo=TRUE, eval=TRUE}
+mu    = 100
+sigma = 10
+mu0   = 110
+
+datos %<>% uncount(n, .remove=FALSE) %>%
+  mutate(x = rnorm(n, mean=mu, sd=sigma))
+```
+
+a) Calcular la media, el desvío estándar y la estadística t para cada muestra obtenida.
+
+```{r}
+estadistica <- datos %>% group_by(id_muestra) %>%
+  summarise(M = mean(x), S = sd(x), n= n()) %>%
+  mutate(t = (M - mu0) / S *sqrt(n))
+```
+
+b) Calcular el p-value asociado a cada muestra.
+
+```{r}
+estadistica %<>% mutate(pval = 2*pt(-abs(t), df=n-1))
+```
+
+c) Calcular la cantidad de muestras cuyo p-value es menor que $\alpha=0.05$ en función del tamaño de muestra. Graficarlo.
+
+```{r}
+potencia = estadistica %>% 
+  group_by(n) %>% 
+  summarise(pwr = sum(pval < 0.05) / length(pval))
+```
+
+```{r}
+p5 <- ggplot(potencia, aes(x=n, y=pwr)) + geom_line()
+```
+
+d) En base al ítem anterior, ¿qué tamaño de muestra es necesario para que al menos un 80% de las muestras sean consideradas más extremas que 5% (usando como criterio el p-value asociado), considerando como hipótesis a $\mu_0$?
+
+    ¿Y para que eso ocurra 100% de las veces?
+
+e) ¿Cómo se modifica la respuesta al ítem anterior si se modifica $\sigma$? ¿Y si se modifica $\mu$?
+
+f) Calcular el effect size asociado a cada muestra.
+
+```{r}
+estadistica %<>% mutate(d = (M-mu0)/sigma)
+```
+
+g) Graficar la distribución de effect sizes en función del tamaño de muestras
+
+```{r}
+ggplot(data = estadistica %>% group_by(n), aes(x=n, y=d)) + geom_boxplot()
+```
+
+    ¿Cómo es su dependencia?
+
+h) ¿Cómo se modifica el effect size si se modifica $\sigma$? ¿Y si se modifica $\mu$?
+
+
+## Ejercicio 3
+
+Vamos a construir un dataset formado por muestras de distintos tamaños tomadas de distribuciones Gaussianas con diferentes medias y desvíos estándar. Nos interesa obtener la potencia estadística frente a una cierta hipótesis $\mu_0$ para cada combinación de media, desvío estándar y tamaño de muestra. También analizaremos los cambios en el effect size en función de dichos factores.
+
+Comenzamos como siempre en estos casos, construyendo un ``tibble`` con la estructura de la simulación:
+
+```{r}
+n_muestras = 1000
+
+mu0=100
+
+medias  = seq(from=110, to=150, by=10)
+desvios = 10 #c(1, 5, 20, 30)
+n_datos = seq(from=2, to=30, by=2)
+
+datos <- 
+  # combinacion de todas las condiciones
+  list(media = medias, desvio=desvios, n=n_datos) %>%
+  cross_df() %>%
+  # ordeno la combinacion
+  arrange(media, desvio) %>%
+  # columna con un codigo para cada combinacion
+  mutate(id_cond = 1:n(), .before=1) %>%
+  # expando para incluir la cantidad de muestras para cada condicion
+  mutate(n_muestras = n_muestras) %>%
+  uncount(n_muestras) %>%
+  # columna con un codigo para cada muestra
+  mutate(id_muestra = 1:n(), .before=1)
+```
+
+Luego agregamos los datos correspondientes a cada condición:
+
+```{r}
+datos %<>% uncount(n, .remove=FALSE) %>%
+  mutate(x = rnorm(n, mean=media, sd=desvio))
+
+# https://stackoverflow.com/questions/11121385/repeat-rows-of-a-data-frame
+```
+
+a) Calcular media, desvío, t, p-value y effect size para cada muestra. 
+
+```{r}
+estadistica <- datos %>%
+  group_by(id_muestra, media, desvio, n) %>%
+  summarise(M=mean(x), S=sd(x)) %>%
+  mutate(t=(M-mu0)/S*sqrt(n),
+         pval=2*pt(-abs(t), df=n-1),
+         d=M/S)
+```
+
+b) Calcular y graficar la potencia para cada muestra (la proporcion de muestras cuyo p-value asociado es menor a 0.05)
+
+```{r}
+alpha = 0.05
+potencia <- estadistica %>%
+  group_by(media, desvio, n) %>%
+  summarise(pwr = sum(pval < alpha) / length(pval))
+```
+
+```{r}
+ggplot(potencia, aes(x=n, y=pwr, group=media)) + geom_line(aes(color=media)) 
+```
