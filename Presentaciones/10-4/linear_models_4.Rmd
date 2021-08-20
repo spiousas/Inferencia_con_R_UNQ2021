@@ -335,6 +335,24 @@ class: left, top, highlight-last-item
 .center[
 ![:scale 90%](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.png)
 ]
+
+---
+class: left, top, highlight-last-item
+# Resumen
+
+.huge[
+Aprendimos a:
+- Evaluar el **efecto** de un predictor
+- Testear **hipótesis** sobre los predictores
+- Que la mayoría de los test estadísticos pueden pensarse como un modelo lineal
+
+¿Qué pasa si las mediciones no son independientes?
+
+Por ejemplo, medidas repetidas, datos de un mismo grupo o camada, mediciones a lo largo del tiempo...
+
+No se preocupen, vienen los **Modelos Lineales de Efectos Mixtos** al rescate en las próximas clases
+]
+
 ---
 class: center, top
 # Referencias

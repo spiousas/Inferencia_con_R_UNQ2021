@@ -129,8 +129,6 @@ Y de forma general podemos escribir:
 $$y = b_0 + b_1 x + e$$
 Donde $b_0$ es la **ordenada al origen** y $b_1$ la **pendiente** y $e$ es el **error**
 
-O:
-
 $$y = \hat{y} + e$$
 ]
 
@@ -153,11 +151,11 @@ penguins_adelie <- penguins %>%
 penguins_adelie %>%
   ggplot(aes(x = bill_length_mm,
              y = body_mass_g)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
   labs(x = "Largo del pico (mm)",
-       y = "Peso (g)") +
-  geom_point()
+       y = "Peso (g)") 
 ```
 ]
 
@@ -169,13 +167,30 @@ O esto:
 penguins_adelie %>%
   ggplot(aes(x = bill_length_mm,
              y = flipper_length_mm)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
   labs(x = "Largo del pico (mm)",
-       y = "largo de la aleta (mm)") +
-  geom_point()
+       y = "largo de la aleta (mm)")
 ```
 ]
+
+---
+class: left, top, highlight-last-item
+# Ajustando una recta
+
+Tengamos cuidado de que la recta tenga sentido
+
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="40%", fig.width=4, fig.height=4}
+tibble(x = 1:100,
+       y = sin(2*pi*x/100)) %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_point() +
+  geom_smooth(method = lm,
+              se = FALSE) 
+```
+
 
 ---
 class: left, top, highlight-last-item
@@ -191,10 +206,10 @@ tibble(x = runif(100) * 20,
        y = 10 + 15*x + rnorm(100)*10) %>%
   ggplot(aes(x = x,
              y = y)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
-  scale_y_continuous(limits = c(-200, 600)) +
-  geom_point()
+  scale_y_continuous(limits = c(-200, 600)) 
 ```
 ]
 
@@ -204,33 +219,17 @@ tibble(x = runif(100) * 20,
        y = 10 + 15*x + rnorm(100)*70) %>%
   ggplot(aes(x = x,
              y = y)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
-  scale_y_continuous(limits = c(-200, 600)) +
-  geom_point()
+  scale_y_continuous(limits = c(-200, 600)) 
 ```
 ]
 
-???   
+???
 Hablar del sentido de la ordenada al origen y de los valores que no entran dentro del rango.
 
 La extrapolación es peligrosa.
-
----
-class: left, top, highlight-last-item
-# Ajustando una recta
-
-Tengamos cuidado de que la recta tenga sentido
-
-```{r, echo=FALSE, dpi=300, fig.align='center', out.width="40%", fig.width=4, fig.height=4}
-tibble(x = 1:100,
-       y = sin(2*pi*x/100)) %>%
-  ggplot(aes(x = x,
-             y = y)) +
-  geom_smooth(method = lm,
-              se = FALSE) +
-  geom_point()
-```
 
 ---
 class: left, top, highlight-last-item
@@ -242,11 +241,11 @@ Vamos a predecir el peso de un pinguino  **Adelie** utilizando el largo de su al
 penguins_adelie %>%
   ggplot(aes(x = flipper_length_mm,
              y = body_mass_g)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
   labs(x = "Largo de la aleta (mm)",
-       y = "Peso (g)") +
-  geom_point()
+       y = "Peso (g)")
 ```
 ]
 
@@ -266,10 +265,10 @@ Vamos a predecir el peso de un pinguino  **Adelie** utilizando el largo de su al
 penguins_adelie %>%
   ggplot(aes(x = flipper_length_mm,
              y = body_mass_g)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
   geom_segment(x = 198, y = 3964.53, xend = 198, yend = 4400, colour = "#ED6A5A") +
-  geom_point() +
   geom_point(x = 198, y = 4400, shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
   labs(x = "Largo de la aleta (mm)",
        y = "Peso (g)")
@@ -286,7 +285,7 @@ $$\hat{y} =-2508.09 + 32.69 x$$
 Veamos este individuo:
 
 ```{r, echo=FALSE}
-penguins_adelie[8,] %>% 
+penguins_adelie[10,] %>% 
   select(all_of(c("flipper_length_mm", "body_mass_g"))) %>%
   kbl() %>%
   kable_styling()
@@ -328,11 +327,11 @@ sample <- penguins_adelie[c(12, 93, 96),]
 penguins_adelie %>%
   ggplot(aes(x = flipper_length_mm,
              y = body_mass_g)) +
+  geom_point() +
   geom_smooth(method = lm,
               se = FALSE) +
   geom_segment(data = sample,
                aes(xend = flipper_length_mm, yend = predict(m1, sample)), colour = "#ED6A5A") +
-  geom_point() +
   geom_point(data = sample,
              shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
   labs(x = "Largo de la aleta (mm)",
@@ -350,7 +349,7 @@ $$ e_i = y_i - \hat{y}_i $$
 Normalmente se considera el **valor absoluto** de los residuos
 
 En estos casos son
-```{r, echo=FALSE}
+```{r}
 abs(resid(m1)[c(12, 93, 96)])
 ```
 ]
@@ -370,12 +369,12 @@ cbind(penguins_adelie, resid(m1)) %>%
   rename("residuals" = "resid(m1)") %>%
   ggplot(aes(x = flipper_length_mm,
              y = residuals)) +
+  geom_point() +
   geom_hline(yintercept = 0, color= "#ED6A5A", linetype = "dashed") +
   geom_segment(data = sample,
                aes(xend = flipper_length_mm,
                    yend = 0),
                colour = "#ED6A5A") +
-  geom_point() +
   geom_point(data = sample,
              shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
   labs(x = "Largo de la aleta (mm)",
@@ -435,7 +434,7 @@ No vamos a entrar en detalle de cómo se hace computacionalmente este cálculo p
 Por eso:
 
 - No importa el signo del residuo
-- Residuos el doble de grandes aportan 4 veces ,más a la magnitud a minimizar
+- Residuos el doble de grandes aportan 4 veces más a la magnitud a minimizar
 ]
 
 ---
@@ -446,6 +445,7 @@ Para ajustar una regresión (o modelo lineal, e' lo mismo), usamos la función d
 
 .pull-left[
 ```{r}
+# m1 <- lm(body_mass_g ~ flipper_length_mm, penguins_adelie)
 m1 <- penguins_adelie %>%
   lm(body_mass_g ~ flipper_length_mm, .)
 
@@ -455,6 +455,8 @@ summary(m1)
 
 .pull-right[
 Si lo que queremos ver son los coeficientes debemos mirar la columna **Estimates**
+
+$$\hat{y} =-2508.09 + 32.69 x$$
 
 El resto de las cosas las vamos a entender más adelante...
 ]
@@ -506,8 +508,21 @@ $$ R^2 = \frac{sd^2 - sd^2_{residuos}}{sd^2} $$
 Es decir, la **variabilidad de la magnitud**, menos la **variabilidad de los residuos**, normalizada.
 
 .pull-left[
-```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=3, fig.height=3}
-penguins_adelie %>%
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="95%", fig.width=6, fig.height=4}
+p1 <- penguins_adelie %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = body_mass_g)) +
+  geom_smooth(method = lm,
+              se = FALSE) +
+  geom_segment(data = sample,
+               aes(xend = flipper_length_mm, yend = predict(m1, sample)), colour = "#ED6A5A") +
+  geom_point() +
+  geom_point(data = sample,
+             shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Peso (g)")
+
+p2 <- penguins_adelie %>%
   ggplot(aes(x = species,
              y = body_mass_g)) +
   geom_hline(yintercept = mean(penguins_adelie$body_mass_g), color= "#ED6A5A", linetype = "dashed") +
@@ -517,17 +532,38 @@ penguins_adelie %>%
              y = mean(penguins_adelie$body_mass_g),
              label = paste0("media = ", round(mean(penguins_adelie$body_mass_g), digits = 1), 
                             "\nvar = ", round(sd(penguins_adelie$body_mass_g)^2, digits = 1))) +
-  labs(x = "Especie",
-       y = "Peso (g)")
+  labs(x = NULL,
+       y = "Peso (g)") +
+  theme(axis.text.x = element_blank())
+
+p1 + p2 + plot_layout(widths = c(2, 1)) + plot_annotation(title = 'El peso')
 ```
 ]
 
 .pull-right[
-```{r, echo=FALSE, dpi=300, fig.align='center', out.width="50%", fig.width=3, fig.height=3}
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="95%", fig.width=6, fig.height=4}
+sample <- cbind(penguins_adelie, resid(m1))[c(12, 93, 96),] %>%
+  rename("residuals" = "resid(m1)")
+
+p1 <- cbind(penguins_adelie, resid(m1)) %>%
+  rename("residuals" = "resid(m1)") %>%
+  ggplot(aes(x = flipper_length_mm,
+             y = residuals)) +
+  geom_hline(yintercept = 0, color= "#ED6A5A", linetype = "dashed") +
+  geom_segment(data = sample,
+               aes(xend = flipper_length_mm,
+                   yend = 0),
+               colour = "#ED6A5A") +
+  geom_point() +
+  geom_point(data = sample,
+             shape = 1, size = 7, stroke = 2, color = "#ED6A5A") +
+  labs(x = "Largo de la aleta (mm)",
+       y = "Residuos (g)")
+
 penguins_adelie_res <- cbind(penguins_adelie, resid(m1)) %>%
   rename("residuals" = "resid(m1)") 
 
-penguins_adelie_res %>%
+p2 <- penguins_adelie_res %>%
   ggplot(aes(x = species,
              y = residuals)) +
   geom_hline(yintercept = 0, color= "#ED6A5A", linetype = "dashed") +
@@ -537,8 +573,11 @@ penguins_adelie_res %>%
              y = mean(penguins_adelie_res$residuals),
              label = paste0("media = ", round(mean(penguins_adelie_res$residuals), digits = 1), 
                             "\nvar = ", round(sd(penguins_adelie_res$residuals)^2, digits = 1))) +
-  labs(x = "Especie",
-       y = "Rsiduos (g)")
+  labs(x = NULL,
+       y = "Residuos (g)") +
+  theme(axis.text.x = element_blank())
+
+p1 + p2 + plot_layout(widths = c(2, 1)) + plot_annotation(title = 'Los residuos')
 ```
 ]
 
@@ -628,15 +667,15 @@ p1 <- data %>%
 p2 <- data %>% rbind(tibble(x = 40, y = 610)) %>%
   ggplot(aes(x = x,
              y = y)) +
-  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
   geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
   labs(title = "Outlier alineado")
 
 p3 <- data %>% rbind(tibble(x = 20, y = 500)) %>%
   ggplot(aes(x = x,
              y = y)) +
-  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
   geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE) +
   labs(title = "*Low leverage*") 
 
 p4 <- data %>% rbind(tibble(x = 40, y = 300)) %>%

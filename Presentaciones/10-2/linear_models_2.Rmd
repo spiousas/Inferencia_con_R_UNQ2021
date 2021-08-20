@@ -128,7 +128,7 @@ Donde $\beta_0$ y $\beta_1$ son los **parámetros poblacionales**
 
 $$ Peso = 499.57 + 1.01 Dientes $$
 
-```{r, echo=FALSE, dpi=300, fig.align='center', out.width="75%", fig.width=4, fig.height=4}
+```{r, echo=FALSE, dpi=300, fig.align='center', out.width="70%", fig.width=4, fig.height=4}
 data %>%
   ggplot(aes(x = Dientes,
              y = Peso)) +
@@ -401,7 +401,7 @@ $$ \hat{Peso} = 494.82 + 1.10 Dientes $$
 $H_0:\beta_1=0$ La pendiente del modelo real es cero
 $H_A:\beta_1\neq0$ La pendiente del modelo real es distinta de cero
 
-.big[Vamos a tratar de rechazar **H_0**]
+.big[Vamos a tratar de rechazar **H0**]
 ]
 
 --
@@ -524,7 +524,7 @@ Aprendimos a:
 - Calcular e interpretar los **intevalos de confianza** de los parámetros
 - Evaluar las **condiciones** para ajustar un modelo lineal
 
-Ahora nos queda ver cómo seguir cuando tenemos más de un regresor.
+Ahora nos queda ver cómo evaluar el aporte de los predictores en una regresión lineal múltiple.
 ]
 
 ---

@@ -409,6 +409,21 @@ $$\hat{Peso} = 66.45 + 93.75· 18 + -94.35 · 1 +  13.89 · 18 · 1$$
 
 $$\hat{Peso} = 1909.62g$$
 ]
+
+---
+class: left, top, highlight-last-item
+# Resumen
+
+.huge[
+Aprendimos a:
+- Ajustar un modelo con **más de un preditor**
+- Interpretar el efecto de **variables categóricas**
+- Interpretar las **interacciones**
+- Evaluar si un ajuste es "mejor" que otro usando el $R^2_{adj}$
+
+Ahora nos queda ver cómo seguir cuando tenemos más de un regresor.
+]
+
 ---
 class: center, top
 # Referencias
