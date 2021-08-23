@@ -13,8 +13,8 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  echo = FALSE, 
-  eval = FALSE,
+  echo = TRUE, 
+  eval = TRUE,
   warning = FALSE,
   message = FALSE,
   comment = "#>"
@@ -56,7 +56,6 @@ Agreguede a uno cada uno de estos outliers y estude cómo afectan a la pendiente
 ```{r}
 # Ajuste
 library(openintro)
-
 model_starbucks <- starbucks %>% 
   lm(calories ~ fat, .)
 model_starbucks
@@ -210,7 +209,7 @@ CI_in <- tibble(index = 1:200,
                 high = 0,
                 isin = FALSE)
 for (i in 1:200) {
-  data_sample <- data %>% sample_n(size = 20)  
+  data_sample <- data_dientes %>% sample_n(size = 20)  
   model_sample <- lm(Peso ~ Dientes, data_sample)
   CI_in$low[i] <- model_parameters(model_sample)$CI_low[2]
   CI_in$high[i] <- model_parameters(model_sample)$CI_high[2]
@@ -227,12 +226,12 @@ CI_in_50 <- tibble(index = 1:200,
                 high = 0,
                 isin = FALSE)
 for (i in 1:200) {
-  data_sample <- data %>% sample_n(size = 50)  
+  data_sample <- data_dientes %>% sample_n(size = 50)  
   model_sample <- lm(Peso ~ Dientes, data_sample)
-  CI_in_40$low[i] <- model_parameters(model_sample)$CI_low[2]
-  CI_in_40$high[i] <- model_parameters(model_sample)$CI_high[2]
-  CI_in_40$isin[i] <- between(1, model_parameters(model_sample)$CI_low[2], model_parameters(model_sample)$CI_high[2])
-  print(paste0(i, " low:", CI_in_40$low[i], " high:", CI_in_40$high[i], "IN:", CI_in_40$isin[i]))
+  CI_in_50$low[i] <- model_parameters(model_sample)$CI_low[2]
+  CI_in_50$high[i] <- model_parameters(model_sample)$CI_high[2]
+  CI_in_50$isin[i] <- between(1, model_parameters(model_sample)$CI_low[2], model_parameters(model_sample)$CI_high[2])
+  print(paste0(i, " low:", CI_in_50$low[i], " high:", CI_in_50$high[i], "IN:", CI_in_50$isin[i]))
 }
 # Porcentaje de esos experimentos en los que el CI contiene a 1
 sum(CI_in_50$isin)/200*100
@@ -240,7 +239,7 @@ sum(CI_in_50$isin)/200*100
 # Evolución del ancho de los CIs
 ggplot() +
   geom_ribbon(data = CI_in, aes(x = index, ymin = low, ymax = high), fill = "#1380A1", alpha = 0.6) + 
-  geom_ribbon(data = CI_in_40, aes(x = index, ymin = low, ymax = high), fill = "#ED6A5A", alpha = 0.6) +
+  geom_ribbon(data = CI_in_50, aes(x = index, ymin = low, ymax = high), fill = "#ED6A5A", alpha = 0.6) +
   geom_hline(yintercept = 1, color = "black", linetype = "dashed")
   
 ```
@@ -257,7 +256,7 @@ Escribe el modelo lineal para gatos hembras y machos agrupando pendientes y orde
 
 ```{r}
 # install.packages("MASS")
-# library(MASS)
+library(MASS)
 
 # Modelo gatos
 model_cats <- cats %>% lm(Hwt ~ Bwt * Sex, .)
@@ -284,6 +283,8 @@ Estime el peso **en Kg** para un bebé *female* nacido después de **39 semanas*
 
 ```{r}
 # El modelo
+library(openintro)
+
 model_births <- births14 %>% 
   drop_na() %>% 
   lm(weight ~ weeks + mage + sex + habit + visits, .) 
