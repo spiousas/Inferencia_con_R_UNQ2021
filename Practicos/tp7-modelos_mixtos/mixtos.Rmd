@@ -1,0 +1,266 @@
+---
+title: "TP7 - Modelos de efectos mixtos"
+author: "Spiousas - Etchemendy"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::robobook
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE, 
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>"
+)
+
+library(RCurl)
+```
+
+En este práctico vamos a trabajar con modelos lineales de efectos mixtos. Vamos a partir de los modelos lineales tradicionales y vamos a ver cómo surge la necesidad de incluir efectos aleatorios para analizar ciertos datasets.
+
+## Carga de bibliotecas
+
+```{r, echo=TRUE, eval=TRUE}
+library(magrittr)
+library(purrr)
+library(tidyverse)
+```
+
+Antes de comenzar, vamos a cargar una de las bibliotecas que nos permite trabajar con modelos de efectos mixtos:
+
+```{r, echo=TRUE, eval=TRUE}
+library(nlme)
+```
+
+Esta biblioteca contiene una serie de funciones que permiten resolver estos modelos, y además trae ciertos datasets interesantes para entender cómo funcionan los modelos y las funcionalidades de la biblioteca.
+
+## Ejercicio 1
+
+Vamos a comenzar usando un dataset incorporado en la biblioteca nlme:
+
+```{r, echo=TRUE, eval=TRUE}
+print(Rail)
+```
+
+Este dataset contiene el tiempo que tarda una señal de ultrasonido en recorrer la longitud de un riel. Es un ejemplo muy sencillo tomado de la ingeniería (lo cuál muestra que este tipo de modelos puede ser útil en cualquier área de la ciencia y la tecnología). Muy importante!! No es necesario saber cómo ni para qué fin se obtuvo el dataset. Podemos pensar que tenemos una cierta medición (el tiempo de viaje) que fue obtenida muchas veces para distintas unidades de análisis (los rieles) tomadas aleatoriamente. El dataset nos muestra los valores del tiempo de viaje para cada riel.
+
+Nota: Lo que vamos a ver a continuación sigue la presentación de Pinheiro y Bates en su libro ``Mixed-effect Models in S and S-PLUS´´ (capítulo 1).
+
+a) Grafique tiempo de viaje para cada riel. Interprete el gráfico. ¿Qué información podemos obtener?
+
+```{r}
+p1 = ggplot(data = Rail, aes(x=travel, y=Rail)) + geom_point()
+```
+
+b) Ajuste un modelo lineal de efectos fijos:
+
+$$ y_{ij} = \beta  + \epsilon_{ij} $$
+
+donde
+
+- $y_{ij}$ es la observacion $i$ para el riel $j$ (en este caso, $i = 1...M$ con $M = 6$; y $j = 1...n_i$ con $n_i = 3$). Tener en cuenta que cada riel podria tener una cantidad diferente de mediciones.
+- $\beta$ es el tiempo medio para toda la poblacion de rieles (lo que queremos estimar).
+- $\epsilon_{ij}$ es el término de error; representa realizaciones independiente a partir de una distribución Gaussiana con media 0 y desvío estándar $\sigma$, es decir, $N(0, \sigma)$. La variabilidad de este término es desconocida, por lo que también queremos estimar $\sigma$.
+
+Discuta los resultados obtenidos ($\beta$ y $\sigma$). Recuerde que para calcular el modelo puede usar la función lm, y para ver los resultados, summarise. Recuerde también guardar el resultado del modelo en una variable del entorno R; esto permitirá procesar posteriormente las estimaciones del modelo.
+
+```{r}
+# almaceno el resultado del modelo en una variable del entorno R cuyo nombre me dice
+# qué tipo de modelo es (lm)
+fm1Rail.lm <- lm(travel ~ 1, data = Rail)
+summarise(fm1Rail.m)
+beta  = fm1Rail.m$coefficients["(Intercept)"]
+sigma = summary(fm1Rail.m)$sigma
+```
+
+c) Obtenga los resiudos y grafíquelos. Para esto puede ser útil definir un nuevo ``tibble`` que contenga una copia de los datos originales y nos permita agregar una columna con los residuos (usando mutate). 
+
+```{r}
+Rail_datos <- Rail %>% mutate(res = resid(fm1Rail.lm)) %>% tibble()
+p2 = ggplot(Rail_datos, aes(x = res, y = Rail)) + geom_boxplot()
+```
+
+    Discuta la información que le dan los residuos. ¿Están distribuídos en torno al 0? ¿Son normales? ¿Existe correlación entre los residuos provenientes de un mismo riel? 
+<!-- los efectos debido a los grupos están incorporados los residuos -->
+
+d) Ajuste un modelo lineal de efectos fijos (mediante lm) que tenga en cuenta las diferencias entre cada riel:
+
+  $$y_{ij} = \beta_{i} + \epsilon_{ij}$$
+
+(con $i$ y $j$ igual que antes), donde:
+  
+- $\beta_i$ es (la estimación de) el tiempo medio para el riel $i$-ésimo.
+- $y_{ij}$ y $\epsilon_{ij}$ están definidos igual que en el modelo anterior.
+    
+```{r}
+# el -1 en la formula me permite eliminar una ordenada al origen global (no es necesario realmente)
+fm2Rail.lm <- lm(travel ~ Rail - 1, data = Rail)
+
+summary(fm2Rail.lm)
+```
+
+Discuta las estimaciones obtenidas (cada $\beta_i$ y $\sigma$): ¿La estimación de la variabilidad es mayor o menor que en el caso anterior? ¿A qué se debe? ¿Qué representa cada $\beta_i$? ¿Cuántos grados de libertad tiene el modelo?
+    
+¿Es posible estimar parámetros de la población de rieles a partir de este modelo? ¿De qué manera?
+    
+e) Obtenga los residuos, grafíquelos, y compare con el modelo previo.
+
+```{r}
+Rail_datos %<>% mutate(res2 = resid(fm2Rail.lm))
+p3 = ggplot(Rail_datos, aes(x = res2, y = Rail)) + geom_boxplot()
+```
+
+f) Analice los datos mediante un modelo de efectos mixtos, es decir, un modelo que considere explíticamente que los rieles fueron obtenidos aleatoriamente de una población de rieles, y que le permita estimar la variabilidad de dicha población. Para motivar dicho modelo, considere el modelo anterior reescrito de la siguiente manera:
+
+$$ y_{ij} = \bar{\beta} + (\bar{\beta} - \beta_i) + \epsilon_{ij} $$
+
+donde $\hat{\beta}$ es el promedio de los $\beta_i$. El término $\bar{\beta} - \beta_i$ representa el desvío del riel $i$-ésimo respecto a (la estimación de la media de) la población de rieles $\bar{\beta}$. Como los rieles fueron obtenidos aleatoriamente, esperamos que $\bar{\beta} - \beta_i$ se comporte como una variable aleatoria Gaussiana centrada en 0 y con cierto desvío estándar que caracteriza la variabilidad de la población de rieles.
+
+En base a esto, vamos a definir un nuevo modelo, reemplazando $\hat{\beta}$ por el tiempo medio de viaje sobre la poblacion de rieles; y las desviaciones $\beta_i - \bar{\beta}$ por una variable aleatoria que describa a la distribución de rieles (la cuál vamos a tratar de estimar).
+
+El nuevo modelo será
+
+$$y_{ij} = \beta + b_i + \epsilon_{ij}$$
+
+donde:
+
+- $\beta$ es (una estimación de) el tiempo medio sobre la poblacion de rieles.
+- $b_i$ es (una realizacion de) una variable aleatoria que representa la variabilidad de cada riel presente en nuestra muestra respecto a la poblacion de rieles.
+- y $\epsilon_{ij}$ es lo mismo de siempre.
+
+Para terminar de definir el modelo, describimos a nuestras variables aleatorias:
+
+- La variabilidad en la población de rieles: $b_i = N(0, \sigma_b)$.
+- La variabilidad en las mediciones para cada riel, dentro de la población: $\epsilon_ij = N(0, \sigma)$.
+
+Este es un modelo *jerárquico*, ya que su estructura tiene incluída la jerarquía que estaba presente en los datos.
+
+Para esto, vamos a usar la función lme provista por la biblioteca nlme:
+```{r, echo=TRUE, eval=TRUE}
+fm1Rail.lme <- lme(travel ~ 1, data = Rail, random = ~ 1 | Rail)
+
+summary(fm1Rail.lme)
+```
+
+g) Obtenga los parámetros $\beta$, $\sigma_b$ y $\sigma$, y compare con los resultados anteriores.
+
+h) Obtenga los residuos del modelo considerando: i) únicamente los efectos fijos y ii) los efectos fijos más los aleatorios. Grafique y compare con los casos anteriores.
+
+```{r}
+Rail_datos %<>% mutate(res3 = resid(fm1Rail.lme, level=0))
+```
+
+Para esto puede ser útil la función resid, usando el argumento ``level`` (0 para los efectos fijos y 1 para fijos y aleatorios)
+
+i) Obtenga las predicciones del modelo considerando los efectos fijos, y los fijos más los aleatorios. Para esto, use la función predict (con el argumento level igual que en el caso anterior)
+
+```{r}
+Rail_datos %<>% mutate(pred_fijo = predict(fm1Rail.lme, level=0),
+                       pred_random = predict(fm1Rail.lme, level=1))
+```
+
+## Ejercicio 2
+
+Vamos a simular un experimento en el cual se obtienen mediciones de una variable continua $y$ en función de otra variable continua $x$. Para obtener las mediciones, se utilizan ciertas *unidades de análisis*, que son tomadas aleatoriamente de una población. Para cada unidad de análisis, se obtienen mediciones de $y$ en función de los valores de $x$ seleccionados (medidas repetidas). La relación entre $x$ e $y$ es lineal, con pendientes y ordenadas propias de cada unidad de análisis muestreada.
+
+Los resultados de esta simulación se guardan en un ``tibble``:
+
+```{r, echo=TRUE, eval=TRUE}
+n_uni = 5  # unidades de analisis
+
+# parametros que caracterizan a la pendiente y la ordenada de la oblación de undiades de analisis
+a=3
+b=1
+sigma_a= 1
+sigma_b= 3
+
+# variabilidad de y dentro de cada unidad de análisis
+sigma = 0.5
+
+# valores de la variable independiente x
+x = 0:6
+
+# muestreo a y b
+pendientes = rnorm(n=n_uni, mean=a, sd=sigma_a)
+ordenadas  = rnorm(n=n_uni, mean=b, sd=sigma_b)
+
+# tibble con la info de las unidades de analisis (inaccesible in real life)
+unidades = tibble(id_uni = 1:n_uni, a = pendientes, b=ordenadas, s=sigma)
+
+# tibble con la simulación: y en función de x para cada u.d.a.
+datos = unidades %>%
+  uncount(length(x)) %>%
+  mutate(x = rep(x, times=n_uni)) %>%
+  mutate(y = x*a + b + rnorm(n=length(x), mean=0, sd=s)) %>%
+  select(-a,-b,-s)
+
+datos$id_uni %<>% as_factor()
+```
+
+a) Grafique los datos. Discuta la jerarquía de los datos a partir del gráfico. ¿Qué parámetros de la generación de los datos afectan sus conclusiones?
+
+```{r}
+ggplot(datos, aes(x=x, y=y, group=id_uni)) +
+  geom_point(aes(color=id_uni))+
+  geom_line(aes(color=id_uni))
+```
+
+b) Aplique a los datos un modelo lineal de efectos fijos (usando lm). Obtenga los parámetros, residuos y predicciones. Grafique los residuos y las predicciones para cada unidad de análisis.
+
+```{r}
+m1.lm=lm(y~x, data = datos)
+
+data_m1.lm <- datos %>% mutate(pred = predict(m1.lm), res = resid(m1.lm))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m1.lm, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=data_m1.lm, aes(x=x, y=res, group=id_uni, color=id_uni))
+
+ggplot() +
+  geom_point(data=data_m1.lm, aes(x=res, y=id_uni, color=id_uni))
+```
+
+c) Aplique a los datos un modelo lineal de efectos mixtos (usando lme). Discuta si corresponde aplicar solo ordenadas o pendientes aleatorias, o ambas. Para cada caso:
+
+- Obtenga los parámetros, residuos y predicciones.
+- Grafique los residuos y las predicciones para cada unidad de análisis.
+
+```{r, echo=TRUE}
+m1.lme = lme(y ~ x, random = ~ x|id_uni, data=datos)
+m2.lme = lme(y ~ x, random = ~ 1|id_uni, data=datos)
+m3.lme = lme(y ~ x, random = ~ x-1|id_uni, data=datos)
+```
+
+```{r}
+data_m1.lme <- datos %>% mutate(pred = predict(m1.lme, level=1), res = resid(m1.lme, level=1))
+data_m2.lme <- datos %>% mutate(pred = predict(m2.lme, level=1), res = resid(m2.lme, level=1))
+data_m3.lme <- datos %>% mutate(pred = predict(m3.lme, level=1), res = resid(m3.lme, level=1))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m1.lme, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m2.lme, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m3.lme, aes(x=x, y=pred, group=id_uni))
+```
+
+

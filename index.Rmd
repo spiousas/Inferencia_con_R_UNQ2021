@@ -70,6 +70,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 | 4      | TP-6  | Modelos lineales | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp6-modelos_lineales/modelos_lineales_TP.html) [Solución](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp6-modelos_lineales/modelos_lineales_TP_solved.html)| [YouTube](https://www.youtube.com/watch?v=Vd7l3btHBYU&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=32) |
 | 4      | CA-25  | Modelos lineales de efectos mixtos 1 - Datos jerárquicos | Pronto | [YouTube](https://www.youtube.com/watch?v=juYglyzFCVA&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=33) |
 | 4      | CA-26  | Modelos lineales de efectos mixtos 2 - Efectos mixtos | Pronto | [YouTube](https://www.youtube.com/watch?v=QGVwlNiU9Po&list=PL9Cl0jpAAyjw3OtpK8omF19AJeUrmSF-f&index=34)
+| 4      | TP-7  | Modelos lineales de efecto mixtos | [Consigna](https://spiousas.github.io/Inferencia_con_R_UNQ2021/Practicos/tp7-modelos_mixtos/mixtos.html)| Pronto |
 
 (**CS**) Clase Sincrónica 
 
