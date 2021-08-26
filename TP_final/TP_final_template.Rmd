@@ -1,0 +1,43 @@
+---
+title: "Tema"
+author: "Miembros del grupo"
+date: "8/26/2021"
+output:
+  html_document:
+    code_folding: show
+    theme: paper
+    highlight: pygments
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Resumen
+
+Insertar acá un breve resumen (menos de 2000 palabras) del tema del TP final.
+
+## Estructura de los datos
+
+Describir brevemente los datos (tidy data): 
+
+- Cuántas variables tienen?
+- De qué tipo es cada variable?
+- Cuántas observaciones?
+
+En caso de que ya tengan los datos en formato tidy como para cargar en **R**, se puede acompañar con algún breve análisis exploratorio. Por ejemplo:
+
+```{r}
+library(palmerpenguins)
+str(penguins)
+```
+```{r}
+penguins %>% ggplot(aes(x = species,
+                        y = body_mass_g,
+                        color = species)) +
+  geom_boxplot() +
+  theme_minimal()
+  
+```
