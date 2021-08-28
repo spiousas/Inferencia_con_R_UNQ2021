@@ -75,9 +75,9 @@ Discuta los resultados obtenidos ($\beta$ y $\sigma$). Recuerde que para calcula
 # almaceno el resultado del modelo en una variable del entorno R cuyo nombre me dice
 # qué tipo de modelo es (lm)
 fm1Rail.lm <- lm(travel ~ 1, data = Rail)
-summarise(fm1Rail.m)
-beta  = fm1Rail.m$coefficients["(Intercept)"]
-sigma = summary(fm1Rail.m)$sigma
+summary(fm1Rail.lm)
+beta  = fm1Rail.lm$coefficients["(Intercept)"]
+sigma = summary(fm1Rail.lm)$sigma
 ```
 
 c) Obtenga los resiudos y grafíquelos. Para esto puede ser útil definir un nuevo ``tibble`` que contenga una copia de los datos originales y nos permita agregar una columna con los residuos (usando mutate). 
