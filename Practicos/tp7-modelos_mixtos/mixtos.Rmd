@@ -69,15 +69,15 @@ donde
 - $\beta$ es el tiempo medio para toda la poblacion de rieles (lo que queremos estimar).
 - $\epsilon_{ij}$ es el término de error; representa realizaciones independiente a partir de una distribución Gaussiana con media 0 y desvío estándar $\sigma$, es decir, $N(0, \sigma)$. La variabilidad de este término es desconocida, por lo que también queremos estimar $\sigma$.
 
-Discuta los resultados obtenidos ($\beta$ y $\sigma$). Recuerde que para calcular el modelo puede usar la función lm, y para ver los resultados, summarise. Recuerde también guardar el resultado del modelo en una variable del entorno R; esto permitirá procesar posteriormente las estimaciones del modelo.
+Discuta los resultados obtenidos ($\beta$ y $\sigma$). Recuerde que para calcular el modelo puede usar la función lm, y para ver los resultados, summary(). Recuerde también guardar el resultado del modelo en una variable del entorno R; esto permitirá procesar posteriormente las estimaciones del modelo.
 
 ```{r}
 # almaceno el resultado del modelo en una variable del entorno R cuyo nombre me dice
 # qué tipo de modelo es (lm)
 fm1Rail.lm <- lm(travel ~ 1, data = Rail)
-summarise(fm1Rail.m)
-beta  = fm1Rail.m$coefficients["(Intercept)"]
-sigma = summary(fm1Rail.m)$sigma
+summary(fm1Rail.lm)
+beta  = fm1Rail.lm$coefficients["(Intercept)"]
+sigma = summary(fm1Rail.lm)$sigma
 ```
 
 c) Obtenga los resiudos y grafíquelos. Para esto puede ser útil definir un nuevo ``tibble`` que contenga una copia de los datos originales y nos permita agregar una columna con los residuos (usando mutate). 
@@ -157,9 +157,9 @@ h) Obtenga los residuos del modelo considerando: i) únicamente los efectos fijo
 Rail_datos %<>% mutate(res3 = resid(fm1Rail.lme, level=0))
 ```
 
-Para esto puede ser útil la función resid, usando el argumento ``level`` (0 para los efectos fijos y 1 para fijos y aleatorios)
+Para esto puede ser útil la función resid(), usando el argumento ``level`` (0 para los efectos fijos y 1 para fijos y aleatorios)
 
-i) Obtenga las predicciones del modelo considerando los efectos fijos, y los fijos más los aleatorios. Para esto, use la función predict (con el argumento level igual que en el caso anterior)
+i) Obtenga las predicciones del modelo considerando los efectos fijos, y los fijos más los aleatorios. Para esto, use la función predict() (con el argumento level igual que en el caso anterior)
 
 ```{r}
 Rail_datos %<>% mutate(pred_fijo = predict(fm1Rail.lme, level=0),
