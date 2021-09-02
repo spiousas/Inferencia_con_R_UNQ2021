@@ -90,7 +90,7 @@ div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
 **Antes de empezar**
 
 Si ya estás inscripto en el curso te invitamos a que completes esta [breve encuesta](https://forms.gle/kbDur1KXid17TsYZ7) que nos va a ayudar a conocer a la "audiencia" para que el curso salga lo mejor posible.
-También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-tk0i9qo5-m0V4zDbukoA79_VZ0DcIbA). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que es el medio que vamos a utilizar para comunicarnos. 
+También los invitamos a unirse al [espacio de trabajo del curso en Slack](https://join.slack.com/t/inferencia-r-unq/shared_invite/zt-v9xfhrar-Q~2imrDug8jGqo1AAi6oZg). Es muy importante que si vas a hacer el curso estés en el grupo de Slack ya que es el medio que vamos a utilizar para comunicarnos. 
 
 </div>
 <br>
