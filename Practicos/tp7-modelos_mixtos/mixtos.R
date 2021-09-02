@@ -102,33 +102,87 @@ Rail_datos %<>% mutate(pred_fijo = predict(fm1Rail.lme, level=0),
 
 
 
-%%%%%%% PARTE 2
+# PARTE 2
 
 library(tidyverse)
 library(nlme)
 
-n_suj = 500
+# Generación de datos
+n_uni = 5  # unidades de analisis
 
+# parametros que caracterizan a la pendiente y la ordenada de la oblación de undiades de analisis
 a=3
 b=1
+sigma_a= 1
+sigma_b= 3
 
-x = -3:3
+# variabilidad de y dentro de cada unidad de análisis
+sigma = 0.5
 
+# valores de la variable independiente x
+x = 0:6
 
+# muestreo a y b
+pendientes = rnorm(n=n_uni, mean=a, sd=sigma_a)
+ordenadas  = rnorm(n=n_uni, mean=b, sd=sigma_b)
 
-pendientes = rnorm(n=n_suj, mean=0, sd=1) + a
-ordenadas  = rnorm(n=n_suj, mean=0, sd=2) + b
+# tibble con la info de las unidades de analisis (inaccesible in real life)
+unidades = tibble(id_uni = 1:n_uni, a = pendientes, b=ordenadas, s=sigma)
 
-sujetos = tibble(id_suj = 1:n_suj, a = pendientes, b=ordenadas, s=5)
-
-datos = sujetos %>%
+# tibble con la simulación: y en función de x para cada u.d.a.
+datos = unidades %>%
   uncount(length(x)) %>%
-  mutate(x = rep(x, times=n_suj)) %>%
+  mutate(x = rep(x, times=n_uni)) %>%
   mutate(y = x*a + b + rnorm(n=length(x), mean=0, sd=s)) %>%
   select(-a,-b,-s)
 
-p1 = ggplot(datos, aes(x=x, y=y, group=id_suj)) + geom_point(aes(color=id_suj)) + geom_line()
+datos$id_uni %<>% as_factor()
+
+### grafico de los datos
+ggplot(datos, aes(x=x, y=y, group=id_uni)) +
+  geom_point(aes(color=id_uni))+
+  geom_line(aes(color=id_uni))
+
+### Modelo lineal sin efectos aleatorios
+m1.lm=lm(y~x, data = datos)
+
+data_m1.lm <- datos %>% mutate(pred = predict(m1.lm), res = resid(m1.lm))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m1.lm, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=data_m1.lm, aes(x=x, y=res, group=id_uni, color=id_uni))
+
+ggplot() +
+  geom_point(data=data_m1.lm, aes(x=res, y=id_uni, color=id_uni))
 
 
-model = lme(y ~ x, random = ~ x|id_suj, data=datos)
+# Modelos de efecto mixtos (todas las variantes posibles para este caso)
+
+m1.lme = lme(y ~ x, random = ~ x|id_uni, data=datos)
+m2.lme = lme(y ~ x, random = ~ 1|id_uni, data=datos)
+m3.lme = lme(y ~ x, random = ~ x-1|id_uni, data=datos)
+
+##
+data_m1.lme <- datos %>% mutate(pred = predict(m1.lme, level=1), res = resid(m1.lme, level=1))
+data_m2.lme <- datos %>% mutate(pred = predict(m2.lme, level=1), res = resid(m2.lme, level=1))
+data_m3.lme <- datos %>% mutate(pred = predict(m3.lme, level=1), res = resid(m3.lme, level=1))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m1.lme, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m2.lme, aes(x=x, y=pred, group=id_uni))
+
+ggplot() +
+  geom_point(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=datos, aes(x=x, y=y, group=id_uni, color=id_uni))+
+  geom_line(data=data_m3.lme, aes(x=x, y=pred, group=id_uni))
 
